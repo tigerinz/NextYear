@@ -28,15 +28,19 @@ namespace CreateNextYear_Core_Console
                             Console.WriteLine("账套号 总账 固定资产 工资");
                             // List<string> result= 
                             createNextYear.GetLastFlagAll(setting.account, setting.oldYear);
+                            Console.WriteLine("checkAll over");
+
                             break;
                         case "createNewYear":
                             Console.WriteLine("--CreateNewYear is begin");
                             List<UA_Account> accounts = createNextYear.getAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
                             createNextYear.CreateNewYear(accounts);
+                            Console.WriteLine("createNewYear over");
                             break;
                         case "carryYear":
                             Console.WriteLine("this is carryYear");
                             createNextYear.CarryForwardAll(setting.account);
+                            Console.WriteLine("carryYear over");
                             break;
                         case "help":
                             PrintHelp();
@@ -70,8 +74,9 @@ namespace CreateNextYear_Core_Console
         private static void PrintHelp()
         {
             Console.WriteLine("Help:");
-            Console.WriteLine("...");
-            Console.WriteLine("a\tb\tc");
+            Console.WriteLine("checkAll");
+            Console.WriteLine("createNewYear"); 
+            Console.WriteLine("carryYear"); 
         }
 
         private static  void ConsoleOut(string message)

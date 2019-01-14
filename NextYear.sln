@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOHelper", "..\..\useful\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateNextYear_Console", "CreateNextYear_Console\CreateNextYear_Console\CreateNextYear_Console.csproj", "{E97A8B25-B591-4ED1-A868-33DFF7C86893}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlStatementTemplate", "SqlStatementTemplate\SqlStatementTemplate.csproj", "{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
