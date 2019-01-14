@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<SQLTemplate>
+  <SQLStatement id="Insert WA_account">
+    <Name>Insert WA_account</Name>
+    <Introduction>
+      ufdata_006_2017..: new database name
+      ufdata_006_2016..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from ufdata_006_2016..WA_account)>0
+      begin
+      if(select count(*) from ufdata_006_2017..sysobjects where xtype='U' and name='WA_account')>0 DELETE FROM ufdata_006_2017..WA_account;
+      if(SELECT COUNT(*) FROM ufdata_006_2017.sys.identity_columns AS cols INNER JOIN ufdata_006_2017.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'WA_account'))=1
+      begin
+      SET IDENTITY_INSERT ufdata_006_2017..WA_account ON ;
+      INSERT INTO ufdata_006_2017..WA_account (cGZGradeNum,cGZGradename,bHZGrade,bOnlyGZGrade,dStart_time,bOpenClose,cMoney,bBank,bMinus_tax,bInteger,iInteger_DW,iPsn_len,iLastMonth,iLastYear)
+      select cGZGradeNum,cGZGradename,bHZGrade,bOnlyGZGrade,dStart_time,bOpenClose,cMoney,bBank,bMinus_tax,bInteger,iInteger_DW,iPsn_len,iLastMonth,iLastYear from ufdata_006_2016..WA_account;
+      SET IDENTITY_INSERT ufdata_006_2017..WA_account off;
+      end
+      else
+      begin
+      INSERT INTO ufdata_006_2017..WA_account (cGZGradeNum,cGZGradename,bHZGrade,bOnlyGZGrade,dStart_time,bOpenClose,cMoney,bBank,bMinus_tax,bInteger,iInteger_DW,iPsn_len,iLastMonth,iLastYear)
+      select cGZGradeNum,cGZGradename,bHZGrade,bOnlyGZGrade,dStart_time,bOpenClose,cMoney,bBank,bMinus_tax,bInteger,iInteger_DW,iPsn_len,iLastMonth,iLastYear from ufdata_006_2016..WA_account;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_Authority">
+    <Name>Insert WA_Authority</Name>
+    <Introduction>
+      {0}: new database name
+      {1}: old database name
+    </Introduction>
+    <DrySQL>Insert INTO {0}..WA_Authority SELECT * FROM {1}..WA_Authority</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Alter WA_BankName">
+    <Name>Alter WA_BankName</Name>
+    <Introduction>
+      {0}: new database name
+    </Introduction>
+    <DrySQL>
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_BankName' and cols.name='cCompanyCode')!=1
+      ALTER TABLE {0}..WA_BankName ADD cCompanyCode VARCHAR(50),cSavingName VARCHAR(50)
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName">
+    <Name>Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName</Name>
+    <Introduction>
+      {0}: new database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..WA_Bank;
+      DELETE  FROM {0}..WA_Bank_set;
+      DELETE  FROM {0}..WA_BankPar;
+      DELETE  FROM {0}..WA_BankTop;
+      DELETE  FROM {0}..WA_BankName
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_BankName">
+    <Name>Insert WA_BankName</Name>
+    <Introduction>
+      {0}: new database name
+      {1}: old database name
+    </Introduction>
+    <DrySQL>
+      Insert INTO {0}..WA_BankName(i_id,cBank_Name,iNum_len,bAccLen)  SELECT i_id,cBank_Name,iNum_len,bAccLen FROM {1}..WA_BankName</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Delete wa_psn,WA_Grade">
+    <Name>Delete wa_psn,WA_Grade</Name>
+    <Introduction>
+      {0}..: new database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..wa_psn;
+      DELETE  FROM {0}..WA_GZData;
+      DELETE  FROM {0}..WA_Grade;
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_Grade">
+    <Name>Insert WA_Grade</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>Insert INTO {0}..WA_Grade SELECT * FROM {1}..WA_Grade</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Delete WA_GZItem,WA_GZtblSet">
+    <Name>Delete WA_GZItem,WA_GZtblSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..WA_GZItem;
+      DELETE  FROM {0}..WA_formula;
+      DELETE  FROM {0}..WA_FT_Sum;
+      DELETE  FROM {0}..WA_JKItemSet;
+      DELETE  FROM {0}..WA_SDS_p;
+      DELETE  FROM {0}..WA_GZtblSet;
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZtblSet">
+    <Name>Insert WA_GZtblSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+    SET IDENTITY_Insert {0}..WA_GZtblSet ON;
+      Insert INTO {0}..WA_GZtblSet (iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum) 
+      select iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum from {1}..WA_GZtblSet;
+    SET IDENTITY_Insert {0}..WA_GZtblSet OFF;    
+  </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZItem">
+    <Name>Insert WA_GZItem</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>Insert INTO {0}..WA_GZItem SELECT * FROM {1}..WA_GZItem</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_Dept">
+    <Name>Insert WA_Dept</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete  from {0}..WA_Dept;
+      Insert INTO {0}..WA_Dept(cGZGradeNum,cDept_Num) SELECT cGZGradeNum,cDept_Num FROM {1}..WA_Dept;
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Delete,Insert WA_PsnMsg">
+    <Name>Delete,Insert WA_PsnMsg</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..WA_PsnMsg;
+      Insert INTO {0}..WA_PsnMsg SELECT * FROM {1}..WA_PsnMsg
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Alter,Insert WA_Psn">
+    <Name>Alter,Insert WA_Psn</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      alter table {0}..wa_psn alter column M1 varchar(200);
+      Insert INTO {0}..WA_Psn SELECT * FROM {1}..WA_Psn
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Alter,Insert WA_Bank">
+    <Name>Alter,Insert WA_Bank</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_Bank' and cols.name='iBW')!=1
+      ALTER TABLE {0}..WA_Bank ADD [iBW] [smallint] NULL DEFAULT 0 WITH VALUES ;
+      Insert INTO {0}..WA_Bank SELECT * FROM {1}..WA_Bank
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_Bank_Set">
+    <Name>Insert WA_Bank_Set</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>Insert INTO {0}..WA_Bank_Set SELECT cGZGradeNum, i_id, cName, iType, iLength, iDot, bSingle, cExpress1, cExpress2, cContent, cTable, cRecord,cWidth FROM {1}..WA_Bank_Set</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_BankPar">
+    <Name>Insert WA_BankPar</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>Insert INTO {0}..WA_BankPar SELECT cGZGradeNum, i_id, iFileType, bDot, bFGQW, bcBWF, icBWF, biBWF, iiBWF, bFGF, iFGF, bKF, iKF,bNsh,bcSYH,biSYH FROM {1}..WA_BankPar</DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_BankTop">
+    <Name>Insert WA_BankTop</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      Insert INTO {0}..WA_BankTop SELECT cGZGradeNum, i_id, iLocate, bSum, cContent, cTable, cRecord, iWS, bcBWF, cBWF FROM {1}..WA_BankTop
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_FilterExpList">
+    <Name>Insert WA_FilterExpList</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+    Insert INTO {0}..WA_FilterExpList SELECT cGZGradeNum, iFilter_id, cFilterExpList FROM {1}..WA_FilterExpList
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Delete,Insert WA_FilterName">
+    <Name>Delete,Insert WA_FilterName</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..WA_FilterName;
+      SET IDENTITY_Insert {0}..WA_FilterName ON;
+      Insert into {0}..WA_FilterName(cGZGradeNum,iUsualName_id,cUsualName) select cGZGradeNum,iUsualName_id,cUsualName from {1}..WA_FilterName;
+      SET IDENTITY_Insert {0}..WA_FilterName OFF
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_Formula">
+    <Name>Insert WA_Formula</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+    Insert INTO {0}..WA_Formula SELECT * FROM {1}..WA_Formula
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_FT_Sum">
+    <Name>Insert WA_FT_Sum</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+    Insert INTO {0}..WA_FT_Sum SELECT cGZGradeNum, iJT_id, iPlusMinus, iGZItem_id FROM {1}..WA_FT_Sum
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_FTName">
+    <Name>Insert WA_FTName</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_FTName;
+      Insert INTO {0}..WA_FTName SELECT * FROM {1}..WA_FTName
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZsumComCfg">
+    <Name>Insert WA_GZsumComCfg</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+    Insert INTO {0}..WA_GZsumComCfg SELECT cGZGradeNum, iJT_id, cDepCode, iPsnGrd_id, iGZItem_id, cDebit, cCreditSide FROM {1}..WA_GZsumComCfg
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_FTInfo">
+    <Name>Insert WA_FTInfo</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_FTInfo;
+      Insert INTO {0}..WA_FTInfo SELECT cGZGradeNum, cFTInfo FROM {1}..WA_FTInfo
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_FTDept">
+    <Name>Insert WA_FTDept</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_FTDept;
+      Insert INTO {0}..WA_FTDept SELECT * FROM {1}..WA_FTDept
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZBName">
+    <Name>Insert WA_GZBName</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_GZBName;
+      Insert INTO {0}..WA_GZBName SELECT * FROM {1}..WA_GZBName
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZBItemDept">
+    <Name>Insert WA_GZBItemDept</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_GZBItemDept;
+      Insert INTO {0}..WA_GZBItemDept SELECT cGZGradeNum, iGZBName_id, cDept_Num, cMachine FROM {1}..WA_GZBItemDept
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZBItemGrd">
+    <Name>Insert WA_GZBItemGrd</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_GZBItemGrd;
+      Insert INTO {0}..WA_GZBItemGrd SELECT cGZGradeNum, iGZBName_id, iPsnGrd_id, cMachine FROM {1}..WA_GZBItemGrd
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_GZBItemTitle">
+    <Name>Insert WA_GZBItemTitle</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_GZBItemTitle;
+      Insert INTO {0}..WA_GZBItemTitle SELECT cGZGradeNum, iGZBName_id, cGZItemTitle, cExpression, iGZItemWidth, iColWidth FROM {1}..WA_GZBItemTitle
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_tblRCsetP">
+    <Name>Insert WA_tblRCsetP</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_tblRCsetP;
+      Insert INTO {0}..WA_tblRCsetP(cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight) SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight from {1}..WA_tblRCsetP
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_tblRCsetM ">
+    <Name>Insert WA_tblRCsetM</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_tblRCsetM;
+      Insert INTO {0}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {1}..WA_tblRCsetM
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="ALTER WA_GZData">
+    <Name>ALTER WA_GZData</Name>
+    <Introduction>
+      {0}..: new database name
+    </Introduction>
+    <DrySQL>
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZData' and cols.name='F_7')!=1
+      ALTER TABLE {0}..WA_GZData ADD F_7 numeric(18,2);
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZData' and cols.name='F_8')!=1
+      ALTER TABLE {0}..WA_GZData ADD F_8 numeric(18,2);
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert,Update WA_GZData">
+    <Name>Insert,Update WA_GZData</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+      {2}..: new year
+    </Introduction>
+    <DrySQL>
+    Insert INTO {0}..WA_GZData SELECT * FROM {1}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
+    Update {0}..WA_GZData SET iMonth=1,iYear={2},iAccMonth=1;
+    Update {0}..WA_GZData SET F_5=F_4;
+    Update {0}..WA_GZData SET F_4=0,F_6 = 0;
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="ALTER WA_GZHZB">
+    <Name>ALTER WA_GZHZB</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZHZB' and cols.name='FG_7')!=1
+      ALTER TABLE {0}..WA_GZHZB ADD FG_7 numeric(18,2);
+      if(select count(*) from {0}..syscolumns cols join {0}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZHZB' and cols.name='FG_8')!=1
+      ALTER TABLE {0}..WA_GZHZB ADD FG_8 numeric(18,2)
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_SDS_p">
+    <Name>Insert WA_SDS_p</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_SDS_p;
+      Insert INTO {0}..WA_SDS_p SELECT * FROM {1}..WA_SDS_p
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_SDS_SL">
+    <Name>Insert WA_SDS_SL</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_SDS_SL;
+      Insert INTO {0}..WA_SDS_SL SELECT * FROM {1}..WA_SDS_SL
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_SelectMoney">
+    <Name>Insert WA_SelectMoney</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_SelectMoney;
+      Insert INTO {0}..WA_SelectMoney SELECT cGZGradeNum, iMoney, bSave FROM {1}..WA_SelectMoney
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_JKSet">
+    <Name>Insert WA_JKSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      DELETE  FROM {0}..WA_JKSet;
+      SET IDENTITY_Insert {0}..WA_JKSet ON;
+      Insert into {0}..WA_JKSet(cGZGradeNum,iSort,cJK_id,cJKName,cKeyName,iKeyNum,cJKFileName,iFileType,bDot,bFGQW,bcBWF,icBWF,biBWF,iiBWF,bFGF,iFGF,bKF,iKF,dDataIn,dDataOut,cOperator) 
+      select cGZGradeNum,iSort,cJK_id,cJKName,cKeyName,iKeyNum,cJKFileName,iFileType,bDot,bFGQW,bcBWF,icBWF,biBWF,iiBWF,bFGF,iFGF,bKF,iKF,dDataIn,dDataOut,cOperator from  {1}..WA_JKSet;
+      SET IDENTITY_Insert {0}..WA_JKSet OFF
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_JKItemSet">
+    <Name>Insert WA_JKItemSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_JKItemSet;
+      Insert INTO {0}..WA_JKItemSet SELECT cGZGradeNum, cJK_id, iFileType, iNumber, iStart, iLength, iDecimal, iStrNum, cTableName, cFieldName, cItemName, iGZItem_id FROM {1}..WA_JKItemSet
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_RatePayItems">
+    <Name>Insert WA_RatePayItems</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+     Delete from {0}..WA_RatePayItems;
+    Insert Into {0}..WA_RatePayItems select RateID,RateName,RateTable,RateField,RateIsSum,RateAlign,RateDefault,RateCheck From {1}..WA_RatePayItems
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Insert WA_State">
+    <Name>Insert WA_State</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      delete from {0}..WA_State;
+      Insert INTO {0}..WA_State SELECT * FROM {1}..WA_State;
+      UPDATE {0}..WA_State SET bCalBZ=1,bSumBZ=1
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="Update WA_account">
+    <Name>Update WA_account</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: new year
+    </Introduction>
+    <DrySQL>
+      UPDATE {0}..WA_account SET iLastMonth=0,iLastYear={1}
+    </DrySQL>
+  </SQLStatement>
+  
+  <SQLStatement name="DELETE WA_GZData">
+    <Name>DELETE WA_GZData</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      DELETE FROM {0}..WA_GZData WHERE bDCBZ=1
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="UPDATE GL_mend">
+    <Name>UPDATE GL_mend</Name>
+    <Introduction>
+      {0}..: old database name
+    </Introduction>
+    <DrySQL>
+      UPDATE {0}..GL_mend SET bflag_WA=1 WHERE iperiod &lt;= 12
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement name="UPDATE OldYear WA_account">
+    <Name>UPDATE OldYear WA_account</Name>
+    <Introduction>
+      {0}..: old database name
+    </Introduction>
+    <DrySQL>
+      UPDATE {0}..WA_account SET iLastMonth=12
+    </DrySQL>
+  </SQLStatement>
+  
+
+</SQLTemplate>

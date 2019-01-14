@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UFSystem" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=V73ZPRFA5LG8NIO;Initial Catalog=UFSystem;User ID=sa;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="CreateNextYear.Properties.Settings" SettingsPropertyName="UFSystemConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.UA_Account_sub" Member="UA_Account_sub">
+    <Type Name="UA_Account_sub">
+      <Column Name="cAcc_Id" Type="System.String" DbType="VarChar(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="iYear" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cSub_Id" Type="System.String" DbType="VarChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bIsDelete" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="bClosing" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="iModiPeri" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="dSubSysUsed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="UA_Account_UA_Account_sub" Member="UA_Account" ThisKey="cAcc_Id" OtherKey="cAcc_Id" Type="UA_Account" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UA_Account" Member="UA_Account">
+    <Type Name="UA_Account">
+      <Column Name="iSysID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="cAcc_Id" Type="System.String" DbType="VarChar(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cAcc_Name" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="cAcc_Path" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="iYear" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="iMonth" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="cAcc_Master" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="cCurCode" Type="System.String" DbType="VarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="cCurName" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="cUnitName" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="cUnitAbbre" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="cUnitAddr" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="cUnitZap" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+      <Column Name="cUnitTel" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="cUnitFax" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="cUnitEMail" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="cUnitTaxNo" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="cUnitLP" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="cFinKind" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="cFinType" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="cEntType" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="cTradeKind" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Association Name="UA_Account_UA_Account_sub" Member="UA_Account_sub" ThisKey="cAcc_Id" OtherKey="cAcc_Id" Type="UA_Account_sub" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,2847 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SQLTemplate>
+  <SQLStatement id="restoreDB">
+    <Name>restoreDB</Name>
+    <Introduction>
+      RESTORE DATABASE,
+      {0}: database name
+      {1}: path of bak file
+      {2}: path of mdf
+      {3}: path of ldf
+    </Introduction>
+    <DrySQL>
+      RESTORE DATABASE {0}
+      FROM  DISK = N'{1}'
+      WITH  FILE = 1,  NOUNLOAD ,  STATS = 10,  RECOVERY ,  REPLACE ,
+      MOVE N'UFModel' TO N'{2}',
+      MOVE N'UFModel_log' TO N'{3}'
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="AddMemo">
+    <Name>AddMemo</Name>
+    <Introduction>AddMemo</Introduction>
+    <DrySQL>
+      if not exists (select count(*) from {0}..syscolumns where id = object_id(N'{0}..ProductStructures') and name = 'cMemo') 
+      alter table {0}..ProductStructures add cMemo varchar(200) null
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteMCs">
+    <Name>DeleteMCs</Name>
+    <Introduction>DeleteMCs</Introduction>
+    <DrySQL>
+      DELETE FROM {0}..MC_MyAccount;
+      DELETE FROM {0}..MC_SendTime;
+      DELETE FROM {0}..MC_MessageTemplateToList;
+      DELETE FROM {0}..MC_MessageTemplateAttach;
+      DELETE FROM {0}..MC_MessageTemplate;
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertFitem">
+    <Name>DeleteInsertFitem</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Fitem)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Fitem')>0 DELETE FROM {0}..Fitem;
+      SET IDENTITY_INSERT {0}..Fitem ON ;
+      INSERT INTO {0}..Fitem (i_id,citem_class,citem_name,citem_text,crule,ctable,cClasstable)
+      select i_id,citem_class,citem_name,citem_text,crule,ctable,cClasstable from {1}..Fitem;
+      SET IDENTITY_INSERT {0}..Fitem off;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertForeigncurrency">
+    <Name>DeleteInsertForeigncurrency</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Foreigncurrency)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Foreigncurrency')>0 DELETE FROM {0}..Foreigncurrency;
+      SET IDENTITY_INSERT {0}..Foreigncurrency ON ;
+      INSERT INTO {0}..Foreigncurrency (i_id,cexch_name,cexch_code,bcal,idec,nerror,iotherused)
+      select i_id,cexch_name,cexch_code,bcal,idec,nerror,iotherused from {1}..Foreigncurrency;
+      SET IDENTITY_INSERT {0}..Foreigncurrency off;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertCode">
+    <Name>DeleteInsertCode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Code)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Code')>0 DELETE FROM {0}..Code;
+      SET IDENTITY_INSERT {0}..Code ON ;
+      INSERT INTO {0}..Code (i_id,cclass,cclass_engl,cclassany,cclassany_engl,ccode,ccode_name,ccode_engl,igrade,bproperty,cbook_type,cbook_type_engl,chelp,cexch_name,cmeasure,bperson,bcus,bsup,bdept,bitem,cass_item,br,be,cgather,bend,bexchange,bcash,bbank,bused,bd_c,dbegin,dend,itrans,bclose,cother,iotherused,bcDefine1,bcDefine2,bcDefine3,bcDefine4,bcDefine5,bcDefine6,bcDefine7,bcDefine8,bcDefine9,bcDefine10,iViewItem,bGCJS,bCashItem)
+      select i_id,cclass,cclass_engl,cclassany,cclassany_engl,ccode,ccode_name,ccode_engl,igrade,bproperty,cbook_type,cbook_type_engl,chelp,cexch_name,cmeasure,bperson,bcus,bsup,bdept,bitem,cass_item,br,be,cgather,bend,bexchange,bcash,bbank,bused,bd_c,dbegin,dend,itrans,bclose,cother,iotherused,bcDefine1,bcDefine2,bcDefine3,bcDefine4,bcDefine5,bcDefine6,bcDefine7,bcDefine8,bcDefine9,bcDefine10,iViewItem,bGCJS,bCashItem from {1}..Code;
+      SET IDENTITY_INSERT {0}..Code off;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertDsign">
+    <Name>DeleteInsertDsign</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Dsign)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Dsign')>0 DELETE FROM {0}..Dsign;
+      SET IDENTITY_INSERT {0}..Dsign ON ;
+      INSERT INTO {0}..Dsign (i_id,csign,isignseq,ctext,itype,iotherused)
+      select i_id,csign,isignseq,ctext,itype,iotherused from {1}..Dsign;
+      SET IDENTITY_INSERT {0}..Dsign off;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAccInformation">
+    <Name>DeleteInsertAccInformation</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..AccInformation)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='AccInformation')>0 DELETE FROM {0}..AccInformation;
+      INSERT INTO {0}..AccInformation (cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable)
+      select cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable from {1}..AccInformation;
+
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertBank">
+    <Name>DeleteInsertBank</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Bank)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Bank')>0 DELETE FROM {0}..Bank;
+      INSERT INTO {0}..Bank (cBCode,cBName,cBAccount,bBFlag)
+      select cBCode,cBName,cBAccount,bBFlag from {1}..Bank;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertCostObj">
+    <Name>DeleteInsertCostObj</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..CostObj)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='CostObj')>0 DELETE FROM {0}..CostObj;
+      INSERT INTO {0}..CostObj (cCode,cName,iGrade,bEnd,cPSPCode)
+      select cCode,cName,iGrade,bEnd,cPSPCode from {1}..CostObj;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertDistrictClass">
+    <Name>DeleteInsertDistrictClass</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..DistrictClass)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='DistrictClass')>0 DELETE FROM {0}..DistrictClass;
+      INSERT INTO {0}..DistrictClass (cDCCode,cDCName,iDCGrade,bDCEnd)
+      select cDCCode,cDCName,iDCGrade,bDCEnd from {1}..DistrictClass;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertCustomerClass">
+    <Name>DeleteInsertCustomerClass</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..CustomerClass)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='CustomerClass')>0 DELETE FROM {0}..CustomerClass;
+      INSERT INTO {0}..CustomerClass (cCCCode,cCCName,iCCGrade,bCCEnd,UFGUID,UPDATETIME)
+      select cCCCode,cCCName,iCCGrade,bCCEnd,UFGUID,UPDATETIME from {1}..CustomerClass;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertCustomer">
+    <Name>DeleteInsertCustomer</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Customer)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Customer')>0 DELETE FROM {0}..Customer;
+      INSERT INTO {0}..Customer (cCusCode,cCusName,cCusAbbName,cCCCode,cDCCode,cTrade,cCusAddress,cCusPostCode,cCusRegCode,cCusBank,cCusAccount,dCusDevDate,cCusLPerson,cCusEmail,cCusPerson,cCusPhone,cCusFax,cCusBP,cCusHand,cCusPPerson,iCusDisRate,cCusCreGrade,iCusCreLine,iCusCreDate,cCusPayCond,cCusOAddress,cCusOType,cCusHeadCode,cCusWhCode,cCusDepart,iARMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,cCusDefine1,cCusDefine2,cCusDefine3,iCostGrade,cUUAccount,cCusHelp,cZQCode,UniqueID,dBirthday,UFGUID,UPDATETIME)
+      select cCusCode,cCusName,cCusAbbName,cCCCode,cDCCode,cTrade,cCusAddress,cCusPostCode,cCusRegCode,cCusBank,cCusAccount,dCusDevDate,cCusLPerson,cCusEmail,cCusPerson,cCusPhone,cCusFax,cCusBP,cCusHand,cCusPPerson,iCusDisRate,cCusCreGrade,iCusCreLine,iCusCreDate,cCusPayCond,cCusOAddress,cCusOType,cCusHeadCode,cCusWhCode,cCusDepart,iARMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,cCusDefine1,cCusDefine2,cCusDefine3,iCostGrade,cUUAccount,cCusHelp,cZQCode,UniqueID,dBirthday,UFGUID,UPDATETIME from {1}..Customer;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertDepartment">
+    <Name>DeleteInsertDepartment</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Department)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Department')>0 DELETE FROM {0}..Department;
+      INSERT INTO {0}..Department (cDepCode,bDepEnd,cDepName,iDepGrade,cDepPerson,cDepProp,cDepPhone,cDepAddress,cDepMemo,cDepHelp,UFGUID,UPDATETIME)
+      select cDepCode,bDepEnd,cDepName,iDepGrade,cDepPerson,cDepProp,cDepPhone,cDepAddress,cDepMemo,cDepHelp,UFGUID,UPDATETIME from {1}..Department;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertExpenseItem">
+    <Name>DeleteInsertExpenseItem</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ExpenseItem)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ExpenseItem')>0 DELETE FROM {0}..ExpenseItem;
+      INSERT INTO {0}..ExpenseItem (cExpCode,cExpName,cExpMemo)
+      select cExpCode,cExpName,cExpMemo from {1}..ExpenseItem;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGradeDef">
+    <Name>DeleteInsertGradeDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GradeDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GradeDef')>0 DELETE FROM {0}..GradeDef;
+      INSERT INTO {0}..GradeDef (KEYWORD,GRADECLSNAME,LGRADE,LGRADELEN,CODINGRULE)
+      select KEYWORD,GRADECLSNAME,LGRADE,LGRADELEN,CODINGRULE from {1}..GradeDef;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInventoryClass">
+    <Name>DeleteInsertInventoryClass</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InventoryClass)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InventoryClass')>0 DELETE FROM {0}..InventoryClass;
+      INSERT INTO {0}..InventoryClass (cInvCCode,cInvCName,iInvCGrade,bInvCEnd,cEcoCode)
+      select cInvCCode,cInvCName,iInvCGrade,bInvCEnd,cEcoCode from {1}..InventoryClass;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInventory">
+    <Name>DeleteInsertInventory</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Inventory)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Inventory')>0 DELETE FROM {0}..Inventory;
+      SET IDENTITY_INSERT {0}..Inventory ON ;
+      INSERT INTO {0}..Inventory (cInvCode,cInvAddCode,cInvName,cInvStd,cInvCCode,cVenCode,cInvM_Unit,cInvA_Unit,cReplaceItem,cPosition,bSale,bPurchase,bSelf,bComsume,bProducing,bService,bAccessary,iInvExchRate,iTaxRate,iInvWeight,iVolume,iInvRCost,iInvSPrice,iInvSCost,iInvLSCost,iInvNCost,iInvAdvance,iInvBatch,iSafeNum,iTopSum,iLowSum,iOverStock,cInvABC,bInvQuality,bInvBatch,bInvEntrust,bInvOverStock,dSDate,dEDate,bFree1,bFree2,cInvDefine1,cInvDefine2,cInvDefine3,I_id,bInvType,iInvMPCost,cQuality,iInvSaleCost,iInvSCost1,iInvSCost2,iInvSCost3,iInvSCost4,iInvSCost5,iInvWSPrice,cInvHelp)
+      select cInvCode,cInvAddCode,cInvName,cInvStd,cInvCCode,cVenCode,cInvM_Unit,cInvA_Unit,cReplaceItem,cPosition,bSale,bPurchase,bSelf,bComsume,bProducing,bService,bAccessary,iInvExchRate,iTaxRate,iInvWeight,iVolume,iInvRCost,iInvSPrice,iInvSCost,iInvLSCost,iInvNCost,iInvAdvance,iInvBatch,iSafeNum,iTopSum,iLowSum,iOverStock,cInvABC,bInvQuality,bInvBatch,bInvEntrust,bInvOverStock,dSDate,dEDate,bFree1,bFree2,cInvDefine1,cInvDefine2,cInvDefine3,I_id,bInvType,iInvMPCost,cQuality,iInvSaleCost,iInvSCost1,iInvSCost2,iInvSCost3,iInvSCost4,iInvSCost5,iInvWSPrice,cInvHelp from {1}..Inventory;
+      SET IDENTITY_INSERT {0}..Inventory off;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertWarehouse">
+    <Name>DeleteInsertWarehouse</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Warehouse)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Warehouse')>0 DELETE FROM {0}..Warehouse;
+      INSERT INTO {0}..Warehouse (cWhCode,cWhName,cDepCode,cWhAddress,cWhPhone,cWhPerson,cWhValueStyle,bWhPos,iWhFundQuota,cMonth,cWhMemo,bNegOut)
+      select cWhCode,cWhName,cDepCode,cWhAddress,cWhPhone,cWhPerson,cWhValueStyle,bWhPos,iWhFundQuota,cMonth,cWhMemo,bNegOut from {1}..Warehouse;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPayCondition">
+    <Name>DeleteInsertPayCondition</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PayCondition)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PayCondition')>0 DELETE FROM {0}..PayCondition;
+      INSERT INTO {0}..PayCondition (cPayCode,cPayName,iPayCreDays,iPayFaDays1,iPayFaRate1,iPayFaDays2,iPayFaRate2,iPayFaDays3,iPayFaRate3,iPayFaDays4,iPayFaRate4,iPayFaDays)
+      select cPayCode,cPayName,iPayCreDays,iPayFaDays1,iPayFaRate1,iPayFaDays2,iPayFaRate2,iPayFaDays3,iPayFaRate3,iPayFaDays4,iPayFaRate4,iPayFaDays from {1}..PayCondition;
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPerson">
+    <Name>DeleteInsertPerson</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Person)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Person')>0 DELETE FROM {0}..Person;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Person'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Person ON ;
+      INSERT INTO {0}..Person (cPersonCode,cPersonName,cDepCode,cPersonProp,cPersonHelp,dBirthday,UFGUID,UPDATETIME)
+      select cPersonCode,cPersonName,cDepCode,cPersonProp,cPersonHelp,dBirthday,UFGUID,UPDATETIME from {1}..Person;
+      SET IDENTITY_INSERT {0}..Person off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Person (cPersonCode,cPersonName,cDepCode,cPersonProp,cPersonHelp,dBirthday,UFGUID,UPDATETIME)
+      select cPersonCode,cPersonName,cDepCode,cPersonProp,cPersonHelp,dBirthday,UFGUID,UPDATETIME from {1}..Person;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertProductStructure">
+    <Name>DeleteInsertProductStructure</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ProductStructure)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ProductStructure')>0 DELETE FROM {0}..ProductStructure;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ProductStructure'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ProductStructure ON ;
+      INSERT INTO {0}..ProductStructure (cPSPCode,cDepCode,cFree1,cFree2)
+      select cPSPCode,cDepCode,cFree1,cFree2 from {1}..ProductStructure;
+      SET IDENTITY_INSERT {0}..ProductStructure off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ProductStructure (cPSPCode,cDepCode,cFree1,cFree2)
+      select cPSPCode,cDepCode,cFree1,cFree2 from {1}..ProductStructure;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertProductStructures">
+    <Name>DeleteInsertProductStructures</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ProductStructures)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ProductStructures')>0 DELETE FROM {0}..ProductStructures;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ProductStructures'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ProductStructures ON ;
+      INSERT INTO {0}..ProductStructures (AutoID,cPSPCode,cPSCode,cPSType,cWhCode,iPSQuantity,cProcedureName,cDepCode,cPersonName,cFree1,cFree2,iWasteRate,cPFree1,cPFree2,cMemo)
+      select AutoID,cPSPCode,cPSCode,cPSType,cWhCode,iPSQuantity,cProcedureName,cDepCode,cPersonName,cFree1,cFree2,iWasteRate,cPFree1,cPFree2,cMemo from {1}..ProductStructures;
+      SET IDENTITY_INSERT {0}..ProductStructures off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ProductStructures (AutoID,cPSPCode,cPSCode,cPSType,cWhCode,iPSQuantity,cProcedureName,cDepCode,cPersonName,cFree1,cFree2,iWasteRate,cPFree1,cPFree2,cMemo)
+      select AutoID,cPSPCode,cPSCode,cPSType,cWhCode,iPSQuantity,cProcedureName,cDepCode,cPersonName,cFree1,cFree2,iWasteRate,cPFree1,cPFree2,cMemo from {1}..ProductStructures;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRd_Style">
+    <Name>DeleteInsertRd_Style</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rd_Style)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rd_Style')>0 DELETE FROM {0}..Rd_Style;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rd_Style'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rd_Style ON ;
+      INSERT INTO {0}..Rd_Style (cRdCode,cRdName,iRdGrade,bRdFlag,bRdEnd,cOppHead)
+      select cRdCode,cRdName,iRdGrade,bRdFlag,bRdEnd,cOppHead from {1}..Rd_Style;
+      SET IDENTITY_INSERT {0}..Rd_Style off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rd_Style (cRdCode,cRdName,iRdGrade,bRdFlag,bRdEnd,cOppHead)
+      select cRdCode,cRdName,iRdGrade,bRdFlag,bRdEnd,cOppHead from {1}..Rd_Style;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPurchaseType">
+    <Name>DeleteInsertPurchaseType</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PurchaseType)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PurchaseType')>0 DELETE FROM {0}..PurchaseType;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'PurchaseType'))=1
+      begin
+      SET IDENTITY_INSERT {0}..PurchaseType ON ;
+      INSERT INTO {0}..PurchaseType (cPTCode,cPTName,cRdCode,bDefault)
+      select cPTCode,cPTName,cRdCode,bDefault from {1}..PurchaseType;
+      SET IDENTITY_INSERT {0}..PurchaseType off;
+      end
+      else
+      begin
+      INSERT INTO {0}..PurchaseType (cPTCode,cPTName,cRdCode,bDefault)
+      select cPTCode,cPTName,cRdCode,bDefault from {1}..PurchaseType;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertSaleType">
+    <Name>DeleteInsertSaleType</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..SaleType)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='SaleType')>0 DELETE FROM {0}..SaleType;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'SaleType'))=1
+      begin
+      SET IDENTITY_INSERT {0}..SaleType ON ;
+      INSERT INTO {0}..SaleType (cSTCode,cSTName,cRdCode,bDefault)
+      select cSTCode,cSTName,cRdCode,bDefault from {1}..SaleType;
+      SET IDENTITY_INSERT {0}..SaleType off;
+      end
+      else
+      begin
+      INSERT INTO {0}..SaleType (cSTCode,cSTName,cRdCode,bDefault)
+      select cSTCode,cSTName,cRdCode,bDefault from {1}..SaleType;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertSettleStyle">
+    <Name>DeleteInsertSettleStyle</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..SettleStyle)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='SettleStyle')>0 DELETE FROM {0}..SettleStyle;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'SettleStyle'))=1
+      begin
+      SET IDENTITY_INSERT {0}..SettleStyle ON ;
+      INSERT INTO {0}..SettleStyle (cSSCode,cSSName,bSSFlag,iSSGrade,bSSEnd,UseChanjetPayment)
+      select cSSCode,cSSName,bSSFlag,iSSGrade,bSSEnd,UseChanjetPayment from {1}..SettleStyle;
+      SET IDENTITY_INSERT {0}..SettleStyle off;
+      end
+      else
+      begin
+      INSERT INTO {0}..SettleStyle (cSSCode,cSSName,bSSFlag,iSSGrade,bSSEnd,UseChanjetPayment)
+      select cSSCode,cSSName,bSSFlag,iSSGrade,bSSEnd,UseChanjetPayment from {1}..SettleStyle;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertShippingChoice">
+    <Name>DeleteInsertShippingChoice</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ShippingChoice)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ShippingChoice')>0 DELETE FROM {0}..ShippingChoice;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ShippingChoice'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ShippingChoice ON ;
+      INSERT INTO {0}..ShippingChoice (cSCCode,cSCName)
+      select cSCCode,cSCName from {1}..ShippingChoice;
+      SET IDENTITY_INSERT {0}..ShippingChoice off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ShippingChoice (cSCCode,cSCName)
+      select cSCCode,cSCName from {1}..ShippingChoice;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVendorClass">
+    <Name>DeleteInsertVendorClass</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VendorClass)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VendorClass')>0 DELETE FROM {0}..VendorClass;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VendorClass'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VendorClass ON ;
+      INSERT INTO {0}..VendorClass (cVCCode,cVCName,iVCGrade,bVCEnd,UFGUID,UPDATETIME)
+      select cVCCode,cVCName,iVCGrade,bVCEnd,UFGUID,UPDATETIME from {1}..VendorClass;
+      SET IDENTITY_INSERT {0}..VendorClass off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VendorClass (cVCCode,cVCName,iVCGrade,bVCEnd,UFGUID,UPDATETIME)
+      select cVCCode,cVCName,iVCGrade,bVCEnd,UFGUID,UPDATETIME from {1}..VendorClass;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVendor">
+    <Name>DeleteInsertVendor</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Vendor)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Vendor')>0 DELETE FROM {0}..Vendor;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Vendor'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Vendor ON ;
+      INSERT INTO {0}..Vendor (cVenCode,cVenName,cVenAbbName,cVCCode,cDCCode,cTrade,cVenAddress,cVenPostCode,cVenRegCode,cVenBank,cVenAccount,dVenDevDate,cVenLPerson,cVenPhone,cVenFax,cVenEmail,cVenPerson,cVenBP,cVenHand,cVenPPerson,iVenDisRate,iVenCreGrade,iVenCreLine,iVenCreDate,cVenPayCond,cVenIAddress,cVenIType,cVenHeadCode,cVenWhCode,cVenDepart,iAPMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,bVenTax,cVenDefine1,cVenDefine2,cVenDefine3,cUUAccount,cVenHelp,cZQCode,bisFeeVen,UniqueID,PayMethod,dBirthday,UFGUID,UPDATETIME)
+      select cVenCode,cVenName,cVenAbbName,cVCCode,cDCCode,cTrade,cVenAddress,cVenPostCode,cVenRegCode,cVenBank,cVenAccount,dVenDevDate,cVenLPerson,cVenPhone,cVenFax,cVenEmail,cVenPerson,cVenBP,cVenHand,cVenPPerson,iVenDisRate,iVenCreGrade,iVenCreLine,iVenCreDate,cVenPayCond,cVenIAddress,cVenIType,cVenHeadCode,cVenWhCode,cVenDepart,iAPMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,bVenTax,cVenDefine1,cVenDefine2,cVenDefine3,cUUAccount,cVenHelp,cZQCode,bisFeeVen,UniqueID,PayMethod,dBirthday,UFGUID,UPDATETIME from {1}..Vendor;
+      SET IDENTITY_INSERT {0}..Vendor off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Vendor (cVenCode,cVenName,cVenAbbName,cVCCode,cDCCode,cTrade,cVenAddress,cVenPostCode,cVenRegCode,cVenBank,cVenAccount,dVenDevDate,cVenLPerson,cVenPhone,cVenFax,cVenEmail,cVenPerson,cVenBP,cVenHand,cVenPPerson,iVenDisRate,iVenCreGrade,iVenCreLine,iVenCreDate,cVenPayCond,cVenIAddress,cVenIType,cVenHeadCode,cVenWhCode,cVenDepart,iAPMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,bVenTax,cVenDefine1,cVenDefine2,cVenDefine3,cUUAccount,cVenHelp,cZQCode,bisFeeVen,UniqueID,PayMethod,dBirthday,UFGUID,UPDATETIME)
+      select cVenCode,cVenName,cVenAbbName,cVCCode,cDCCode,cTrade,cVenAddress,cVenPostCode,cVenRegCode,cVenBank,cVenAccount,dVenDevDate,cVenLPerson,cVenPhone,cVenFax,cVenEmail,cVenPerson,cVenBP,cVenHand,cVenPPerson,iVenDisRate,iVenCreGrade,iVenCreLine,iVenCreDate,cVenPayCond,cVenIAddress,cVenIType,cVenHeadCode,cVenWhCode,cVenDepart,iAPMoney,dLastDate,iLastMoney,dLRDate,iLRMoney,dEndDate,iFrequency,bVenTax,cVenDefine1,cVenDefine2,cVenDefine3,cUUAccount,cVenHelp,cZQCode,bisFeeVen,UniqueID,PayMethod,dBirthday,UFGUID,UPDATETIME from {1}..Vendor;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_bdigest">
+    <Name>DeleteInsertGL_bdigest</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_bdigest)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_bdigest')>0 DELETE FROM {0}..GL_bdigest;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_bdigest'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_bdigest ON ;
+      INSERT INTO {0}..GL_bdigest (i_id,cid,ctext,ccode,chelp)
+      select i_id,cid,ctext,ccode,chelp from {1}..GL_bdigest;
+      SET IDENTITY_INSERT {0}..GL_bdigest off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_bdigest (i_id,cid,ctext,ccode,chelp)
+      select i_id,cid,ctext,ccode,chelp from {1}..GL_bdigest;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertUserDef">
+    <Name>DeleteInsertUserDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..UserDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='UserDef')>0 DELETE FROM {0}..UserDef;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'UserDef'))=1
+      begin
+      SET IDENTITY_INSERT {0}..UserDef ON ;
+      INSERT INTO {0}..UserDef (cID,cClass,cItem,cType,iMaxLen,cItemName,iLength)
+      select cID,cClass,cItem,cType,iMaxLen,cItemName,iLength from {1}..UserDef;
+      SET IDENTITY_INSERT {0}..UserDef off;
+      end
+      else
+      begin
+      INSERT INTO {0}..UserDef (cID,cClass,cItem,cType,iMaxLen,cItemName,iLength)
+      select cID,cClass,cItem,cType,iMaxLen,cItemName,iLength from {1}..UserDef;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertUserDefine">
+    <Name>DeleteInsertUserDefine</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..UserDefine)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='UserDefine')>0 DELETE FROM {0}..UserDefine;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'UserDefine'))=1
+      begin
+      SET IDENTITY_INSERT {0}..UserDefine ON ;
+      INSERT INTO {0}..UserDefine (cID,cValue,cAlias)
+      select cID,cValue,cAlias from {1}..UserDefine;
+      SET IDENTITY_INSERT {0}..UserDefine off;
+      end
+      else
+      begin
+      INSERT INTO {0}..UserDefine (cID,cValue,cAlias)
+      select cID,cValue,cAlias from {1}..UserDefine;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_btext">
+    <Name>DeleteInsertGL_btext</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_btext)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_btext')>0 DELETE FROM {0}..GL_btext;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_btext'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_btext ON ;
+      INSERT INTO {0}..GL_btext (ctext)
+      select ctext from {1}..GL_btext;
+      SET IDENTITY_INSERT {0}..GL_btext off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_btext (ctext)
+      select ctext from {1}..GL_btext;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_mcodeauth">
+    <Name>DeleteInsertGL_mcodeauth</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_mcodeauth)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_mcodeauth')>0 DELETE FROM {0}..GL_mcodeauth;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_mcodeauth'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_mcodeauth ON ;
+      INSERT INTO {0}..GL_mcodeauth (username,cauth,itype)
+      select username,cauth,itype from {1}..GL_mcodeauth;
+      SET IDENTITY_INSERT {0}..GL_mcodeauth off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_mcodeauth (username,cauth,itype)
+      select username,cauth,itype from {1}..GL_mcodeauth;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_mcodeused">
+    <Name>DeleteInsertGL_mcodeused</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_mcodeused)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_mcodeused')>0 DELETE FROM {0}..GL_mcodeused;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_mcodeused'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_mcodeused ON ;
+      INSERT INTO {0}..GL_mcodeused (cuser,ccode)
+      select cuser,ccode from {1}..GL_mcodeused;
+      SET IDENTITY_INSERT {0}..GL_mcodeused off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_mcodeused (cuser,ccode)
+      select cuser,ccode from {1}..GL_mcodeused;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_mitemused">
+    <Name>DeleteInsertGL_mitemused</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_mitemused)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_mitemused')>0 DELETE FROM {0}..GL_mitemused;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_mitemused'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_mitemused ON ;
+      INSERT INTO {0}..GL_mitemused (cuser,citem_class,citem_id)
+      select cuser,citem_class,citem_id from {1}..GL_mitemused;
+      SET IDENTITY_INSERT {0}..GL_mitemused off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_mitemused (cuser,citem_class,citem_id)
+      select cuser,citem_class,citem_id from {1}..GL_mitemused;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertap_Midexch">
+    <Name>DeleteInsertap_Midexch</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ap_Midexch)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ap_Midexch')>0 DELETE FROM {0}..ap_Midexch;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ap_Midexch'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ap_Midexch ON ;
+      INSERT INTO {0}..ap_Midexch (Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError)
+      select Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError from {1}..ap_Midexch;
+      SET IDENTITY_INSERT {0}..ap_Midexch off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ap_Midexch (Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError)
+      select Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError from {1}..ap_Midexch;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertap_Midexch">
+    <Name>DeleteInsertap_Midexch</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ap_Midexch)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ap_Midexch')>0 DELETE FROM {0}..ap_Midexch;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ap_Midexch'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ap_Midexch ON ;
+      INSERT INTO {0}..ap_Midexch (Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError)
+      select Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError from {1}..ap_Midexch;
+      SET IDENTITY_INSERT {0}..ap_Midexch off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ap_Midexch (Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError)
+      select Auto_ID,cMidExch,cExchName,iMidExchRate,iExchRate,iError from {1}..ap_Midexch;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem">
+    <Name>DeleteInsertInvoiceItem</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem')>0 DELETE FROM {0}..InvoiceItem;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem ON ;
+      INSERT INTO {0}..InvoiceItem (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem;
+      SET IDENTITY_INSERT {0}..InvoiceItem off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_">
+    <Name>DeleteInsertInvoiceItem_</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_')>0 DELETE FROM {0}..InvoiceItem_;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_ ON ;
+      INSERT INTO {0}..InvoiceItem_ (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_;
+      SET IDENTITY_INSERT {0}..InvoiceItem_ off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_ (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_sal">
+    <Name>DeleteInsertInvoiceItem_sal</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_sal)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_sal')>0 DELETE FROM {0}..InvoiceItem_sal;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_sal'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_sal ON ;
+      INSERT INTO {0}..InvoiceItem_sal (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_sal;
+      SET IDENTITY_INSERT {0}..InvoiceItem_sal off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_sal (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_sal;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItema">
+    <Name>DeleteInsertInvoiceItema</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItema)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItema')>0 DELETE FROM {0}..InvoiceItema;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItema'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItema ON ;
+      INSERT INTO {0}..InvoiceItema (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItema;
+      SET IDENTITY_INSERT {0}..InvoiceItema off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItema (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItema;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPrintEx">
+    <Name>DeleteInsertPrintEx</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PrintEx)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PrintEx')>0 DELETE FROM {0}..PrintEx;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'PrintEx'))=1
+      begin
+      SET IDENTITY_INSERT {0}..PrintEx ON ;
+      INSERT INTO {0}..PrintEx (cSystemName,cSystemSubNum,nTableNum,cTableName,cTableCode,cPaperType,bOrientation,iTitleRes,cResPathHead,cResPathTail,iSelfDefWidth,iselfDefHeight,iLeftMargin,iRightMargin,iBottomMargin,iTopMargin)
+      select cSystemName,cSystemSubNum,nTableNum,cTableName,cTableCode,cPaperType,bOrientation,iTitleRes,cResPathHead,cResPathTail,iSelfDefWidth,iselfDefHeight,iLeftMargin,iRightMargin,iBottomMargin,iTopMargin from {1}..PrintEx;
+      SET IDENTITY_INSERT {0}..PrintEx off;
+      end
+      else
+      begin
+      INSERT INTO {0}..PrintEx (cSystemName,cSystemSubNum,nTableNum,cTableName,cTableCode,cPaperType,bOrientation,iTitleRes,cResPathHead,cResPathTail,iSelfDefWidth,iselfDefHeight,iLeftMargin,iRightMargin,iBottomMargin,iTopMargin)
+      select cSystemName,cSystemSubNum,nTableNum,cTableName,cTableCode,cPaperType,bOrientation,iTitleRes,cResPathHead,cResPathTail,iSelfDefWidth,iselfDefHeight,iLeftMargin,iRightMargin,iBottomMargin,iTopMargin from {1}..PrintEx;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPrintDef">
+    <Name>DeleteInsertPrintDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PrintDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PrintDef')>0 DELETE FROM {0}..PrintDef;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'PrintDef'))=1
+      begin
+      SET IDENTITY_INSERT {0}..PrintDef ON ;
+      INSERT INTO {0}..PrintDef (cSystemName,cSystemSubNum,nTableNum,iType,iX,iY,iW,iH,cFontName,iFontSize,cFontAttr,cText,iSection,iAlignment)
+      select cSystemName,cSystemSubNum,nTableNum,iType,iX,iY,iW,iH,cFontName,iFontSize,cFontAttr,cText,iSection,iAlignment from {1}..PrintDef;
+      SET IDENTITY_INSERT {0}..PrintDef off;
+      end
+      else
+      begin
+      INSERT INTO {0}..PrintDef (cSystemName,cSystemSubNum,nTableNum,iType,iX,iY,iW,iH,cFontName,iFontSize,cFontAttr,cText,iSection,iAlignment)
+      select cSystemName,cSystemSubNum,nTableNum,iType,iX,iY,iW,iH,cFontName,iFontSize,cFontAttr,cText,iSection,iAlignment from {1}..PrintDef;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRpt_FldDEF">
+    <Name>DeleteInsertRpt_FldDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rpt_FldDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rpt_FldDEF')>0 DELETE FROM {0}..Rpt_FldDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rpt_FldDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rpt_FldDEF ON ;
+      INSERT INTO {0}..Rpt_FldDEF (ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize,CurGroupCol,CurSubTotalCol)
+      select ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize,CurGroupCol,CurSubTotalCol from {1}..Rpt_FldDEF;
+      SET IDENTITY_INSERT {0}..Rpt_FldDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rpt_FldDEF (ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize,CurGroupCol,CurSubTotalCol)
+      select ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize,CurGroupCol,CurSubTotalCol from {1}..Rpt_FldDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRpt_FltDEF">
+    <Name>DeleteInsertRpt_FltDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rpt_FltDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rpt_FltDEF')>0 DELETE FROM {0}..Rpt_FltDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rpt_FltDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rpt_FltDEF ON ;
+      INSERT INTO {0}..Rpt_FltDEF (ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth)
+      select ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth from {1}..Rpt_FltDEF;
+      SET IDENTITY_INSERT {0}..Rpt_FltDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rpt_FltDEF (ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth)
+      select ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth from {1}..Rpt_FltDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRpt_Folder">
+    <Name>DeleteInsertRpt_Folder</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rpt_Folder)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rpt_Folder')>0 DELETE FROM {0}..Rpt_Folder;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rpt_Folder'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rpt_Folder ON ;
+      INSERT INTO {0}..Rpt_Folder (cSystemID,iFolderID,cFolderName,cPassWord,cPersonID,bSystem)
+      select cSystemID,iFolderID,cFolderName,cPassWord,cPersonID,bSystem from {1}..Rpt_Folder;
+      SET IDENTITY_INSERT {0}..Rpt_Folder off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rpt_Folder (cSystemID,iFolderID,cFolderName,cPassWord,cPersonID,bSystem)
+      select cSystemID,iFolderID,cFolderName,cPassWord,cPersonID,bSystem from {1}..Rpt_Folder;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRpt_GlbDef">
+    <Name>DeleteInsertRpt_GlbDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rpt_GlbDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rpt_GlbDef')>0 DELETE FROM {0}..Rpt_GlbDef;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rpt_GlbDef'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rpt_GlbDef ON ;
+      INSERT INTO {0}..Rpt_GlbDef (ID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine)
+      select ID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine from {1}..Rpt_GlbDef;
+      SET IDENTITY_INSERT {0}..Rpt_GlbDef off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rpt_GlbDef (ID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine)
+      select ID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine from {1}..Rpt_GlbDef;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRpt_RelDEF">
+    <Name>DeleteInsertRpt_RelDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Rpt_RelDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Rpt_RelDEF')>0 DELETE FROM {0}..Rpt_RelDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Rpt_RelDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Rpt_RelDEF ON ;
+      INSERT INTO {0}..Rpt_RelDEF (ccolumn,grbit,icolumn,szColumn,szObject,szReferencedColumn,szReferencedObject,szRelationship)
+      select ccolumn,grbit,icolumn,szColumn,szObject,szReferencedColumn,szReferencedObject,szRelationship from {1}..Rpt_RelDEF;
+      SET IDENTITY_INSERT {0}..Rpt_RelDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Rpt_RelDEF (ccolumn,grbit,icolumn,szColumn,szObject,szReferencedColumn,szReferencedObject,szRelationship)
+      select ccolumn,grbit,icolumn,szColumn,szObject,szReferencedColumn,szReferencedObject,szRelationship from {1}..Rpt_RelDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVouchers">
+    <Name>DeleteInsertVouchers</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Vouchers)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Vouchers')>0 DELETE FROM {0}..Vouchers;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Vouchers'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Vouchers ON ;
+      INSERT INTO {0}..Vouchers (CardNumber,AppName,Shield,Name,cCardName,CardType,ItemTblName,itemCol,BTTblName,BTQName,BWTblName,BWQName,VchListQName,VoucherWidth,VoucherHeight,BodyTop,BodyLeft,BodyWidth,BodyHeight,SelfDef1,SelfDef2,SelfDef3,Memo,Header1,Header2,Header3,Header4,Header5,nAlignment,bPrintHeader)
+      select CardNumber,AppName,Shield,Name,cCardName,CardType,ItemTblName,itemCol,BTTblName,BTQName,BWTblName,BWQName,VchListQName,VoucherWidth,VoucherHeight,BodyTop,BodyLeft,BodyWidth,BodyHeight,SelfDef1,SelfDef2,SelfDef3,Memo,Header1,Header2,Header3,Header4,Header5,nAlignment,bPrintHeader from {1}..Vouchers;
+      SET IDENTITY_INSERT {0}..Vouchers off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Vouchers (CardNumber,AppName,Shield,Name,cCardName,CardType,ItemTblName,itemCol,BTTblName,BTQName,BWTblName,BWQName,VchListQName,VoucherWidth,VoucherHeight,BodyTop,BodyLeft,BodyWidth,BodyHeight,SelfDef1,SelfDef2,SelfDef3,Memo,Header1,Header2,Header3,Header4,Header5,nAlignment,bPrintHeader)
+      select CardNumber,AppName,Shield,Name,cCardName,CardType,ItemTblName,itemCol,BTTblName,BTQName,BWTblName,BWQName,VchListQName,VoucherWidth,VoucherHeight,BodyTop,BodyLeft,BodyWidth,BodyHeight,SelfDef1,SelfDef2,SelfDef3,Memo,Header1,Header2,Header3,Header4,Header5,nAlignment,bPrintHeader from {1}..Vouchers;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVouchFormat">
+    <Name>DeleteInsertVouchFormat</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VouchFormat)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VouchFormat')>0 DELETE FROM {0}..VouchFormat;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VouchFormat'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VouchFormat ON ;
+      INSERT INTO {0}..VouchFormat (AutoID,cVouchName,cChnName,cComputerName)
+      select AutoID,cVouchName,cChnName,cComputerName from {1}..VouchFormat;
+      SET IDENTITY_INSERT {0}..VouchFormat off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VouchFormat (AutoID,cVouchName,cChnName,cComputerName)
+      select AutoID,cVouchName,cChnName,cComputerName from {1}..VouchFormat;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVouchFormats">
+    <Name>DeleteInsertVouchFormats</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VouchFormats)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VouchFormats')>0 DELETE FROM {0}..VouchFormats;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VouchFormats'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VouchFormats ON ;
+      INSERT INTO {0}..VouchFormats (ID,bHeader,cFieldName,cChnName,iDispStatus)
+      select ID,bHeader,cFieldName,cChnName,iDispStatus from {1}..VouchFormats;
+      SET IDENTITY_INSERT {0}..VouchFormats off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VouchFormats (ID,bHeader,cFieldName,cChnName,iDispStatus)
+      select ID,bHeader,cFieldName,cChnName,iDispStatus from {1}..VouchFormats;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVouchList">
+    <Name>DeleteInsertVouchList</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VouchList)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VouchList')>0 DELETE FROM {0}..VouchList;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VouchList'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VouchList ON ;
+      INSERT INTO {0}..VouchList (cVouchCode,cItemName,iQryPos,iColPos,bTableHead,bMerge,bShowOn,bMastSel,bCanSet,bCondition,bArea,bSort,bFLink,cQryField,iReferType,cAliaIName,cAliaBName,iFieldType,iNumPoint,cFormatChar,iColWidth)
+      select cVouchCode,cItemName,iQryPos,iColPos,bTableHead,bMerge,bShowOn,bMastSel,bCanSet,bCondition,bArea,bSort,bFLink,cQryField,iReferType,cAliaIName,cAliaBName,iFieldType,iNumPoint,cFormatChar,iColWidth from {1}..VouchList;
+      SET IDENTITY_INSERT {0}..VouchList off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VouchList (cVouchCode,cItemName,iQryPos,iColPos,bTableHead,bMerge,bShowOn,bMastSel,bCanSet,bCondition,bArea,bSort,bFLink,cQryField,iReferType,cAliaIName,cAliaBName,iFieldType,iNumPoint,cFormatChar,iColWidth)
+      select cVouchCode,cItemName,iQryPos,iColPos,bTableHead,bMerge,bShowOn,bMastSel,bCanSet,bCondition,bArea,bSort,bFLink,cQryField,iReferType,cAliaIName,cAliaBName,iFieldType,iNumPoint,cFormatChar,iColWidth from {1}..VouchList;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVouchType">
+    <Name>DeleteInsertVouchType</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VouchType)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VouchType')>0 DELETE FROM {0}..VouchType;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VouchType'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VouchType ON ;
+      INSERT INTO {0}..VouchType (cVouchType,cVouchName)
+      select cVouchType,cVouchName from {1}..VouchType;
+      SET IDENTITY_INSERT {0}..VouchType off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VouchType (cVouchType,cVouchName)
+      select cVouchType,cVouchName from {1}..VouchType;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_MyTableSet">
+    <Name>DeleteInsertAp_MyTableSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_MyTableSet)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_MyTableSet')>0 DELETE FROM {0}..Ap_MyTableSet;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_MyTableSet'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_MyTableSet ON ;
+      INSERT INTO {0}..Ap_MyTableSet (Auto_ID,cTable_ID,cTable_Name,cTitle,cSqrType,cItem,cOp,cVal,cLogOp,cUser)
+      select Auto_ID,cTable_ID,cTable_Name,cTitle,cSqrType,cItem,cOp,cVal,cLogOp,cUser from {1}..Ap_MyTableSet;
+      SET IDENTITY_INSERT {0}..Ap_MyTableSet off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_MyTableSet (Auto_ID,cTable_ID,cTable_Name,cTitle,cSqrType,cItem,cOp,cVal,cLogOp,cUser)
+      select Auto_ID,cTable_ID,cTable_Name,cTitle,cSqrType,cItem,cOp,cVal,cLogOp,cUser from {1}..Ap_MyTableSet;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAP_DispSet">
+    <Name>DeleteInsertAP_DispSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..AP_DispSet)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='AP_DispSet')>0 DELETE FROM {0}..AP_DispSet;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'AP_DispSet'))=1
+      begin
+      SET IDENTITY_INSERT {0}..AP_DispSet ON ;
+      INSERT INTO {0}..AP_DispSet (cSysID,cOperator,cTable,iCol,bFixedCol)
+      select cSysID,cOperator,cTable,iCol,bFixedCol from {1}..AP_DispSet;
+      SET IDENTITY_INSERT {0}..AP_DispSet off;
+      end
+      else
+      begin
+      INSERT INTO {0}..AP_DispSet (cSysID,cOperator,cTable,iCol,bFixedCol)
+      select cSysID,cOperator,cTable,iCol,bFixedCol from {1}..AP_DispSet;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_InputCode">
+    <Name>DeleteInsertAp_InputCode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_InputCode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_InputCode')>0 DELETE FROM {0}..Ap_InputCode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_InputCode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_InputCode ON ;
+      INSERT INTO {0}..Ap_InputCode (Auto_ID,cNum,cNote,cNote_f,cFlag,cArCode,cArCodeName,cApCode,cApCodeName)
+      select Auto_ID,cNum,cNote,cNote_f,cFlag,cArCode,cArCodeName,cApCode,cApCodeName from {1}..Ap_InputCode;
+      SET IDENTITY_INSERT {0}..Ap_InputCode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_InputCode (Auto_ID,cNum,cNote,cNote_f,cFlag,cArCode,cArCodeName,cApCode,cApCodeName)
+      select Auto_ID,cNum,cNote,cNote_f,cFlag,cArCode,cArCodeName,cApCode,cApCodeName from {1}..Ap_InputCode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_SStyleCode">
+    <Name>DeleteInsertAp_SStyleCode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_SStyleCode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_SStyleCode')>0 DELETE FROM {0}..Ap_SStyleCode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_SStyleCode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_SStyleCode ON ;
+      INSERT INTO {0}..Ap_SStyleCode (Auto_ID,cSettleStyle,cexch_name,cCode,cFlag)
+      select Auto_ID,cSettleStyle,cexch_name,cCode,cFlag from {1}..Ap_SStyleCode;
+      SET IDENTITY_INSERT {0}..Ap_SStyleCode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_SStyleCode (Auto_ID,cSettleStyle,cexch_name,cCode,cFlag)
+      select Auto_ID,cSettleStyle,cexch_name,cCode,cFlag from {1}..Ap_SStyleCode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertDep_Auth">
+    <Name>DeleteInsertDep_Auth</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Dep_Auth)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Dep_Auth')>0 DELETE FROM {0}..Dep_Auth;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Dep_Auth'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Dep_Auth ON ;
+      INSERT INTO {0}..Dep_Auth (cUser_id,cDepCode,cAuth)
+      select cUser_id,cDepCode,cAuth from {1}..Dep_Auth;
+      SET IDENTITY_INSERT {0}..Dep_Auth off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Dep_Auth (cUser_id,cDepCode,cAuth)
+      select cUser_id,cDepCode,cAuth from {1}..Dep_Auth;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAr_BadAge">
+    <Name>DeleteInsertAr_BadAge</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ar_BadAge)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ar_BadAge')>0 DELETE FROM {0}..Ar_BadAge;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ar_BadAge'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ar_BadAge ON ;
+      INSERT INTO {0}..Ar_BadAge (cNum,iCount,cDays,iRate)
+      select cNum,iCount,cDays,iRate from {1}..Ar_BadAge;
+      SET IDENTITY_INSERT {0}..Ar_BadAge off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ar_BadAge (cNum,iCount,cDays,iRate)
+      select cNum,iCount,cDays,iRate from {1}..Ar_BadAge;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAccessaries">
+    <Name>DeleteInsertAccessaries</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Accessaries)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Accessaries')>0 DELETE FROM {0}..Accessaries;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Accessaries'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Accessaries ON ;
+      INSERT INTO {0}..Accessaries (cAccPCode,cAccCode,iNum,iPiece,iCost,iPrice)
+      select cAccPCode,cAccCode,iNum,iPiece,iCost,iPrice from {1}..Accessaries;
+      SET IDENTITY_INSERT {0}..Accessaries off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Accessaries (cAccPCode,cAccCode,iNum,iPiece,iCost,iPrice)
+      select cAccPCode,cAccCode,iNum,iPiece,iCost,iPrice from {1}..Accessaries;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_VouchType">
+    <Name>DeleteInsertAp_VouchType</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_VouchType)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_VouchType')>0 DELETE FROM {0}..Ap_VouchType;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_VouchType'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_VouchType ON ;
+      INSERT INTO {0}..Ap_VouchType (cTypeCode,cTypeName,cTypeClass,cFlag,cSign)
+      select cTypeCode,cTypeName,cTypeClass,cFlag,cSign from {1}..Ap_VouchType;
+      SET IDENTITY_INSERT {0}..Ap_VouchType off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_VouchType (cTypeCode,cTypeName,cTypeClass,cFlag,cSign)
+      select cTypeCode,cTypeName,cTypeClass,cFlag,cSign from {1}..Ap_VouchType;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_InvCode">
+    <Name>DeleteInsertAp_InvCode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_InvCode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_InvCode')>0 DELETE FROM {0}..Ap_InvCode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_InvCode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_InvCode ON ;
+      INSERT INTO {0}..Ap_InvCode (Auto_ID,iTag,cKeyCode,cInpCode1,cInpCode2,cInpCode3,cFlag)
+      select Auto_ID,iTag,cKeyCode,cInpCode1,cInpCode2,cInpCode3,cFlag from {1}..Ap_InvCode;
+      SET IDENTITY_INSERT {0}..Ap_InvCode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_InvCode (Auto_ID,iTag,cKeyCode,cInpCode1,cInpCode2,cInpCode3,cFlag)
+      select Auto_ID,iTag,cKeyCode,cInpCode1,cInpCode2,cInpCode3,cFlag from {1}..Ap_InvCode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_Lock">
+    <Name>DeleteInsertAp_Lock</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_Lock)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_Lock')>0 DELETE FROM {0}..Ap_Lock;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_Lock'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_Lock ON ;
+      INSERT INTO {0}..Ap_Lock (AutoID,cSysID,cTag,cKey,cAuth,cUser,cMachine)
+      select AutoID,cSysID,cTag,cKey,cAuth,cUser,cMachine from {1}..Ap_Lock;
+      SET IDENTITY_INSERT {0}..Ap_Lock off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_Lock (AutoID,cSysID,cTag,cKey,cAuth,cUser,cMachine)
+      select AutoID,cSysID,cTag,cKey,cAuth,cUser,cMachine from {1}..Ap_Lock;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_CtrlCode">
+    <Name>DeleteInsertAp_CtrlCode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_CtrlCode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_CtrlCode')>0 DELETE FROM {0}..Ap_CtrlCode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_CtrlCode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_CtrlCode ON ;
+      INSERT INTO {0}..Ap_CtrlCode (Auto_ID,iTag,cKeyCode,cCtrlCode,cPreCode,cCtrlCode_f,cPreCode_f,cFlag,cSkCode,cPreSkCode,cSkCode_f,cPreSkCode_f)
+      select Auto_ID,iTag,cKeyCode,cCtrlCode,cPreCode,cCtrlCode_f,cPreCode_f,cFlag,cSkCode,cPreSkCode,cSkCode_f,cPreSkCode_f from {1}..Ap_CtrlCode;
+      SET IDENTITY_INSERT {0}..Ap_CtrlCode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_CtrlCode (Auto_ID,iTag,cKeyCode,cCtrlCode,cPreCode,cCtrlCode_f,cPreCode_f,cFlag,cSkCode,cPreSkCode,cSkCode_f,cPreSkCode_f)
+      select Auto_ID,iTag,cKeyCode,cCtrlCode,cPreCode,cCtrlCode_f,cPreCode_f,cFlag,cSkCode,cPreSkCode,cSkCode_f,cPreSkCode_f from {1}..Ap_CtrlCode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertfitemgrademode">
+    <Name>DeleteInsertfitemgrademode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..fitemgrademode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='fitemgrademode')>0 DELETE FROM {0}..fitemgrademode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'fitemgrademode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..fitemgrademode ON ;
+      INSERT INTO {0}..fitemgrademode (i_id,cItemCcode,cItemCname,iItemCgrade,bItemCend)
+      select i_id,cItemCcode,cItemCname,iItemCgrade,bItemCend from {1}..fitemgrademode;
+      SET IDENTITY_INSERT {0}..fitemgrademode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..fitemgrademode (i_id,cItemCcode,cItemCname,iItemCgrade,bItemCend)
+      select i_id,cItemCcode,cItemCname,iItemCgrade,bItemCend from {1}..fitemgrademode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertfitemstructure">
+    <Name>DeleteInsertfitemstructure</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..fitemstructure)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='fitemstructure')>0 DELETE FROM {0}..fitemstructure;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'fitemstructure'))=1
+      begin
+      SET IDENTITY_INSERT {0}..fitemstructure ON ;
+      INSERT INTO {0}..fitemstructure (i_id,citem_class,citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef)
+      select i_id,citem_class,citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef from {1}..fitemstructure;
+      SET IDENTITY_INSERT {0}..fitemstructure off;
+      end
+      else
+      begin
+      INSERT INTO {0}..fitemstructure (i_id,citem_class,citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef)
+      select i_id,citem_class,citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef from {1}..fitemstructure;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertfitemstrumode">
+    <Name>DeleteInsertfitemstrumode</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..fitemstrumode)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='fitemstrumode')>0 DELETE FROM {0}..fitemstrumode;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'fitemstrumode'))=1
+      begin
+      SET IDENTITY_INSERT {0}..fitemstrumode ON ;
+      INSERT INTO {0}..fitemstrumode (citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef)
+      select citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef from {1}..fitemstrumode;
+      SET IDENTITY_INSERT {0}..fitemstrumode off;
+      end
+      else
+      begin
+      INSERT INTO {0}..fitemstrumode (citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef)
+      select citem_sqr,cfield_name,ctext,imode,itype,ilength,iscale,blist,bsum,bRef from {1}..fitemstrumode;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_AlarmSet">
+    <Name>DeleteInsertAp_AlarmSet</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_AlarmSet)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_AlarmSet')>0 DELETE FROM {0}..Ap_AlarmSet;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_AlarmSet'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_AlarmSet ON ;
+      INSERT INTO {0}..Ap_AlarmSet (cNum,cClassName,iRate1,iRate2,cFlag,iRate)
+      select cNum,cClassName,iRate1,iRate2,cFlag,iRate from {1}..Ap_AlarmSet;
+      SET IDENTITY_INSERT {0}..Ap_AlarmSet off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_AlarmSet (cNum,cClassName,iRate1,iRate2,cFlag,iRate)
+      select cNum,cClassName,iRate1,iRate2,cFlag,iRate from {1}..Ap_AlarmSet;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_BillAge">
+    <Name>DeleteInsertAp_BillAge</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_BillAge)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_BillAge')>0 DELETE FROM {0}..Ap_BillAge;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_BillAge'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_BillAge ON ;
+      INSERT INTO {0}..Ap_BillAge (cNum,iCount,cDays,cFlag)
+      select cNum,iCount,cDays,cFlag from {1}..Ap_BillAge;
+      SET IDENTITY_INSERT {0}..Ap_BillAge off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_BillAge (cNum,iCount,cDays,cFlag)
+      select cNum,iCount,cDays,cFlag from {1}..Ap_BillAge;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_bage">
+    <Name>DeleteInsertGL_bage</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_bage)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_bage')>0 DELETE FROM {0}..GL_bage;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_bage'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_bage ON ;
+      INSERT INTO {0}..GL_bage (inum,ilength)
+      select inum,ilength from {1}..GL_bage;
+      SET IDENTITY_INSERT {0}..GL_bage off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_bage (inum,ilength)
+      select inum,ilength from {1}..GL_bage;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_bautotran">
+    <Name>DeleteInsertGL_bautotran</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_bautotran)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_bautotran')>0 DELETE FROM {0}..GL_bautotran;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_bautotran'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_bautotran ON ;
+      INSERT INTO {0}..GL_bautotran (i_id,itype,ctran_id,inid,csign,ctext,idoc,ccode,cexch_name,cdigest,ccus_id,csup_id,cperson_id,cdept_id,citem_class,citem_id,bd_c,cformula,cformula_s,cformula_f)
+      select i_id,itype,ctran_id,inid,csign,ctext,idoc,ccode,cexch_name,cdigest,ccus_id,csup_id,cperson_id,cdept_id,citem_class,citem_id,bd_c,cformula,cformula_s,cformula_f from {1}..GL_bautotran;
+      SET IDENTITY_INSERT {0}..GL_bautotran off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_bautotran (i_id,itype,ctran_id,inid,csign,ctext,idoc,ccode,cexch_name,cdigest,ccus_id,csup_id,cperson_id,cdept_id,citem_class,citem_id,bd_c,cformula,cformula_s,cformula_f)
+      select i_id,itype,ctran_id,inid,csign,ctext,idoc,ccode,cexch_name,cdigest,ccus_id,csup_id,cperson_id,cdept_id,citem_class,citem_id,bd_c,cformula,cformula_s,cformula_f from {1}..GL_bautotran;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_bfreq">
+    <Name>DeleteInsertGL_bfreq</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_bfreq)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_bfreq')>0 DELETE FROM {0}..GL_bfreq;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_bfreq'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_bfreq ON ;
+      INSERT INTO {0}..GL_bfreq (i_id,c_id,inid,csign,ctext,idoc,cdigest,ccode,md,mc,csettle,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,md_f,mc_f,nfrat,nd_s,nc_s,cexch_name,cn_id,cname,ccodecontrol,ccode_equal,dt_date,cf_name,IsYx)
+      select i_id,c_id,inid,csign,ctext,idoc,cdigest,ccode,md,mc,csettle,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,md_f,mc_f,nfrat,nd_s,nc_s,cexch_name,cn_id,cname,ccodecontrol,ccode_equal,dt_date,cf_name,IsYx from {1}..GL_bfreq;
+      SET IDENTITY_INSERT {0}..GL_bfreq off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_bfreq (i_id,c_id,inid,csign,ctext,idoc,cdigest,ccode,md,mc,csettle,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,md_f,mc_f,nfrat,nd_s,nc_s,cexch_name,cn_id,cname,ccodecontrol,ccode_equal,dt_date,cf_name,IsYx)
+      select i_id,c_id,inid,csign,ctext,idoc,cdigest,ccode,md,mc,csettle,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,md_f,mc_f,nfrat,nd_s,nc_s,cexch_name,cn_id,cname,ccodecontrol,ccode_equal,dt_date,cf_name,IsYx from {1}..GL_bfreq;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_bmulti">
+    <Name>DeleteInsertGL_bmulti</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_bmulti)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_bmulti')>0 DELETE FROM {0}..GL_bmulti;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_bmulti'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_bmulti ON ;
+      INSERT INTO {0}..GL_bmulti (i_id,cname,inid,ctext,ccode,bd,bc,byEx,bb_e,ccodes,cnames,bsingle,bdouble,bd_c,is_f)
+      select i_id,cname,inid,ctext,ccode,bd,bc,byEx,bb_e,ccodes,cnames,bsingle,bdouble,bd_c,is_f from {1}..GL_bmulti;
+      SET IDENTITY_INSERT {0}..GL_bmulti off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_bmulti (i_id,cname,inid,ctext,ccode,bd,bc,byEx,bb_e,ccodes,cnames,bsingle,bdouble,bd_c,is_f)
+      select i_id,cname,inid,ctext,ccode,bd,bc,byEx,bb_e,ccodes,cnames,bsingle,bdouble,bd_c,is_f from {1}..GL_bmulti;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertFA_Departments">
+    <Name>DeleteInsertFA_Departments</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..FA_Departments)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='FA_Departments')>0 DELETE FROM {0}..FA_Departments;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'FA_Departments'))=1
+      begin
+      SET IDENTITY_INSERT {0}..FA_Departments ON ;
+      INSERT INTO {0}..FA_Departments (sNum,sName,sEngName,sParentNum,sNum1,sNum2,sNum3,sNum4,sNum5,sSubjectNum,sSubjectName,sEngSubjectName,bSumDepr,lChilds,lByUsed,lUsedWithHS,iLevel,iDefinetype,sLockedBy,bVisible)
+      select sNum,sName,sEngName,sParentNum,sNum1,sNum2,sNum3,sNum4,sNum5,sSubjectNum,sSubjectName,sEngSubjectName,bSumDepr,lChilds,lByUsed,lUsedWithHS,iLevel,iDefinetype,sLockedBy,bVisible from {1}..FA_Departments;
+      SET IDENTITY_INSERT {0}..FA_Departments off;
+      end
+      else
+      begin
+      INSERT INTO {0}..FA_Departments (sNum,sName,sEngName,sParentNum,sNum1,sNum2,sNum3,sNum4,sNum5,sSubjectNum,sSubjectName,sEngSubjectName,bSumDepr,lChilds,lByUsed,lUsedWithHS,iLevel,iDefinetype,sLockedBy,bVisible)
+      select sNum,sName,sEngName,sParentNum,sNum1,sNum2,sNum3,sNum4,sNum5,sSubjectNum,sSubjectName,sEngSubjectName,bSumDepr,lChilds,lByUsed,lUsedWithHS,iLevel,iDefinetype,sLockedBy,bVisible from {1}..FA_Departments;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRPT_GrpDef">
+    <Name>DeleteInsertRPT_GrpDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..RPT_GrpDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='RPT_GrpDef')>0 DELETE FROM {0}..RPT_GrpDef;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'RPT_GrpDef'))=1
+      begin
+      SET IDENTITY_INSERT {0}..RPT_GrpDef ON ;
+      INSERT INTO {0}..RPT_GrpDef (SystemID,TableName,TableDefine,TableType,GroupDefine)
+      select SystemID,TableName,TableDefine,TableType,GroupDefine from {1}..RPT_GrpDef;
+      SET IDENTITY_INSERT {0}..RPT_GrpDef off;
+      end
+      else
+      begin
+      INSERT INTO {0}..RPT_GrpDef (SystemID,TableName,TableDefine,TableType,GroupDefine)
+      select SystemID,TableName,TableDefine,TableType,GroupDefine from {1}..RPT_GrpDef;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertRPT_ItmDef">
+    <Name>DeleteInsertRPT_ItmDef</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..RPT_ItmDef)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='RPT_ItmDef')>0 DELETE FROM {0}..RPT_ItmDef;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'RPT_ItmDef'))=1
+      begin
+      SET IDENTITY_INSERT {0}..RPT_ItmDef ON ;
+      INSERT INTO {0}..RPT_ItmDef (FieldName,TableName,FieldDef,TableDef,FieldType,TableType)
+      select FieldName,TableName,FieldDef,TableDef,FieldType,TableType from {1}..RPT_ItmDef;
+      SET IDENTITY_INSERT {0}..RPT_ItmDef off;
+      end
+      else
+      begin
+      INSERT INTO {0}..RPT_ItmDef (FieldName,TableName,FieldDef,TableDef,FieldType,TableType)
+      select FieldName,TableName,FieldDef,TableDef,FieldType,TableType from {1}..RPT_ItmDef;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPosition">
+    <Name>DeleteInsertPosition</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Position)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Position')>0 DELETE FROM {0}..Position;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Position'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Position ON ;
+      INSERT INTO {0}..Position (cPosCode,cPosName,iPosGrade,bPosEnd,cWhCode,iMaxCubage,iMaxWeight,cMemo)
+      select cPosCode,cPosName,iPosGrade,bPosEnd,cWhCode,iMaxCubage,iMaxWeight,cMemo from {1}..Position;
+      SET IDENTITY_INSERT {0}..Position off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Position (cPosCode,cPosName,iPosGrade,bPosEnd,cWhCode,iMaxCubage,iMaxWeight,cMemo)
+      select cPosCode,cPosName,iPosGrade,bPosEnd,cWhCode,iMaxCubage,iMaxWeight,cMemo from {1}..Position;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPersonMSG">
+    <Name>DeleteInsertPersonMSG</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PersonMSG)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PersonMSG')>0 DELETE FROM {0}..PersonMSG;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'PersonMSG'))=1
+      begin
+      SET IDENTITY_INSERT {0}..PersonMSG ON ;
+      INSERT INTO {0}..PersonMSG (cPersonCode,cPersonPhone,cMailBox,cUUAccount)
+      select cPersonCode,cPersonPhone,cMailBox,cUUAccount from {1}..PersonMSG;
+      SET IDENTITY_INSERT {0}..PersonMSG off;
+      end
+      else
+      begin
+      INSERT INTO {0}..PersonMSG (cPersonCode,cPersonPhone,cMailBox,cUUAccount)
+      select cPersonCode,cPersonPhone,cMailBox,cUUAccount from {1}..PersonMSG;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_mybooktype">
+    <Name>DeleteInsertGL_mybooktype</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_mybooktype)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_mybooktype')>0 DELETE FROM {0}..GL_mybooktype;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_mybooktype'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_mybooktype ON ;
+      INSERT INTO {0}..GL_mybooktype (itable_id,ifield_id,ctable_name,itable_left,itable_top,itable_line,cfield_name,ifieldwidth,ctable_up,ctable_down)
+      select itable_id,ifield_id,ctable_name,itable_left,itable_top,itable_line,cfield_name,ifieldwidth,ctable_up,ctable_down from {1}..GL_mybooktype;
+      SET IDENTITY_INSERT {0}..GL_mybooktype off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_mybooktype (itable_id,ifield_id,ctable_name,itable_left,itable_top,itable_line,cfield_name,ifieldwidth,ctable_up,ctable_down)
+      select itable_id,ifield_id,ctable_name,itable_left,itable_top,itable_line,cfield_name,ifieldwidth,ctable_up,ctable_down from {1}..GL_mybooktype;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAp_YWBillAge">
+    <Name>DeleteInsertAp_YWBillAge</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..Ap_YWBillAge)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='Ap_YWBillAge')>0 DELETE FROM {0}..Ap_YWBillAge;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'Ap_YWBillAge'))=1
+      begin
+      SET IDENTITY_INSERT {0}..Ap_YWBillAge ON ;
+      INSERT INTO {0}..Ap_YWBillAge (cNum,iCount,cDays,cFlag)
+      select cNum,iCount,cDays,cFlag from {1}..Ap_YWBillAge;
+      SET IDENTITY_INSERT {0}..Ap_YWBillAge off;
+      end
+      else
+      begin
+      INSERT INTO {0}..Ap_YWBillAge (cNum,iCount,cDays,cFlag)
+      select cNum,iCount,cDays,cFlag from {1}..Ap_YWBillAge;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertwastage">
+    <Name>DeleteInsertwastage</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..wastage)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='wastage')>0 DELETE FROM {0}..wastage;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'wastage'))=1
+      begin
+      SET IDENTITY_INSERT {0}..wastage ON ;
+      INSERT INTO {0}..wastage (CWSTCode,CWSTName,CCode,bDefault,cMemo)
+      select CWSTCode,CWSTName,CCode,bDefault,cMemo from {1}..wastage;
+      SET IDENTITY_INSERT {0}..wastage off;
+      end
+      else
+      begin
+      INSERT INTO {0}..wastage (CWSTCode,CWSTName,CCode,bDefault,cMemo)
+      select CWSTCode,CWSTName,CCode,bDefault,cMemo from {1}..wastage;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertT_Rpt_Folder">
+    <Name>DeleteInsertT_Rpt_Folder</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..T_Rpt_Folder)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='T_Rpt_Folder')>0 DELETE FROM {0}..T_Rpt_Folder;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'T_Rpt_Folder'))=1
+      begin
+      SET IDENTITY_INSERT {0}..T_Rpt_Folder ON ;
+      INSERT INTO {0}..T_Rpt_Folder (cSystemID,cFolderName,cPassWord,cPersonID,bSystem,iFolderID)
+      select cSystemID,cFolderName,cPassWord,cPersonID,bSystem,iFolderID from {1}..T_Rpt_Folder;
+      SET IDENTITY_INSERT {0}..T_Rpt_Folder off;
+      end
+      else
+      begin
+      INSERT INTO {0}..T_Rpt_Folder (cSystemID,cFolderName,cPassWord,cPersonID,bSystem,iFolderID)
+      select cSystemID,cFolderName,cPassWord,cPersonID,bSystem,iFolderID from {1}..T_Rpt_Folder;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertT_Rpt_GlbDEF">
+    <Name>DeleteInsertT_Rpt_GlbDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..T_Rpt_GlbDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='T_Rpt_GlbDEF')>0 DELETE FROM {0}..T_Rpt_GlbDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'T_Rpt_GlbDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..T_Rpt_GlbDEF ON ;
+      INSERT INTO {0}..T_Rpt_GlbDEF (ID,iFolderID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine)
+      select ID,iFolderID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine from {1}..T_Rpt_GlbDEF;
+      SET IDENTITY_INSERT {0}..T_Rpt_GlbDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..T_Rpt_GlbDEF (ID,iFolderID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine)
+      select ID,iFolderID,SystemID,Name,Title,DatabaseEx,WhereEx,Predicate,Type,Relation,Note,Cols,Section,Fields,DataSource,BaseTable,IsBaseTable,IsControlCreate,IsBase,GroupDefine from {1}..T_Rpt_GlbDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertT_Rpt_FldDEF">
+    <Name>DeleteInsertT_Rpt_FldDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..T_Rpt_FldDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='T_Rpt_FldDEF')>0 DELETE FROM {0}..T_Rpt_FldDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'T_Rpt_FldDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..T_Rpt_FldDEF ON ;
+      INSERT INTO {0}..T_Rpt_FldDEF (ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize)
+      select ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize from {1}..T_Rpt_FldDEF;
+      SET IDENTITY_INSERT {0}..T_Rpt_FldDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..T_Rpt_FldDEF (ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize)
+      select ID_Field,ID,Name,Expression,Condition,ModeEx,OrderEx,TopEx,LeftEx,Width,Height,Visible,Note,nameForeign,iColSize,FormatEx,iAlignStyle,iSize from {1}..T_Rpt_FldDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertT_Rpt_FltDEF">
+    <Name>DeleteInsertT_Rpt_FltDEF</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..T_Rpt_FltDEF)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='T_Rpt_FltDEF')>0 DELETE FROM {0}..T_Rpt_FltDEF;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'T_Rpt_FltDEF'))=1
+      begin
+      SET IDENTITY_INSERT {0}..T_Rpt_FltDEF ON ;
+      INSERT INTO {0}..T_Rpt_FltDEF (ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth,iPage,iRefSelect)
+      select ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth,iPage,iRefSelect from {1}..T_Rpt_FltDEF;
+      SET IDENTITY_INSERT {0}..T_Rpt_FltDEF off;
+      end
+      else
+      begin
+      INSERT INTO {0}..T_Rpt_FltDEF (ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth,iPage,iRefSelect)
+      select ID_Flt,Location,ID,Name,Note,Expression,ModeEx,IsSingle,Flag,Caption,iLeft,iTop,iWidth,iHeight,iCaptionLeft,iCaptionWidth,iPage,iRefSelect from {1}..T_Rpt_FltDEF;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertT_Rpt_Property">
+    <Name>DeleteInsertT_Rpt_Property</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..T_Rpt_Property)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='T_Rpt_Property')>0 DELETE FROM {0}..T_Rpt_Property;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'T_Rpt_Property'))=1
+      begin
+      SET IDENTITY_INSERT {0}..T_Rpt_Property ON ;
+      INSERT INTO {0}..T_Rpt_Property (Title,Flag)
+      select Title,Flag from {1}..T_Rpt_Property;
+      SET IDENTITY_INSERT {0}..T_Rpt_Property off;
+      end
+      else
+      begin
+      INSERT INTO {0}..T_Rpt_Property (Title,Flag)
+      select Title,Flag from {1}..T_Rpt_Property;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAccountPeriod">
+    <Name>DeleteInsertAccountPeriod</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..AccountPeriod)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='AccountPeriod')>0 DELETE FROM {0}..AccountPeriod;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'AccountPeriod'))=1
+      begin
+      SET IDENTITY_INSERT {0}..AccountPeriod ON ;
+      INSERT INTO {0}..AccountPeriod (AutoID,APCode,APName,SepDate,MonthBefore,DateBefore,MonthAfter,DateAfter,bMonthSettle,iCreditDays,bMonthDay,iEndDate)
+      select AutoID,APCode,APName,SepDate,MonthBefore,DateBefore,MonthAfter,DateAfter,bMonthSettle,iCreditDays,bMonthDay,iEndDate from {1}..AccountPeriod;
+      SET IDENTITY_INSERT {0}..AccountPeriod off;
+      end
+      else
+      begin
+      INSERT INTO {0}..AccountPeriod (AutoID,APCode,APName,SepDate,MonthBefore,DateBefore,MonthAfter,DateAfter,bMonthSettle,iCreditDays,bMonthDay,iEndDate)
+      select AutoID,APCode,APName,SepDate,MonthBefore,DateBefore,MonthAfter,DateAfter,bMonthSettle,iCreditDays,bMonthDay,iEndDate from {1}..AccountPeriod;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertBI_NB_Account">
+    <Name>DeleteInsertBI_NB_Account</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..BI_NB_Account)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='BI_NB_Account')>0 DELETE FROM {0}..BI_NB_Account;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'BI_NB_Account'))=1
+      begin
+      SET IDENTITY_INSERT {0}..BI_NB_Account ON ;
+      INSERT INTO {0}..BI_NB_Account (cAccountNumber,cAccountName,cBankId,cBankName,cBankAddress,cPrinvince,cCity,cMoneyType,cBankCode,mBalance,iProperty,dOpenDate,dCancelDate,dServiveDateBegin,dServiveDateEnd,mServiveMoney)
+      select cAccountNumber,cAccountName,cBankId,cBankName,cBankAddress,cPrinvince,cCity,cMoneyType,cBankCode,mBalance,iProperty,dOpenDate,dCancelDate,dServiveDateBegin,dServiveDateEnd,mServiveMoney from {1}..BI_NB_Account;
+      SET IDENTITY_INSERT {0}..BI_NB_Account off;
+      end
+      else
+      begin
+      INSERT INTO {0}..BI_NB_Account (cAccountNumber,cAccountName,cBankId,cBankName,cBankAddress,cPrinvince,cCity,cMoneyType,cBankCode,mBalance,iProperty,dOpenDate,dCancelDate,dServiveDateBegin,dServiveDateEnd,mServiveMoney)
+      select cAccountNumber,cAccountName,cBankId,cBankName,cBankAddress,cPrinvince,cCity,cMoneyType,cBankCode,mBalance,iProperty,dOpenDate,dCancelDate,dServiveDateBegin,dServiveDateEnd,mServiveMoney from {1}..BI_NB_Account;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertMC_MessageTemplate">
+    <Name>DeleteInsertMC_MessageTemplate</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..MC_MessageTemplate)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='MC_MessageTemplate')>0 DELETE FROM {0}..MC_MessageTemplate;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'MC_MessageTemplate'))=1
+      begin
+      SET IDENTITY_INSERT {0}..MC_MessageTemplate ON ;
+      INSERT INTO {0}..MC_MessageTemplate (id,MTID,cCode,cTitle,cSubject,cBody,cFromName,sCellNo,path,Date,status,ConditionID,bSMS,bMail,bMsg,cMsgType,cMsgObject,caccid,cyear,ToUnit,Tosaler,ToBill,ToBook,ToDepLeader,ToSupplier,ToPersonnel,cModeBelong,cSMSMsg,bNoteMsg,cModeType,zbmb_tybz,zbmb_sjqxbm1,zbmb_sjqxbm2,zbmb_sjqxbm3,zbmb_sjqx1,zbmb_sjqx2,zbmb_sjqx3,zbmb_sjqxxz1,zbmb_sjqxxz2,zbmb_sjqxxz3,zbmb_cxqx1,zbmb_cxqx2,zbmb_cxqx3,zbmb_cxqx4,zbmb_cxqx1nr,zbmb_cxqx2nr,zbmb_cxqx3nr,zbmb_cxqx4nr,zbmb_cxqx,zbmb_fsnr,zbmb_zdfs,zbmb_fslx,zbmb_fssj,zbmb_azfs,zbmb_ayfs,zbmb_syzdjsr1,zbmb_syzdjsr2,zbmb_syzdjsr3,zbmb_gdjsr,zbmb_mbcjr,zbmb_mbyyr,zbmb_mbcjsj,zbmb_mbxgr,zbmb_mbxgsj,zbmb_mblx,define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,sendTime)
+      select id,MTID,cCode,cTitle,cSubject,cBody,cFromName,sCellNo,path,Date,status,ConditionID,bSMS,bMail,bMsg,cMsgType,cMsgObject,caccid,cyear,ToUnit,Tosaler,ToBill,ToBook,ToDepLeader,ToSupplier,ToPersonnel,cModeBelong,cSMSMsg,bNoteMsg,cModeType,zbmb_tybz,zbmb_sjqxbm1,zbmb_sjqxbm2,zbmb_sjqxbm3,zbmb_sjqx1,zbmb_sjqx2,zbmb_sjqx3,zbmb_sjqxxz1,zbmb_sjqxxz2,zbmb_sjqxxz3,zbmb_cxqx1,zbmb_cxqx2,zbmb_cxqx3,zbmb_cxqx4,zbmb_cxqx1nr,zbmb_cxqx2nr,zbmb_cxqx3nr,zbmb_cxqx4nr,zbmb_cxqx,zbmb_fsnr,zbmb_zdfs,zbmb_fslx,zbmb_fssj,zbmb_azfs,zbmb_ayfs,zbmb_syzdjsr1,zbmb_syzdjsr2,zbmb_syzdjsr3,zbmb_gdjsr,zbmb_mbcjr,zbmb_mbyyr,zbmb_mbcjsj,zbmb_mbxgr,zbmb_mbxgsj,zbmb_mblx,define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,sendTime from {1}..MC_MessageTemplate;
+      SET IDENTITY_INSERT {0}..MC_MessageTemplate off;
+      end
+      else
+      begin
+      INSERT INTO {0}..MC_MessageTemplate (id,MTID,cCode,cTitle,cSubject,cBody,cFromName,sCellNo,path,Date,status,ConditionID,bSMS,bMail,bMsg,cMsgType,cMsgObject,caccid,cyear,ToUnit,Tosaler,ToBill,ToBook,ToDepLeader,ToSupplier,ToPersonnel,cModeBelong,cSMSMsg,bNoteMsg,cModeType,zbmb_tybz,zbmb_sjqxbm1,zbmb_sjqxbm2,zbmb_sjqxbm3,zbmb_sjqx1,zbmb_sjqx2,zbmb_sjqx3,zbmb_sjqxxz1,zbmb_sjqxxz2,zbmb_sjqxxz3,zbmb_cxqx1,zbmb_cxqx2,zbmb_cxqx3,zbmb_cxqx4,zbmb_cxqx1nr,zbmb_cxqx2nr,zbmb_cxqx3nr,zbmb_cxqx4nr,zbmb_cxqx,zbmb_fsnr,zbmb_zdfs,zbmb_fslx,zbmb_fssj,zbmb_azfs,zbmb_ayfs,zbmb_syzdjsr1,zbmb_syzdjsr2,zbmb_syzdjsr3,zbmb_gdjsr,zbmb_mbcjr,zbmb_mbyyr,zbmb_mbcjsj,zbmb_mbxgr,zbmb_mbxgsj,zbmb_mblx,define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,sendTime)
+      select id,MTID,cCode,cTitle,cSubject,cBody,cFromName,sCellNo,path,Date,status,ConditionID,bSMS,bMail,bMsg,cMsgType,cMsgObject,caccid,cyear,ToUnit,Tosaler,ToBill,ToBook,ToDepLeader,ToSupplier,ToPersonnel,cModeBelong,cSMSMsg,bNoteMsg,cModeType,zbmb_tybz,zbmb_sjqxbm1,zbmb_sjqxbm2,zbmb_sjqxbm3,zbmb_sjqx1,zbmb_sjqx2,zbmb_sjqx3,zbmb_sjqxxz1,zbmb_sjqxxz2,zbmb_sjqxxz3,zbmb_cxqx1,zbmb_cxqx2,zbmb_cxqx3,zbmb_cxqx4,zbmb_cxqx1nr,zbmb_cxqx2nr,zbmb_cxqx3nr,zbmb_cxqx4nr,zbmb_cxqx,zbmb_fsnr,zbmb_zdfs,zbmb_fslx,zbmb_fssj,zbmb_azfs,zbmb_ayfs,zbmb_syzdjsr1,zbmb_syzdjsr2,zbmb_syzdjsr3,zbmb_gdjsr,zbmb_mbcjr,zbmb_mbyyr,zbmb_mbcjsj,zbmb_mbxgr,zbmb_mbxgsj,zbmb_mblx,define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,sendTime from {1}..MC_MessageTemplate;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertBI_NB_Option">
+    <Name>DeleteInsertBI_NB_Option</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..BI_NB_Option)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='BI_NB_Option')>0 DELETE FROM {0}..BI_NB_Option;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'BI_NB_Option'))=1
+      begin
+      SET IDENTITY_INSERT {0}..BI_NB_Option ON ;
+      INSERT INTO {0}..BI_NB_Option (cAccountNumber,bQueryBalance,bQueryDailyDetail,iBalanceInterval,bPopupWindow,dQueryDetailTime,bStoreTo,cStoreDir)
+      select cAccountNumber,bQueryBalance,bQueryDailyDetail,iBalanceInterval,bPopupWindow,dQueryDetailTime,bStoreTo,cStoreDir from {1}..BI_NB_Option;
+      SET IDENTITY_INSERT {0}..BI_NB_Option off;
+      end
+      else
+      begin
+      INSERT INTO {0}..BI_NB_Option (cAccountNumber,bQueryBalance,bQueryDailyDetail,iBalanceInterval,bPopupWindow,dQueryDetailTime,bStoreTo,cStoreDir)
+      select cAccountNumber,bQueryBalance,bQueryDailyDetail,iBalanceInterval,bPopupWindow,dQueryDetailTime,bStoreTo,cStoreDir from {1}..BI_NB_Option;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertMC_MessageTemplateAttach">
+    <Name>DeleteInsertMC_MessageTemplateAttach</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..MC_MessageTemplateAttach)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='MC_MessageTemplateAttach')>0 DELETE FROM {0}..MC_MessageTemplateAttach;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'MC_MessageTemplateAttach'))=1
+      begin
+      SET IDENTITY_INSERT {0}..MC_MessageTemplateAttach ON ;
+      INSERT INTO {0}..MC_MessageTemplateAttach (ID,MTID,Attach,cPath,cDefine1,cDefine2)
+      select ID,MTID,Attach,cPath,cDefine1,cDefine2 from {1}..MC_MessageTemplateAttach;
+      SET IDENTITY_INSERT {0}..MC_MessageTemplateAttach off;
+      end
+      else
+      begin
+      INSERT INTO {0}..MC_MessageTemplateAttach (ID,MTID,Attach,cPath,cDefine1,cDefine2)
+      select ID,MTID,Attach,cPath,cDefine1,cDefine2 from {1}..MC_MessageTemplateAttach;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertMC_MessageTemplateToList">
+    <Name>DeleteInsertMC_MessageTemplateToList</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..MC_MessageTemplateToList)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='MC_MessageTemplateToList')>0 DELETE FROM {0}..MC_MessageTemplateToList;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'MC_MessageTemplateToList'))=1
+      begin
+      SET IDENTITY_INSERT {0}..MC_MessageTemplateToList ON ;
+      INSERT INTO {0}..MC_MessageTemplateToList (ID,MTID,RID,RName,RCode,RClass,Rtype,sMailTo,sCellTo,cDefine1,cDefine2)
+      select ID,MTID,RID,RName,RCode,RClass,Rtype,sMailTo,sCellTo,cDefine1,cDefine2 from {1}..MC_MessageTemplateToList;
+      SET IDENTITY_INSERT {0}..MC_MessageTemplateToList off;
+      end
+      else
+      begin
+      INSERT INTO {0}..MC_MessageTemplateToList (ID,MTID,RID,RName,RCode,RClass,Rtype,sMailTo,sCellTo,cDefine1,cDefine2)
+      select ID,MTID,RID,RName,RCode,RClass,Rtype,sMailTo,sCellTo,cDefine1,cDefine2 from {1}..MC_MessageTemplateToList;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertBI_NB_UserAuthority">
+    <Name>DeleteInsertBI_NB_UserAuthority</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..BI_NB_UserAuthority)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='BI_NB_UserAuthority')>0 DELETE FROM {0}..BI_NB_UserAuthority;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'BI_NB_UserAuthority'))=1
+      begin
+      SET IDENTITY_INSERT {0}..BI_NB_UserAuthority ON ;
+      INSERT INTO {0}..BI_NB_UserAuthority (cUserId,cAccountNumber,cAuthorId,bIsNotValid,mMoneyLimit)
+      select cUserId,cAccountNumber,cAuthorId,bIsNotValid,mMoneyLimit from {1}..BI_NB_UserAuthority;
+      SET IDENTITY_INSERT {0}..BI_NB_UserAuthority off;
+      end
+      else
+      begin
+      INSERT INTO {0}..BI_NB_UserAuthority (cUserId,cAccountNumber,cAuthorId,bIsNotValid,mMoneyLimit)
+      select cUserId,cAccountNumber,cAuthorId,bIsNotValid,mMoneyLimit from {1}..BI_NB_UserAuthority;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertBI_NB_VisibleField">
+    <Name>DeleteInsertBI_NB_VisibleField</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..BI_NB_VisibleField)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='BI_NB_VisibleField')>0 DELETE FROM {0}..BI_NB_VisibleField;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'BI_NB_VisibleField'))=1
+      begin
+      SET IDENTITY_INSERT {0}..BI_NB_VisibleField ON ;
+      INSERT INTO {0}..BI_NB_VisibleField (cTableName,cFieldName,cFieldEnName,bVisible,bDefault)
+      select cTableName,cFieldName,cFieldEnName,bVisible,bDefault from {1}..BI_NB_VisibleField;
+      SET IDENTITY_INSERT {0}..BI_NB_VisibleField off;
+      end
+      else
+      begin
+      INSERT INTO {0}..BI_NB_VisibleField (cTableName,cFieldName,cFieldEnName,bVisible,bDefault)
+      select cTableName,cFieldName,cFieldEnName,bVisible,bDefault from {1}..BI_NB_VisibleField;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAA_columndic">
+    <Name>DeleteInsertAA_columndic</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..AA_columndic)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='AA_columndic')>0 DELETE FROM {0}..AA_columndic;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'AA_columndic'))=1
+      begin
+      SET IDENTITY_INSERT {0}..AA_columndic ON ;
+      INSERT INTO {0}..AA_columndic (cKey,cFld,cQryField,iColPos,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign)
+      select cKey,cFld,cQryField,iColPos,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign from {1}..AA_columndic;
+      SET IDENTITY_INSERT {0}..AA_columndic off;
+      end
+      else
+      begin
+      INSERT INTO {0}..AA_columndic (cKey,cFld,cQryField,iColPos,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign)
+      select cKey,cFld,cQryField,iColPos,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign from {1}..AA_columndic;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertAA_columnset">
+    <Name>DeleteInsertAA_columnset</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..AA_columnset)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='AA_columnset')>0 DELETE FROM {0}..AA_columnset;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'AA_columnset'))=1
+      begin
+      SET IDENTITY_INSERT {0}..AA_columnset ON ;
+      INSERT INTO {0}..AA_columnset (AutoId,cUserId,cKey,cFld,cQryField,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign)
+      select AutoId,cUserId,cKey,cFld,cQryField,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign from {1}..AA_columnset;
+      SET IDENTITY_INSERT {0}..AA_columnset off;
+      end
+      else
+      begin
+      INSERT INTO {0}..AA_columnset (AutoId,cUserId,cKey,cFld,cQryField,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign)
+      select AutoId,cUserId,cKey,cFld,cQryField,cCaption,cCaptionPar,bFixed,bDisp,iColWidth,iAlign,cOrder,bLock,iMergeCols,bMustSel,bNeedSum,iSetDigitSign from {1}..AA_columnset;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertMC_SendTime">
+    <Name>DeleteInsertMC_SendTime</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..MC_SendTime)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='MC_SendTime')>0 DELETE FROM {0}..MC_SendTime;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'MC_SendTime'))=1
+      begin
+      SET IDENTITY_INSERT {0}..MC_SendTime ON ;
+      INSERT INTO {0}..MC_SendTime (ID,MTID,SendType,TimeStart,TimeEnd,iCycle,cDays,SendHour,SendMin,Conditions,cdefine1,idefine2)
+      select ID,MTID,SendType,TimeStart,TimeEnd,iCycle,cDays,SendHour,SendMin,Conditions,cdefine1,idefine2 from {1}..MC_SendTime;
+      SET IDENTITY_INSERT {0}..MC_SendTime off;
+      end
+      else
+      begin
+      INSERT INTO {0}..MC_SendTime (ID,MTID,SendType,TimeStart,TimeEnd,iCycle,cDays,SendHour,SendMin,Conditions,cdefine1,idefine2)
+      select ID,MTID,SendType,TimeStart,TimeEnd,iCycle,cDays,SendHour,SendMin,Conditions,cdefine1,idefine2 from {1}..MC_SendTime;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertMC_MyAccount">
+    <Name>DeleteInsertMC_MyAccount</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..MC_MyAccount)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='MC_MyAccount')>0 DELETE FROM {0}..MC_MyAccount;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'MC_MyAccount'))=1
+      begin
+      SET IDENTITY_INSERT {0}..MC_MyAccount ON ;
+      INSERT INTO {0}..MC_MyAccount (i_id,SMSID,MTID,cSMSName,cUser,cSqrName,cSqrType,iObjectNum,cOperator,cVal2,cVal,cValCode,cCond,cMsg)
+      select i_id,SMSID,MTID,cSMSName,cUser,cSqrName,cSqrType,iObjectNum,cOperator,cVal2,cVal,cValCode,cCond,cMsg from {1}..MC_MyAccount;
+      SET IDENTITY_INSERT {0}..MC_MyAccount off;
+      end
+      else
+      begin
+      INSERT INTO {0}..MC_MyAccount (i_id,SMSID,MTID,cSMSName,cUser,cSqrName,cSqrType,iObjectNum,cOperator,cVal2,cVal,cValCode,cCond,cMsg)
+      select i_id,SMSID,MTID,cSMSName,cUser,cSqrName,cSqrType,iObjectNum,cOperator,cVal2,cVal,cValCode,cCond,cMsg from {1}..MC_MyAccount;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertWareHouseWarnInfo">
+    <Name>DeleteInsertWareHouseWarnInfo</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..WareHouseWarnInfo)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='WareHouseWarnInfo')>0 DELETE FROM {0}..WareHouseWarnInfo;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'WareHouseWarnInfo'))=1
+      begin
+      SET IDENTITY_INSERT {0}..WareHouseWarnInfo ON ;
+      INSERT INTO {0}..WareHouseWarnInfo (autoid,cWhCode,cInvCode,cInvCCode,iSafeNum,iTopSum,iLowSum)
+      select autoid,cWhCode,cInvCode,cInvCCode,iSafeNum,iTopSum,iLowSum from {1}..WareHouseWarnInfo;
+      SET IDENTITY_INSERT {0}..WareHouseWarnInfo off;
+      end
+      else
+      begin
+      INSERT INTO {0}..WareHouseWarnInfo (autoid,cWhCode,cInvCode,cInvCCode,iSafeNum,iTopSum,iLowSum)
+      select autoid,cWhCode,cInvCode,cInvCCode,iSafeNum,iTopSum,iLowSum from {1}..WareHouseWarnInfo;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertGL_blreq">
+    <Name>DeleteInsertGL_blreq</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..GL_blreq)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='GL_blreq')>0 DELETE FROM {0}..GL_blreq;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'GL_blreq'))=1
+      begin
+      SET IDENTITY_INSERT {0}..GL_blreq ON ;
+      INSERT INTO {0}..GL_blreq (id,cf_id,cf_name,Description)
+      select id,cf_id,cf_name,Description from {1}..GL_blreq;
+      SET IDENTITY_INSERT {0}..GL_blreq off;
+      end
+      else
+      begin
+      INSERT INTO {0}..GL_blreq (id,cf_id,cf_name,Description)
+      select id,cf_id,cf_name,Description from {1}..GL_blreq;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertufdts_datalog">
+    <Name>DeleteInsertufdts_datalog</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ufdts_datalog)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ufdts_datalog')>0 DELETE FROM {0}..ufdts_datalog;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ufdts_datalog'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ufdts_datalog ON ;
+      INSERT INTO {0}..ufdts_datalog (DataName,UFGUID,UPDATETIME)
+      select DataName,UFGUID,UPDATETIME from {1}..ufdts_datalog;
+      SET IDENTITY_INSERT {0}..ufdts_datalog off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ufdts_datalog (DataName,UFGUID,UPDATETIME)
+      select DataName,UFGUID,UPDATETIME from {1}..ufdts_datalog;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertufdts_datadel">
+    <Name>DeleteInsertufdts_datadel</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..ufdts_datadel)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='ufdts_datadel')>0 DELETE FROM {0}..ufdts_datadel;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'ufdts_datadel'))=1
+      begin
+      SET IDENTITY_INSERT {0}..ufdts_datadel ON ;
+      INSERT INTO {0}..ufdts_datadel (DataName,UFGUID,DeleteTime)
+      select DataName,UFGUID,DeleteTime from {1}..ufdts_datadel;
+      SET IDENTITY_INSERT {0}..ufdts_datadel off;
+      end
+      else
+      begin
+      INSERT INTO {0}..ufdts_datadel (DataName,UFGUID,DeleteTime)
+      select DataName,UFGUID,DeleteTime from {1}..ufdts_datadel;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+<SQLStatement id="UpdateWarehouse">
+    <Name>UpdateWarehouse</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      UPDATE {0}..Warehouse SET cMonth = NULL
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_">
+    <Name>DeleteInsertInvoiceItem_</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_')>0 DELETE FROM {0}..InvoiceItem_;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_ ON ;
+      INSERT INTO {0}..InvoiceItem_ (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_;
+      SET IDENTITY_INSERT {0}..InvoiceItem_ off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_ (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_Ap">
+    <Name>DeleteInsertInvoiceItem_Ap</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_Ap)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_Ap')>0 DELETE FROM {0}..InvoiceItem_Ap;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_Ap'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_Ap ON ;
+      INSERT INTO {0}..InvoiceItem_Ap (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_Ap;
+      SET IDENTITY_INSERT {0}..InvoiceItem_Ap off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_Ap (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_Ap;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_sal">
+    <Name>DeleteInsertInvoiceItem_sal</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_sal)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_sal')>0 DELETE FROM {0}..InvoiceItem_sal;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_sal'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_sal ON ;
+      INSERT INTO {0}..InvoiceItem_sal (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_sal;
+      SET IDENTITY_INSERT {0}..InvoiceItem_sal off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_sal (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItem_sal;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItema">
+    <Name>DeleteInsertInvoiceItema</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItema)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItema')>0 DELETE FROM {0}..InvoiceItema;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItema'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItema ON ;
+      INSERT INTO {0}..InvoiceItema (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItema;
+      SET IDENTITY_INSERT {0}..InvoiceItema off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItema (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..InvoiceItema;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertKCHSItem">
+    <Name>DeleteInsertKCHSItem</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..KCHSItem)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='KCHSItem')>0 DELETE FROM {0}..KCHSItem;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'KCHSItem'))=1
+      begin
+      SET IDENTITY_INSERT {0}..KCHSItem ON ;
+      INSERT INTO {0}..KCHSItem (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..KCHSItem;
+      SET IDENTITY_INSERT {0}..KCHSItem off;
+      end
+      else
+      begin
+      INSERT INTO {0}..KCHSItem (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..KCHSItem;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertpo">
+    <Name>DeleteInsertpo</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..po)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='po')>0 DELETE FROM {0}..po;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'po'))=1
+      begin
+      SET IDENTITY_INSERT {0}..po ON ;
+      INSERT INTO {0}..po (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..po;
+      SET IDENTITY_INSERT {0}..po off;
+      end
+      else
+      begin
+      INSERT INTO {0}..po (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..po;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertPS">
+    <Name>DeleteInsertPS</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..PS)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='PS')>0 DELETE FROM {0}..PS;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'PS'))=1
+      begin
+      SET IDENTITY_INSERT {0}..PS ON ;
+      INSERT INTO {0}..PS (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..PS;
+      SET IDENTITY_INSERT {0}..PS off;
+      end
+      else
+      begin
+      INSERT INTO {0}..PS (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx,MstInPutSign from {1}..PS;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_PRN">
+    <Name>DeleteInsertInvoiceItem_PRN</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_PRN)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_PRN')>0 DELETE FROM {0}..InvoiceItem_PRN;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_PRN'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_PRN ON ;
+      INSERT INTO {0}..InvoiceItem_PRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem_PRN;
+      SET IDENTITY_INSERT {0}..InvoiceItem_PRN off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_PRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem_PRN;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItem_salPRN">
+    <Name>DeleteInsertInvoiceItem_salPRN</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItem_salPRN)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItem_salPRN')>0 DELETE FROM {0}..InvoiceItem_salPRN;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItem_salPRN'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItem_salPRN ON ;
+      INSERT INTO {0}..InvoiceItem_salPRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem_salPRN;
+      SET IDENTITY_INSERT {0}..InvoiceItem_salPRN off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItem_salPRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItem_salPRN;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertInvoiceItemaPRN">
+    <Name>DeleteInsertInvoiceItemaPRN</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..InvoiceItemaPRN)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='InvoiceItemaPRN')>0 DELETE FROM {0}..InvoiceItemaPRN;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'InvoiceItemaPRN'))=1
+      begin
+      SET IDENTITY_INSERT {0}..InvoiceItemaPRN ON ;
+      INSERT INTO {0}..InvoiceItemaPRN (FieldName,CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select FieldName,CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItemaPRN;
+      SET IDENTITY_INSERT {0}..InvoiceItemaPRN off;
+      end
+      else
+      begin
+      INSERT INTO {0}..InvoiceItemaPRN (FieldName,CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select FieldName,CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..InvoiceItemaPRN;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertKCHSItemPRN">
+    <Name>DeleteInsertKCHSItemPRN</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..KCHSItemPRN)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='KCHSItemPRN')>0 DELETE FROM {0}..KCHSItemPRN;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'KCHSItemPRN'))=1
+      begin
+      SET IDENTITY_INSERT {0}..KCHSItemPRN ON ;
+      INSERT INTO {0}..KCHSItemPRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..KCHSItemPRN;
+      SET IDENTITY_INSERT {0}..KCHSItemPRN off;
+      end
+      else
+      begin
+      INSERT INTO {0}..KCHSItemPRN (CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx)
+      select CardNum,CardItemNum,CardItemName,CanNotSelect,ShowIt,LinkIt,LinkTbl,TableName,FieldName,FieldType,ReferType,ReferTable,CardSection,CardFormula1,CardFormula2,CanModify,MaxLength,MaxShowLen,NumPoint,IsNull,CanDelete,UserCheck,UserPrompt,FormatChar,IsMain,NeedSum,CalcField,LinkField,AliasNum,isSelfDef,COX,COY,tabidx from {1}..KCHSItemPRN;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVoucherNumber">
+    <Name>DeleteInsertVoucherNumber</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VoucherNumber)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VoucherNumber')>0 DELETE FROM {0}..VoucherNumber;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VoucherNumber'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VoucherNumber ON ;
+      INSERT INTO {0}..VoucherNumber (AppName,CardNumber,CardName,iSize,dStartDate,bAllowHandWork,bRepeatReDo,bRdFlag,iStartNumber,iIsRdVoucher,Prefix1,Prefix1Len,Prefix1Rule,Prefix2,Prefix2Len,Prefix2Rule,Prefix3,Prefix3Len,Prefix3Rule,Glide,GlideLen,GlideRule)
+      select AppName,CardNumber,CardName,iSize,dStartDate,bAllowHandWork,bRepeatReDo,bRdFlag,iStartNumber,iIsRdVoucher,Prefix1,Prefix1Len,Prefix1Rule,Prefix2,Prefix2Len,Prefix2Rule,Prefix3,Prefix3Len,Prefix3Rule,Glide,GlideLen,GlideRule from {1}..VoucherNumber;
+      SET IDENTITY_INSERT {0}..VoucherNumber off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VoucherNumber (AppName,CardNumber,CardName,iSize,dStartDate,bAllowHandWork,bRepeatReDo,bRdFlag,iStartNumber,iIsRdVoucher,Prefix1,Prefix1Len,Prefix1Rule,Prefix2,Prefix2Len,Prefix2Rule,Prefix3,Prefix3Len,Prefix3Rule,Glide,GlideLen,GlideRule)
+      select AppName,CardNumber,CardName,iSize,dStartDate,bAllowHandWork,bRepeatReDo,bRdFlag,iStartNumber,iIsRdVoucher,Prefix1,Prefix1Len,Prefix1Rule,Prefix2,Prefix2Len,Prefix2Rule,Prefix3,Prefix3Len,Prefix3Rule,Glide,GlideLen,GlideRule from {1}..VoucherNumber;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVoucherPrefabricate">
+    <Name>DeleteInsertVoucherPrefabricate</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VoucherPrefabricate)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VoucherPrefabricate')>0 DELETE FROM {0}..VoucherPrefabricate;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VoucherPrefabricate'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VoucherPrefabricate ON ;
+      INSERT INTO {0}..VoucherPrefabricate (CardNumber,cContent,iContentType,iPurpose,cSourceTableName,cFieldName,cArchName,cArchFieldName,cArchclsFieldName,cKeyWord,cKeyWordNameField)
+      select CardNumber,cContent,iContentType,iPurpose,cSourceTableName,cFieldName,cArchName,cArchFieldName,cArchclsFieldName,cKeyWord,cKeyWordNameField from {1}..VoucherPrefabricate;
+      SET IDENTITY_INSERT {0}..VoucherPrefabricate off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VoucherPrefabricate (CardNumber,cContent,iContentType,iPurpose,cSourceTableName,cFieldName,cArchName,cArchFieldName,cArchclsFieldName,cKeyWord,cKeyWordNameField)
+      select CardNumber,cContent,iContentType,iPurpose,cSourceTableName,cFieldName,cArchName,cArchFieldName,cArchclsFieldName,cKeyWord,cKeyWordNameField from {1}..VoucherPrefabricate;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVoucherContrapose">
+    <Name>DeleteInsertVoucherContrapose</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VoucherContrapose)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VoucherContrapose')>0 DELETE FROM {0}..VoucherContrapose;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VoucherContrapose'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VoucherContrapose ON ;
+      INSERT INTO {0}..VoucherContrapose (cContent,iContentType,cSeedName,cSeed,iSize,cCode)
+      select cContent,iContentType,cSeedName,cSeed,iSize,cCode from {1}..VoucherContrapose;
+      SET IDENTITY_INSERT {0}..VoucherContrapose off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VoucherContrapose (cContent,iContentType,cSeedName,cSeed,iSize,cCode)
+      select cContent,iContentType,cSeedName,cSeed,iSize,cCode from {1}..VoucherContrapose;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="DeleteInsertVoucherHistory">
+    <Name>DeleteInsertVoucherHistory</Name>
+    <Introduction>
+      {0}..: new database name
+      {1}..: old database name
+    </Introduction>
+    <DrySQL>
+      if (select count(*) from {1}..VoucherHistory)>0
+      begin
+      if(select count(*) from {0}..sysobjects where xtype='U' and name='VoucherHistory')>0 DELETE FROM {0}..VoucherHistory;
+      if(SELECT COUNT(*) FROM {0}.sys.identity_columns AS cols INNER JOIN {0}.sys.sysobjects AS objects ON cols.object_id = objects.id WHERE (objects.name = 'VoucherHistory'))=1
+      begin
+      SET IDENTITY_INSERT {0}..VoucherHistory ON ;
+      INSERT INTO {0}..VoucherHistory (AutoId,CardNumber,iRdFlagSeed,cContent,cContentRule,cSeed,cNumber,bEmpty)
+      select AutoId,CardNumber,iRdFlagSeed,cContent,cContentRule,cSeed,cNumber,bEmpty from {1}..VoucherHistory;
+      SET IDENTITY_INSERT {0}..VoucherHistory off;
+      end
+      else
+      begin
+      INSERT INTO {0}..VoucherHistory (AutoId,CardNumber,iRdFlagSeed,cContent,cContentRule,cSeed,cNumber,bEmpty)
+      select AutoId,CardNumber,iRdFlagSeed,cContent,cContentRule,cSeed,cNumber,bEmpty from {1}..VoucherHistory;
+      end
+      end
+    </DrySQL>
+  </SQLStatement>
+  <SQLStatement id="UpdateUA_Period">
+<Name>UpdateUA_Period</Name>
+<Introduction>
+  {0}..: acc no
+  {1}..: new year
+</Introduction>
+<DrySQL>
+  delete from UFSystem..UA_period WHERE cacc_id='{0}' and iyear={1};
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},1, '{1}-01-01','{1}-01-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},2, '{1}-02-01','{1}-02-28',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},3, '{1}-03-01','{1}-03-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},4, '{1}-04-01','{1}-04-30',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},5, '{1}-05-01','{1}-05-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},6, '{1}-06-01','{1}-06-30',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},7, '{1}-07-01','{1}-07-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},8, '{1}-08-01','{1}-08-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},9, '{1}-09-01','{1}-09-30',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},10,'{1}-10-01','{1}-10-31',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},11,'{1}-11-01','{1}-11-30',0);
+  INSERT INTO UFSystem..UA_Period VALUES('{0}',{1},12,'{1}-12-01','{1}-12-31',0)
+</DrySQL>
+ </SQLStatement>
+  <SQLStatement id="DeleteInsertUA_HoldAuth">
+ <Name>DeleteInsertUA_HoldAuth</Name>
+ <Introduction>
+   {0}..: acc Nu
+   {1}..: new year
+   {2}..: old year
+ </Introduction>
+ <DrySQL>
+   DELETE FROM ufsystem..UA_HoldAuth WHERE cAcc_Id='{0}' AND iYear={1};
+   insert into ufsystem..UA_HoldAuth (cAcc_Id,iYear,cUser_Id,cAuth_Id) select cAcc_Id,{1},cUser_Id,cAuth_Id from ufsystem..UA_HoldAuth
+   WHERE cAcc_Id='{0}' AND iYear={2};
+ </DrySQL>
+</SQLStatement>
+  <SQLStatement id="UpdataUA_Account_Sub">
+<Name>UpdataUA_Account_Sub</Name>
+<Introduction>
+  {0}..: accNo
+  {1}..: old year
+</Introduction>
+<DrySQL>
+  UPDATE ufsystem..UA_Account_Sub SET bClosing=0 WHERE cAcc_Id='{0}' AND iYear={1} AND (bIsDelete=0 OR bIsDelete IS NULL) AND cSub_Id not like 'WA'
+
+</DrySQL>
+</SQLStatement>
+  <SQLStatement id="Updatagl_mend">
+    <Name>Updatagl_mend</Name>
+    <Introduction>
+      {0}..: old year
+    </Introduction>
+    <DrySQL>
+      UPDATE {0}..gl_mend SET bflag=1 WHERE iperiod=12 AND bflag=0
+    </DrySQL>
+  </SQLStatement>
+
+
+</SQLTemplate>

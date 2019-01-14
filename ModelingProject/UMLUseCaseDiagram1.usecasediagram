@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="00dca6af-905d-41f8-a929-f7c300f628fd" name="UMLUseCaseDiagram1" linkedPackageId="2e2e972c-8387-4f6d-b2a2-59448b1dd28b" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="4f09dfe6-67c4-45ed-a501-29e901070989">
+      <profileInstance Id="700628d9-9525-47cb-b73e-993bed978224" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="f48f7712-1243-46a8-94e4-0c38b6739169">
+      <profileInstance Id="5b3386f0-ff03-4948-a453-fe03d63efb01" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="d8c17840-239c-45f3-9aab-b3794487b262" name="Actor1" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="e4c6b213-dc5f-4fed-a18b-1de66f8db4a8" />
+        <targetEnds>
+          <association Id="8c47f311-b64c-4837-8e48-a7e0eca682bc" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="新建下一年" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="dede0e33-3bed-449f-9938-05abdf23360c" LastKnownName="新建下一年" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3f1ccc78-8879-45f8-8482-6c1dc91c51ca" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="4380323d-447c-4353-8d1a-969b327b8532" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7ebc8749-9b7e-4719-9af6-b77b9f3b9cbf" name="新建下一年" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="5b572d8f-a0de-4e52-abaf-f65da59c9596" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="42ebadc4-ace0-4ea8-a92d-cd019788ded4" />
+          </association>
+          <association Id="7ca7aaa4-3ac2-4380-9fad-9602872ce634" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="操作所有账套" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="cafdce27-5480-447d-a8ed-6dc8f8d9fbb8" LastKnownName="操作所有账套" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a495587c-0dcc-4e07-a514-beebb18ab77d" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="bcdb40ed-92e1-4407-a01b-a735d0689310" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2f91502d-17f4-460d-b026-dc98ca84483e" name="操作所有账套" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="5772711d-28e2-4a0c-88eb-8dc01096352a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4f12e565-b8ad-46f0-8397-11a95f38acad" />
+          </association>
+          <association Id="d3474d07-1a67-4ac9-a513-1c5ba68e84bd" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="结转总账" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="288f6cfc-266b-4f85-9bb2-743560a8d125" LastKnownName="结转总账" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2d0b6ffe-e9c4-4de5-9140-c6958b62daff" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1bc5f0db-a628-4983-8bee-3669b81930f1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="97977481-a186-436a-bbb7-b41a81fffff1" name="结转总账" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7a50d059-5767-4148-942c-f0d76de407c5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="7a46f8e3-20c7-4d27-96a0-604befd36b29" />
+          </association>
+          <association Id="01270dac-85ac-4d50-a9e9-7a7d9537ea96" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="结转固定资产" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="204326c5-c4fe-42e0-a8dd-a7687817feb2" LastKnownName="结转固定资产" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="607568f2-2f34-456b-926f-3ff0afb4c98d" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b70a8117-4ded-4fbd-87df-846236aac102" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="be025024-eb5b-4fc5-be4e-9c396b37cab2" name="结转固定资产" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="dc424eaf-298d-44fe-b7c5-c699df9615a6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="fb8c5e14-2282-4eca-85c8-49b8c9b56d8d" />
+          </association>
+          <association Id="85f98c7a-104f-44c0-bb09-734d37e7bffd" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="结转工资" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="38b2d298-ef2a-41a4-8d0e-fad5f608d258" LastKnownName="结转工资" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4a4c713c-9d6b-4b00-8384-e60dccb0bfa5" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="41d3871a-e627-435d-a370-27f36993711d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="de1dce72-3ee1-4ddf-8225-4ce26190c2cc" name="结转工资" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1271deda-47d2-4766-a072-b2e7af13f531" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="649aab34-b422-4edf-9c02-8f292a3f3202" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="cafdce27-5480-447d-a8ed-6dc8f8d9fbb8" name="操作所有账套" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8bcfc780-767d-4fea-81d0-0c2d3a7ffd5f" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="dede0e33-3bed-449f-9938-05abdf23360c" name="新建下一年" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="22fa0e6b-3d65-41e5-a7cb-9c6ce05ee330" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="288f6cfc-266b-4f85-9bb2-743560a8d125" name="结转总账" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8d8606cf-bcf4-4b87-aa8c-2425d98b88ea" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="38b2d298-ef2a-41a4-8d0e-fad5f608d258" name="结转工资" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="abc4aa85-f05a-4506-a664-fb143a928876" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="204326c5-c4fe-42e0-a8dd-a7687817feb2" name="结转固定资产" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="83e4c63e-3799-42f8-b28b-fdca780a083b" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="2e2e972c-8387-4f6d-b2a2-59448b1dd28b" name="ModelingProject">
+    <elementDefinition Id="b3636072-b4dd-437f-a24e-973dbe1019be" />
+  </package>
+</useCaseModelRoot>

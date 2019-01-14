@@ -1,0 +1,7 @@
+﻿年结检查
+总账：如果没有工资，12月为正常，如果有工资，11月为正常,
+检查凭证是不是全部都记账了
+select count(*) from gl_accvouch where ibook=1 and iflag<>1 and iperiod<13
+新建年度时 项目 没有导入
+
+

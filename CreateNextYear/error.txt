@@ -1,0 +1,7 @@
+﻿项目明细没有导入
+
+alter table ufdata_235_2016..WA_GZData drop column F_8
+GO
+insert into ufdata_235_2016..WA_GZData  SELECT [cGZGradeNum], [cPsn_Num], [cPsn_Name], [cDept_Num], [iPsnGrd_id], [iYear], [iMonth], [iAccMonth], [bDCBZ], [bTFBZ], [cPreDeptNum], [F_1], [F_2], [F_3], [F_4], [F_5], [F_6], [F_7]
+ FROM ufdata_235_2015..WA_GZData where imonth =12
+update ufdata_235_2016..WA_GZData set imonth=1
