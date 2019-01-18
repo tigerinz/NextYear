@@ -73,6 +73,9 @@ namespace CreateNextYear_Core_Console
             Console.WriteLine("checkAll");
             Console.WriteLine("createNewYear"); 
             Console.WriteLine("carryYear"); 
+            string text ="{newYear}=2019";
+            string aa=text.Replace("{newYear}","new year");
+            Console.WriteLine(aa);
         }
 
         private static  void ConsoleOut(string message)
