@@ -74,9 +74,8 @@ namespace CreateNextYear_Core_Console
         private static void PrintHelp()
         {
             Console.WriteLine("Help:");
-            Console.WriteLine("checkAll");
-            Console.WriteLine("createNewYear"); 
-            Console.WriteLine("carryYear"); 
+            Console.WriteLine("...");
+            Console.WriteLine("a\tb\tc");
         }
 
         private static  void ConsoleOut(string message)
