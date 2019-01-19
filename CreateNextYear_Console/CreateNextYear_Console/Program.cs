@@ -14,8 +14,9 @@ namespace CreateNextYear_Core_Console
         static void Main(string[] args)
         {
           Setting setting=  GetSetting();
-            T31082 createNextYear = new T31082(setting.connectionString,setting.oldYear,setting.newYear);
-            createNextYear.logDelegate = ConsoleOut;
+            T31082 t31082 = new T31082(setting);
+            t31082.logDelegate = ConsoleOut;
+            
             do
             {
                 string cmd = Console.ReadLine();
@@ -27,19 +28,20 @@ namespace CreateNextYear_Core_Console
                             Console.WriteLine(string.Format("--CheckAll {0} is begin", setting.oldYear));
                             Console.WriteLine("账套号 总账 固定资产 工资");
                             // List<string> result= 
-                            createNextYear.GetLastFlagAll(setting.account, setting.oldYear);
+                            t31082.CheckLastFlagManyAccountsManyModules(setting.account, setting.oldYear,new string[]{"GL","FA","WA" });
                             Console.WriteLine("checkAll over");
 
                             break;
                         case "createNewYear":
                             Console.WriteLine("--CreateNewYear is begin");
-                            List<UA_Account> accounts = createNextYear.getAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
-                            createNextYear.CreateNewYear(accounts);
+                            List<UA_Account> accounts = t31082.GetAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
+                            t31082.CreateManyAccountsNewYear(accounts);
                             Console.WriteLine("createNewYear over");
                             break;
-                        case "carryYear":
+                        case "carryForwardAll":
                             Console.WriteLine("this is carryYear");
-                            createNextYear.CarryForwardAll(setting.account);
+                            accounts = t31082.GetAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
+                            t31082.CarryForwardManyAccountsManyModules(accounts,new string[] { "GL", "FA", "WA" });
                             Console.WriteLine("carryYear over");
                             break;
                         case "help":
@@ -62,20 +64,14 @@ namespace CreateNextYear_Core_Console
         private static Setting GetSetting()
         {
             string file = File.ReadAllText("setting.js");
-            //Console.WriteLine(file.connectionString);
-            //Console.WriteLine(file.version);
-            //Console.WriteLine(file.oldYear);
-            //Console.WriteLine(file.newYear);
-            //Console.WriteLine(file.account);
             return JsonConvert.DeserializeObject<Setting>(file);
-          //  return JavaScriptConvert.DeserializeObject<Setting>(file);
         }
 
         private static void PrintHelp()
         {
-            Console.WriteLine("Help:");
-            Console.WriteLine("...");
-            Console.WriteLine("a\tb\tc");
+            Console.WriteLine("checkAll");
+            Console.WriteLine("createNewYear");
+            Console.WriteLine("carryForwardAll");
         }
 
         private static  void ConsoleOut(string message)

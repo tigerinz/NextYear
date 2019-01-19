@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ADONNETHelper">
+      <HintPath>..\..\..\useful\MyHelper\MyHelper\ADONNETHelper\bin\Debug\ADONNETHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -38,6 +41,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="IOHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\useful\MyHelper\MyHelper\IOHelper\bin\Debug\IOHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLDryAlive">
+      <HintPath>..\..\..\useful\MyHelper\MyHelper\SQLDryAlive\bin\Debug\SQLDryAlive.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -55,18 +65,9 @@
     <Compile Include="Enities\UA_Account_sub.cs" />
     <Compile Include="Infrastructure\CreateNextYearDBContext.cs" />
     <Compile Include="Infrastructure\ICreateNextYear.cs" />
+    <None Include="Manager\T31082 - 复制" />
     <Compile Include="Manager\T31082.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\useful\MyHelper\IOHelper\IOHelper.csproj">
-      <Project>{4ea02263-2c7a-4cc7-b965-da3298812491}</Project>
-      <Name>IOHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\useful\MyHelper\MSSQLHelper\MSSQLHelper.csproj">
-      <Project>{77ab2d42-6206-4ee3-9662-0aaf78a61ca9}</Project>
-      <Name>MSSQLHelper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

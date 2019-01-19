@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextYear", "NextYear\NextYear.csproj", "{C340B199-B2BC-49E2-8570-B1B6FAA358E2}"
 EndProject
@@ -31,13 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchDBExecSql", "DXApplica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateNextYear_Core", "CreateNextYear_Core\CreateNextYear_Core.csproj", "{6E2BB2F2-A602-4718-B35A-600FA8E85DFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSSQLHelper", "..\..\useful\MyHelper\MSSQLHelper\MSSQLHelper.csproj", "{77AB2D42-6206-4EE3-9662-0AAF78A61CA9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOHelper", "..\..\useful\MyHelper\IOHelper\IOHelper.csproj", "{4EA02263-2C7A-4CC7-B965-DA3298812491}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateNextYear_Console", "CreateNextYear_Console\CreateNextYear_Console\CreateNextYear_Console.csproj", "{E97A8B25-B591-4ED1-A868-33DFF7C86893}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlStatementTemplate", "SqlStatementTemplate\SqlStatementTemplate.csproj", "{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,24 +95,15 @@ Global
 		{6E2BB2F2-A602-4718-B35A-600FA8E85DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E2BB2F2-A602-4718-B35A-600FA8E85DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E2BB2F2-A602-4718-B35A-600FA8E85DFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77AB2D42-6206-4EE3-9662-0AAF78A61CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77AB2D42-6206-4EE3-9662-0AAF78A61CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77AB2D42-6206-4EE3-9662-0AAF78A61CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77AB2D42-6206-4EE3-9662-0AAF78A61CA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EA02263-2C7A-4CC7-B965-DA3298812491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EA02263-2C7A-4CC7-B965-DA3298812491}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EA02263-2C7A-4CC7-B965-DA3298812491}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EA02263-2C7A-4CC7-B965-DA3298812491}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97A8B25-B591-4ED1-A868-33DFF7C86893}.Release|Any CPU.Build.0 = Release|Any CPU
-		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{491C197C-6E63-4DB2-8FC1-2C67F0E5B79A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F742CDC-8DD4-4A7F-B8C8-BD64E836E3DF}
 	EndGlobalSection
 EndGlobal
