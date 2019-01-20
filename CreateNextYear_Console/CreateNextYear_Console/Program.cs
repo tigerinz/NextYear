@@ -6,16 +6,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace CreateNextYear_Core_Console
 {
     class Program
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         static void Main(string[] args)
         {
           Setting setting=  GetSetting();
             T31082 t31082 = new T31082(setting);
-            t31082.logDelegate = ConsoleOut;
             
             do
             {
@@ -74,10 +74,6 @@ namespace CreateNextYear_Core_Console
             Console.WriteLine("carryForwardAll");
         }
 
-        private static  void ConsoleOut(string message)
-        {
-            Console.WriteLine(message);
-        }
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CreateNextYear_Core.Enities;
@@ -8,15 +7,14 @@ using SQLDryAlive.Core;
 
 
 
-
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace CreateNextYear_Core.Manager
 {
-    public delegate void LogDelegate(string message);
+
     public class T31082 : ICreateNextYear
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        
-        public LogDelegate logDelegate;
         //private string oldYear {get;set;}
 
         //private string newYear { get; set; }
@@ -31,6 +29,7 @@ namespace CreateNextYear_Core.Manager
             //this.oldYear = oldyear;
             //this.newYear = newyear;
             ADONetHelper.connectionString = setting.connectionString;
+
             //ADONetHelper.connectionStringName = "CreateNextYear.Properties.Settings.UFSystemConnectionString";
             // ADONetHelper.connectionString = "Data Source=192.168.0.100;Initial Catalog=UFSystem;User ID=sa;Password=sa;Encrypt=False;TrustServerCertificate=True";
         }
@@ -66,7 +65,7 @@ namespace CreateNextYear_Core.Manager
                     break;
 
                 default:
-                    logOut(" error carry forward module is not define");
+                    log.Info(" error carry forward module is not define");
                     break;
             }
 
@@ -74,34 +73,34 @@ namespace CreateNextYear_Core.Manager
             List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"temlpate\CarryOver"+module, param);
             foreach (var sentence in sqlSentences)
             {
-                logOut("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
+                log.Info("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
-                logOut("AdoNetHelper executeCommand:" + sentence.Name + "  over");
+                log.Info("AdoNetHelper executeCommand:" + sentence.Name + "  over");
             }
 
-            logOut(string.Format("carry {0}.{1} is over", acc.cAcc_Id, module));
+            log.Info(string.Format("carry {0}.{1} is over", acc.cAcc_Id, module));
 
         }
 
         public void CarryForwardSingleAccountManyModules(UA_Account acc, string[] modules)
         {
-            logOut("Carry Forward Single Account Many Module begin");
+            log.Info("Carry Forward Single Account Many Module begin");
             foreach (string module in modules)
             {
                 CarryForwardSingleAccountSingleModule(acc, module);
             }
-            logOut("Carry Forward Single Account Many Module over");
+            log.Info("Carry Forward Single Account Many Module over");
 
         }
 
         public void CarryForwardManyAccountsManyModules(List<UA_Account>list, string[] modules)
         {
-            logOut("Carry Forward Many Account Many Module begin");
+            log.Info("Carry Forward Many Account Many Module begin");
             foreach (UA_Account acc in list)
             {
                 CarryForwardSingleAccountManyModules(acc, modules);
             }
-            logOut("Carry Forward Many Account Many Module over");
+            log.Info("Carry Forward Many Account Many Module over");
 
         }
         // public bool CarryForwardFA(Account acc, string oldYear, string newYear)
@@ -378,9 +377,9 @@ namespace CreateNextYear_Core.Manager
             }
             int lastFlag = 0;
             string sql = string.Format(@"select isnull(max(iperiod),0) from {0}..gl_mend where bflag{1}=1", this.UFDBName(accountCode, checkYear), moduleFlag);
-            logOut(string.Format("GetSingleModuleLastFlag {0} {1}", Module,sql));
+           // logOut(string.Format("GetSingleModuleLastFlag {0} {1}", Module,sql));
             lastFlag = Convert.ToInt32(ADONetHelper.GetScalar(sql));
-            logOut(string.Format("GetSingleModuleLastFlag:{0} getScalar is over", Module));
+            //logOut(string.Format("GetSingleModuleLastFlag:{0} getScalar is over", Module));
 
             //using (DataClassesDataContext dc = new DataClassesDataContext())
             //{
@@ -412,7 +411,7 @@ namespace CreateNextYear_Core.Manager
                 string flagText = string.Join("  ", flag.Select(kvp => string.Join(":", kvp.Key, kvp.Value)));
                 string message = string.Format("{0}    {1}", accountCode, flagText);
                 list.Add(message);
-                logOut(message);
+                log.Info(message);
             }
             return list;
         }
@@ -462,7 +461,7 @@ namespace CreateNextYear_Core.Manager
                // string flagText = string.Join("  ", flag.Select(kvp => string.Join(":", kvp.Key, kvp.Value)));
                 //string message = string.Format("{0}    {1}", accountCode, flagText);
                 list.Add(message);
-                logOut(message);
+                log.Info(message);
             }
             return list;
         }
@@ -515,14 +514,14 @@ namespace CreateNextYear_Core.Manager
             bool isFlodExist = ioTools.CreateFold(floderPath);
             if (!isFlodExist)
             {
-                logOut("create floder failed:" + floderPath);
+                log.Info("create floder failed:" + floderPath);
                 return false;
             }
 
             param.ParamNameValues= GetSqlSentenceParamNameValues(acc);
-            param.ParamNameValues.Add("ufmodelPath", string.Format("{0}ufmodel.bak", accPath));
-            param.ParamNameValues.Add("mdfPath", string.Format("{0}ZT{1}\\{2}\\UFDATA.MDF", accPath, acc.cAcc_Id, setting.newYear));
-            param.ParamNameValues.Add("ldfPath", string.Format("{0}ZT{1}\\{2}\\UFDATA.LDF", accPath, acc.cAcc_Id, setting.newYear));
+            param.ParamNameValues.Add("{ufmodelPath}", string.Format("{0}ufmodel.bak", accPath));
+            param.ParamNameValues.Add("{mdfPath}", string.Format("{0}ZT{1}\\{2}\\UFDATA.MDF", accPath, acc.cAcc_Id, setting.newYear));
+            param.ParamNameValues.Add("{ldfPath}", string.Format("{0}ZT{1}\\{2}\\UFDATA.LDF", accPath, acc.cAcc_Id, setting.newYear));
 
             param.SqlSentenceQueue =setting.createNewYearDbSentencesQueue;
             
@@ -530,12 +529,12 @@ namespace CreateNextYear_Core.Manager
             List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"temlpate\RDB", param);
             foreach (var sentence in sqlSentences)
             {
-                logOut("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
+                log.Info("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
-                logOut("AdoNetHelper executeCommand:" + sentence.Name + "  over");
+                log.Info("AdoNetHelper executeCommand:" + sentence.Name + "  over");
             }
             bool isDBExist = ADONetHelper.isDBisExist(param.ParamNameValues["newYearDB"]) == 1;
-            logOut(string.Format("create {0} database {1}", acc.cAcc_Id, isDBExist));
+            log.Info(string.Format("create {0} database {1}", acc.cAcc_Id, isDBExist));
             return isDBExist;
         }
         /// <summary>
@@ -546,11 +545,11 @@ namespace CreateNextYear_Core.Manager
         private Dictionary<string,string> GetSqlSentenceParamNameValues(UA_Account acc)
         {
             Dictionary<string, string> ParamNameValues = new Dictionary<string, string>();
-            ParamNameValues.Add("cAcc_Id", acc.cAcc_Id);
-            ParamNameValues.Add("newYear", setting.newYear);
-            ParamNameValues.Add("oldYear", setting.oldYear);
-            ParamNameValues.Add("newYearDB", UFDBName(acc.cAcc_Id, setting.newYear));
-            ParamNameValues.Add("oldYearDB", UFDBName(acc.cAcc_Id, setting.oldYear));
+            ParamNameValues.Add("{cAcc_Id}", acc.cAcc_Id);
+            ParamNameValues.Add("{newYear}", setting.newYear);
+            ParamNameValues.Add("{oldYear}", setting.oldYear);
+            ParamNameValues.Add("{newYearDB}", UFDBName(acc.cAcc_Id, setting.newYear));
+            ParamNameValues.Add("{oldYearDB}", UFDBName(acc.cAcc_Id, setting.oldYear));
             return ParamNameValues;
         }
 
@@ -633,9 +632,6 @@ namespace CreateNextYear_Core.Manager
             //return acc_subs;
         }
 
-        private void logOut(string message)
-        {
-            logDelegate(message);
-        }
+
     }
 }

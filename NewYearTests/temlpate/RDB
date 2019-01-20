@@ -23,7 +23,7 @@
     <ParamNames>{newYearDB}</ParamNames>
     <Introduction>AddMemo</Introduction>
     <DrySQL>
-      if not exists (select count(*) from {newYearDB}..syscolumns where id = object_id(N'{newYearDB}..ProductStructures') and name = 'cMemo')
+      if not exists (select count(*) from {newYearDB}..syscolumns where id = object_id(N'{0}..ProductStructures') and name = 'cMemo')
       alter table {newYearDB}..ProductStructures add cMemo varchar(200) null
     </DrySQL>
   </SQLSentence>
