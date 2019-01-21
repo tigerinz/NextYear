@@ -7,7 +7,7 @@ using SQLDryAlive.Core;
 
 
 
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 namespace CreateNextYear_Core.Manager
 {
 
@@ -461,7 +461,7 @@ namespace CreateNextYear_Core.Manager
                // string flagText = string.Join("  ", flag.Select(kvp => string.Join(":", kvp.Key, kvp.Value)));
                 //string message = string.Format("{0}    {1}", accountCode, flagText);
                 list.Add(message);
-                log.Info(message);
+                log.Debug(message);
             }
             return list;
         }
