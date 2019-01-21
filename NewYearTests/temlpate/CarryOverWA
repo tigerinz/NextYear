@@ -1,432 +1,477 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-<SQLTemplate>
-  <SQLStatement name="Insert WA_account">
+<SQLRepository>
+  <SQLSentence name="Insert WA_account">
     <Name>Insert WA_account</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}: new database name
-      {1}: old database name
+      {newYearDB}: new database name
+      {oldYearDB}: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_account SELECT * FROM {1}..WA_account</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_Authority">
+    <DrySQL>INSERT INTO {newYearDB}..WA_account SELECT * FROM {oldYearDB}..WA_account</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Insert WA_Authority">
     <Name>Insert WA_Authority</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}: new database name
-      {1}: old database name
+      {newYearDB}: new database name
+      {oldYearDB}: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_Authority SELECT * FROM {1}..WA_Authority</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Alter WA_BankName">
+    <DrySQL>
+      INSERT INTO {newYearDB}..WA_Authority SELECT * FROM {oldYearDB}..WA_Authority;
+      update {newYearDB}..WA_account set iLastMonth=1 where cGZGradeNum='001';
+    </DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Alter WA_BankName">
     <Name>Alter WA_BankName</Name>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {0}: new database name
+      {newYearDB}: new database name
     </Introduction>
-    <DrySQL>ALTER TABLE {0}..WA_BankName ADD cCompanyCode VARCHAR(50),cSavingName VARCHAR(50)</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName">
+    <DrySQL>ALTER TABLE {newYearDB}..WA_BankName ADD cCompanyCode VARCHAR(50),cSavingName VARCHAR(50)</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName">
     <Name>Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName</Name>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {0}: new database name
+      {newYearDB}: new database name
     </Introduction>
     <DrySQL>
-      DELETE  FROM {0}..WA_Bank;
-      DELETE  FROM {0}..WA_Bank_set;
-      DELETE  FROM {0}..WA_BankPar;
-      DELETE  FROM {0}..WA_BankTop;
-      DELETE  FROM {0}..WA_BankName
+      DELETE  FROM {newYearDB}..WA_Bank;
+      DELETE  FROM {newYearDB}..WA_Bank_set;
+      DELETE  FROM {newYearDB}..WA_BankPar;
+      DELETE  FROM {newYearDB}..WA_BankTop;
+      DELETE  FROM {newYearDB}..WA_BankName
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_BankName">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_BankName">
     <Name>Insert WA_BankName</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}: new database name
-      {1}: old database name
+      {newYearDB}: new database name
+      {oldYearDB}: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_BankName SELECT * FROM {1}..WA_BankName</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Delete wa_psn,WA_Grade">
+    <DrySQL>INSERT INTO {newYearDB}..WA_BankName SELECT * FROM {oldYearDB}..WA_BankName</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Delete wa_psn,WA_Grade">
     <Name>Delete wa_psn,WA_Grade</Name>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
+      {newYearDB}..: new database name
     </Introduction>
     <DrySQL>
-      DELETE  FROM {0}..wa_psn;
-      DELETE  FROM {0}..WA_Grade;
+      DELETE  FROM {newYearDB}..wa_psn;
+      DELETE  FROM {newYearDB}..WA_Grade;
   </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_Grade">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_Grade">
     <Name>INSERT WA_Grade</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_Grade SELECT * FROM {1}..WA_Grade</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Delete WA_GZItem,WA_GZtblSet">
+    <DrySQL>INSERT INTO {newYearDB}..WA_Grade SELECT * FROM {oldYearDB}..WA_Grade</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Delete WA_GZItem,WA_GZtblSet">
     <Name>Delete WA_GZItem,WA_GZtblSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      DELETE  FROM {0}..WA_GZItem;
-      DELETE  FROM {0}..WA_GZtblSet;
+      DELETE  FROM {newYearDB}..WA_GZItem;
+      DELETE  FROM {newYearDB}..WA_GZtblSet;
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_GZtblSet">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_GZtblSet">
     <Name>INSERT WA_GZtblSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    SET IDENTITY_INSERT {0}..WA_GZtblSet ON;
-      INSERT INTO {0}..WA_GZtblSet (iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum) 
-      select iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum from {1}..WA_GZtblSet;
-    SET IDENTITY_INSERT {0}..WA_GZtblSet OFF;    
+    SET IDENTITY_INSERT {newYearDB}..WA_GZtblSet ON;
+      INSERT INTO {newYearDB}..WA_GZtblSet (iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum) 
+      select iGZItem_id,cSetGZItemName,iSetGZItemStyle,iSetGZItemLenth,iDecimal,iSetGZItemProp,iGZNum from {oldYearDB}..WA_GZtblSet;
+    SET IDENTITY_INSERT {newYearDB}..WA_GZtblSet OFF;    
   </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_GZItem">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_GZItem">
     <Name>INSERT WA_GZItem</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_GZItem SELECT * FROM {1}..WA_GZItem</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_Dept">
+    <DrySQL>INSERT INTO {newYearDB}..WA_GZItem SELECT * FROM {oldYearDB}..WA_GZItem</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_Dept">
     <Name>INSERT WA_Dept</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_Dept SELECT * FROM {1}..WA_Dept</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Delete,Insert WA_PsnMsg">
+    <DrySQL>INSERT INTO {newYearDB}..WA_Dept SELECT * FROM {oldYearDB}..WA_Dept</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Delete,Insert WA_PsnMsg">
     <Name>Delete,Insert WA_PsnMsg</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      DELETE  FROM {0}..WA_PsnMsg;
-      INSERT INTO {0}..WA_PsnMsg SELECT * FROM {1}..WA_PsnMsg
+      DELETE  FROM {newYearDB}..WA_PsnMsg;
+      INSERT INTO {newYearDB}..WA_PsnMsg SELECT * FROM {oldYearDB}..WA_PsnMsg
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Alter,Insert WA_Psn">
+  </SQLSentence>
+  <SQLSentence name="Alter,Insert WA_Psn">
     <Name>Alter,Insert WA_Psn</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      alter table {0}..wa_psn alter column M1 varchar(200);
-      INSERT INTO {0}..WA_Psn SELECT * FROM {1}..WA_Psn
+      alter table {newYearDB}..wa_psn alter column M1 varchar(200);
+      INSERT INTO {newYearDB}..WA_Psn SELECT * FROM {oldYearDB}..WA_Psn
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Alter,Insert WA_Bank">
+  </SQLSentence>
+  <SQLSentence name="Alter,Insert WA_Bank">
     <Name>Alter,Insert WA_Bank</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(name) from {0}..syscolumns where name like 'iBW' and id = object_id('WA_Bank')) = 0 
-      ALTER TABLE {0}..WA_Bank ADD [iBW] [smallint] NULL DEFAULT 0 WITH VALUES ;
-      INSERT INTO {0}..WA_Bank SELECT * FROM {1}..WA_Bank
+      if (select count(name) from {newYearDB}..syscolumns where name like 'iBW' and id = object_id('WA_Bank')) = 0 
+      ALTER TABLE {newYearDB}..WA_Bank ADD [iBW] [smallint] NULL DEFAULT 0 WITH VALUES ;
+      INSERT INTO {newYearDB}..WA_Bank SELECT * FROM {oldYearDB}..WA_Bank
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_Bank_Set">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_Bank_Set">
     <Name>Insert WA_Bank_Set</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_Bank_Set SELECT cGZGradeNum, i_id, cName, iType, iLength, iDot, bSingle, cExpress1, cExpress2, cContent, cTable, cRecord,cWidth FROM {1}..WA_Bank_Set</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_BankPar">
+    <DrySQL>INSERT INTO {newYearDB}..WA_Bank_Set SELECT cGZGradeNum, i_id, cName, iType, iLength, iDot, bSingle, cExpress1, cExpress2, cContent, cTable, cRecord,cWidth FROM {oldYearDB}..WA_Bank_Set</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Insert WA_BankPar">
     <Name>Insert WA_BankPar</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {0}..WA_BankPar SELECT cGZGradeNum, i_id, iFileType, bDot, bFGQW, bcBWF, icBWF, biBWF, iiBWF, bFGF, iFGF, bKF, iKF,bNsh,bcSYH,biSYH FROM {1}..WA_BankPar</DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_BankTop">
+    <DrySQL>INSERT INTO {newYearDB}..WA_BankPar SELECT cGZGradeNum, i_id, iFileType, bDot, bFGQW, bcBWF, icBWF, biBWF, iiBWF, bFGF, iFGF, bKF, iKF,bNsh,bcSYH,biSYH FROM {oldYearDB}..WA_BankPar</DrySQL>
+  </SQLSentence>
+  <SQLSentence name="Insert WA_BankTop">
     <Name>Insert WA_BankTop</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      INSERT INTO {0}..WA_BankTop SELECT cGZGradeNum, i_id, iLocate, bSum, cContent, cTable, cRecord, iWS, bcBWF, cBWF FROM {1}..WA_BankTop
+      INSERT INTO {newYearDB}..WA_BankTop SELECT cGZGradeNum, i_id, iLocate, bSum, cContent, cTable, cRecord, iWS, bcBWF, cBWF FROM {oldYearDB}..WA_BankTop
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_FilterExpList">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_FilterExpList">
     <Name>Insert WA_FilterExpList</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_FilterExpList SELECT cGZGradeNum, iFilter_id, cFilterExpList FROM {1}..WA_FilterExpList
+    INSERT INTO {newYearDB}..WA_FilterExpList SELECT cGZGradeNum, iFilter_id, cFilterExpList FROM {oldYearDB}..WA_FilterExpList
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Delete,Insert WA_FilterName">
+  </SQLSentence>
+  <SQLSentence name="Delete,Insert WA_FilterName">
     <Name>Delete,Insert WA_FilterName</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      DELETE  FROM {0}..WA_FilterName;
-      SET IDENTITY_INSERT {0}..WA_FilterName ON;
-      Insert into {0}..WA_FilterName select * from {1}..WA_FilterName;
-      SET IDENTITY_INSERT {0}..WA_FilterName OFF
+      DELETE  FROM {newYearDB}..WA_FilterName;
+      SET IDENTITY_INSERT {newYearDB}..WA_FilterName ON;
+      Insert into {newYearDB}..WA_FilterName select * from {oldYearDB}..WA_FilterName;
+      SET IDENTITY_INSERT {newYearDB}..WA_FilterName OFF
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_Formula">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_Formula">
     <Name>Insert WA_Formula</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_Formula SELECT * FROM {1}....WA_Formula
+    INSERT INTO {newYearDB}..WA_Formula SELECT * FROM {oldYearDB}....WA_Formula
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_FT_Sum">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_FT_Sum">
     <Name>Insert WA_FT_Sum</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_FT_Sum SELECT cGZGradeNum, iJT_id, iPlusMinus, iGZItem_id FROM {1}..WA_FT_Sum
+    INSERT INTO {newYearDB}..WA_FT_Sum SELECT cGZGradeNum, iJT_id, iPlusMinus, iGZItem_id FROM {oldYearDB}..WA_FT_Sum
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_FTName">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_FTName">
     <Name>Insert WA_FTName</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_FTName SELECT * FROM {1}..WA_FTName
+    INSERT INTO {newYearDB}..WA_FTName SELECT * FROM {oldYearDB}..WA_FTName
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_GZsumComCfg">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_GZsumComCfg">
     <Name>Insert WA_GZsumComCfg</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_GZsumComCfg SELECT cGZGradeNum, iJT_id, cDepCode, iPsnGrd_id, iGZItem_id, cDebit, cCreditSide FROM {1}..WA_GZsumComCfg
+    INSERT INTO {newYearDB}..WA_GZsumComCfg SELECT cGZGradeNum, iJT_id, cDepCode, iPsnGrd_id, iGZItem_id, cDebit, cCreditSide FROM {oldYearDB}..WA_GZsumComCfg
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_FTInfo">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_FTInfo">
     <Name>Insert WA_FTInfo</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_FTInfo SELECT cGZGradeNum, cFTInfo FROM {1}..WA_FTInfo
+    INSERT INTO {newYearDB}..WA_FTInfo SELECT cGZGradeNum, cFTInfo FROM {oldYearDB}..WA_FTInfo
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_FTDept">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_FTDept">
     <Name>Insert WA_FTDept</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_FTDept SELECT * FROM {1}..WA_FTDept
+    INSERT INTO {newYearDB}..WA_FTDept SELECT * FROM {oldYearDB}..WA_FTDept
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_GZBName">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_GZBName">
     <Name>Insert WA_GZBName</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_GZBName SELECT * FROM {1}..WA_GZBName
+    INSERT INTO {newYearDB}..WA_GZBName SELECT * FROM {oldYearDB}..WA_GZBName
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_GZBItemDept">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_GZBItemDept">
     <Name>Insert WA_GZBItemDept</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_GZBItemDept SELECT cGZGradeNum, iGZBName_id, cDept_Num, cMachine FROM {1}..WA_GZBItemDept
+    INSERT INTO {newYearDB}..WA_GZBItemDept SELECT cGZGradeNum, iGZBName_id, cDept_Num, cMachine FROM {oldYearDB}..WA_GZBItemDept
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_GZBItemGrd">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_GZBItemGrd">
     <Name>Insert WA_GZBItemGrd</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_GZBItemGrd SELECT cGZGradeNum, iGZBName_id, iPsnGrd_id, cMachine FROM {1}..WA_GZBItemGrd
+    INSERT INTO {newYearDB}..WA_GZBItemGrd SELECT cGZGradeNum, iGZBName_id, iPsnGrd_id, cMachine FROM {oldYearDB}..WA_GZBItemGrd
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_GZBItemTitle">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_GZBItemTitle">
     <Name>Insert WA_GZBItemTitle</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_GZBItemTitle SELECT cGZGradeNum, iGZBName_id, cGZItemTitle, cExpression, iGZItemWidth, iColWidth FROM {1}..WA_GZBItemTitle
+    INSERT INTO {newYearDB}..WA_GZBItemTitle SELECT cGZGradeNum, iGZBName_id, cGZItemTitle, cExpression, iGZItemWidth, iColWidth FROM {oldYearDB}..WA_GZBItemTitle
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_tblRCsetP">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_tblRCsetP">
     <Name>Insert WA_tblRCsetP</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight  {1}..WA_tblRCsetP
+    INSERT INTO {newYearDB}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight  {oldYearDB}..WA_tblRCsetP
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="Insert WA_tblRCsetM ">
+  </SQLSentence>
+  <SQLSentence name="Insert WA_tblRCsetM ">
     <Name>Insert WA_tblRCsetM</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {0}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {1}..WA_tblRCsetM
+    INSERT INTO {newYearDB}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {oldYearDB}..WA_tblRCsetM
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="ALTER,Insert,Update WA_GZData">
+  </SQLSentence>
+  <SQLSentence name="ALTER,Insert,Update WA_GZData">
     <Name>ALTER,Insert,Update WA_GZData</Name>
+    <ParamNames>{newYearDB},{oldYearDB},{newYear}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
-      {2}..: new year
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-    ALTER TABLE {0}..WA_GZData ADD F_7 numeric(18,2);
-    ALTER TABLE {0}..WA_GZData ADD F_8 numeric(18,2);
-    INSERT INTO {0}..WA_GZData SELECT * FROM {1}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
-    Update {0}..WA_GZData SET iMonth=1,iYear={2},iAccMonth=1;
-    Update {0}..WA_GZData SET F_5=F_4;
-    Update {0}..WA_GZData SET F_4=0,F_6 = 0;
+    ALTER TABLE {newYearDB}..WA_GZData ADD F_7 numeric(18,2);
+    ALTER TABLE {newYearDB}..WA_GZData ADD F_8 numeric(18,2);
+    INSERT INTO {newYearDB}..WA_GZData SELECT * FROM {oldYearDB}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
+    Update {newYearDB}..WA_GZData SET iMonth=1,iYear={newYear},iAccMonth=1;
+    Update {newYearDB}..WA_GZData SET F_5=F_4;
+    Update {newYearDB}..WA_GZData SET F_4=0,F_6 = 0;
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="ALTER WA_GZHZB">
+  </SQLSentence>
+  <SQLSentence name="ALTER WA_GZHZB">
     <Name>ALTER WA_GZHZB</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    ALTER TABLE {0}..WA_GZHZB ADD FG_7 numeric(18,2);
-    ALTER TABLE {0}..WA_GZHZB ADD FG_8 numeric(18,2)
+    ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_7 numeric(18,2);
+    ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_8 numeric(18,2)
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="ALTER WA_SDS_p">
+  </SQLSentence>
+  <SQLSentence name="ALTER WA_SDS_p">
     <Name>ALTER WA_SDS_p</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      INSERT INTO {0}..WA_SDS_p SELECT * FROM {1}..WA_SDS_p
+      INSERT INTO {newYearDB}..WA_SDS_p SELECT * FROM {oldYearDB}..WA_SDS_p
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_SDS_SL">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_SDS_SL">
     <Name>INSERT WA_SDS_SL</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      INSERT INTO {0}..WA_SDS_SL SELECT * FROM {1}..WA_SDS_SL
+      INSERT INTO {newYearDB}..WA_SDS_SL SELECT * FROM {oldYearDB}..WA_SDS_SL
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_SelectMoney">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_SelectMoney">
     <Name>INSERT WA_SelectMoney</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-     INSERT INTO {0}..WA_SelectMoney SELECT cGZGradeNum, iMoney, bSave FROM {1}..WA_SelectMoney
+     INSERT INTO {newYearDB}..WA_SelectMoney SELECT cGZGradeNum, iMoney, bSave FROM {oldYearDB}..WA_SelectMoney
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_JKSet">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_JKSet">
     <Name>INSERT WA_JKSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    DELETE  FROM {0}..WA_JKSet;
-    SET IDENTITY_INSERT {0}..WA_JKSet ON;
-    insert into {0}..WA_JKSet select * from  {1}..WA_JKSet;
-    SET IDENTITY_INSERT {0}..WA_JKSet OFF;
+    DELETE  FROM {newYearDB}..WA_JKSet;
+    SET IDENTITY_INSERT {newYearDB}..WA_JKSet ON;
+    insert into {newYearDB}..WA_JKSet select * from  {oldYearDB}..WA_JKSet;
+    SET IDENTITY_INSERT {newYearDB}..WA_JKSet OFF;
       
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_JKItemSet">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_JKItemSet">
     <Name>INSERT WA_JKItemSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      INSERT INTO {0}..WA_JKItemSet SELECT cGZGradeNum, cJK_id, iFileType, iNumber, iStart, iLength, iDecimal, iStrNum, cTableName, cFieldName, cItemName, iGZItem_id FROM {1}..WA_JKItemSet     
+      INSERT INTO {newYearDB}..WA_JKItemSet SELECT cGZGradeNum, cJK_id, iFileType, iNumber, iStart, iLength, iDecimal, iStrNum, cTableName, cFieldName, cItemName, iGZItem_id FROM {oldYearDB}..WA_JKItemSet     
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_RatePayItems">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_RatePayItems">
     <Name>INSERT WA_RatePayItems</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-     Delete from {0}..WA_RatePayItems;
-    Insert Into {0}..WA_RatePayItems select RateID,RateName,RateTable,RateField,RateIsSum,RateAlign,RateDefault,RateCheck From {1}..WA_RatePayItems
+     Delete from {newYearDB}..WA_RatePayItems;
+    Insert Into {newYearDB}..WA_RatePayItems select RateID,RateName,RateTable,RateField,RateIsSum,RateAlign,RateDefault,RateCheck From {oldYearDB}..WA_RatePayItems
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="INSERT WA_State">
+  </SQLSentence>
+  <SQLSentence name="INSERT WA_State">
     <Name>INSERT WA_State</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    UPDATE {0}..WA_State SET bCalBZ=1,bSumBZ=1;
-    INSERT INTO {0}..WA_State SELECT * FROM {1}..WA_State
+    UPDATE {newYearDB}..WA_State SET bCalBZ=1,bSumBZ=1;
+    INSERT INTO {newYearDB}..WA_State SELECT * FROM {oldYearDB}..WA_State
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="DELETE WA_GZData">
+  </SQLSentence>
+  <SQLSentence name="DELETE WA_GZData">
     <Name>DELETE WA_GZData</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      DELETE FROM {0}..WA_GZData WHERE bDCBZ=1
+      DELETE FROM {newYearDB}..WA_GZData WHERE bDCBZ=1
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement name="UPDATE GL_mend">
+  </SQLSentence>
+  <SQLSentence name="UPDATE GL_mend">
     <Name>UPDATE GL_mend</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      UPDATE {0}..GL_mend SET bflag_WA=1 WHERE iperiod &lt;= 12
+      UPDATE {newYearDB}..GL_mend SET bflag_WA=1 WHERE iperiod &lt;= 12
     </DrySQL>
-  </SQLStatement>
+  </SQLSentence>
 
-</SQLTemplate>
+</SQLRepository>

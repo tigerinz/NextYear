@@ -73,9 +73,9 @@ namespace CreateNextYear_Core.Manager
             List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"temlpate\CarryOver"+module, param);
             foreach (var sentence in sqlSentences)
             {
-                log.Info("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
+                
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
-                log.Info("AdoNetHelper executeCommand:" + sentence.Name + "  over");
+             
             }
 
             log.Info(string.Format("carry {0}.{1} is over", acc.cAcc_Id, module));
@@ -533,7 +533,7 @@ namespace CreateNextYear_Core.Manager
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
                 log.Info("AdoNetHelper executeCommand:" + sentence.Name + "  over");
             }
-            bool isDBExist = ADONetHelper.isDBisExist(param.ParamNameValues["newYearDB"]) == 1;
+            bool isDBExist = ADONetHelper.isDBisExist(param.ParamNameValues["{newYearDB}"]) == 1;
             log.Info(string.Format("create {0} database {1}", acc.cAcc_Id, isDBExist));
             return isDBExist;
         }

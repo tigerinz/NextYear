@@ -30,13 +30,30 @@ namespace CreateNextYear_Core_Console
                             // List<string> result= 
                             t31082.CheckLastFlagManyAccountsManyModules(setting.account, setting.oldYear,new string[]{"GL","FA","WA" });
                             Console.WriteLine("checkAll over");
-
+                            break;
+                        case "createSingleNewYear":
+                            Console.WriteLine("input acccode,oldYear,newYear:001");
+                            string createAccoutInfo = Console.ReadLine();
+                            Console.WriteLine("--CreateNewYear is begin");
+                            UA_Account createAccout = t31082.GetAccounts().FirstOrDefault(a => a.cAcc_Id == createAccoutInfo);
+                            t31082.CreateSingleAccountNewYear(createAccout);
+                            Console.WriteLine("createNewYear over");
                             break;
                         case "createNewYear":
                             Console.WriteLine("--CreateNewYear is begin");
                             List<UA_Account> accounts = t31082.GetAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
                             t31082.CreateManyAccountsNewYear(accounts);
                             Console.WriteLine("createNewYear over");
+                            break;
+                        case "carryForwardSingle":
+                            Console.WriteLine("input acccode,oldYear,newYear:001");
+                            string carryForwardAccountInfo = Console.ReadLine();
+                            Console.WriteLine("input module GL,FA,WA");
+                            string[] modules = Console.ReadLine().Split(',');
+                            Console.WriteLine("--carryYear is begin");
+                            UA_Account carryForwardAccount = t31082.GetAccounts().FirstOrDefault(a => a.cAcc_Id == carryForwardAccountInfo);
+                            t31082.CarryForwardSingleAccountManyModules(carryForwardAccount, modules);
+                            Console.WriteLine("carryYear over");
                             break;
                         case "carryForwardAll":
                             Console.WriteLine("this is carryYear");
@@ -70,8 +87,11 @@ namespace CreateNextYear_Core_Console
         private static void PrintHelp()
         {
             Console.WriteLine("checkAll");
+            Console.WriteLine("createSingleNewYear");
             Console.WriteLine("createNewYear");
+            Console.WriteLine("carryForwardSingle");
             Console.WriteLine("carryForwardAll");
+            Console.WriteLine("");
         }
 
     }

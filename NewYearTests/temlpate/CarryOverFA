@@ -1,592 +1,585 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SQLTemplate>
-<SQLStatement id="DeleteInsertAccInformation">
+<SQLRepository>
+<SQLSentence id="DeleteInsertAccInformation">
     <Name>DeleteInsertAccInformation</Name>
+  <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
+  <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='AccInformation')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='AccInformation')>0
       begin
-      if(select count(*) from {1}..AccInformation)>0 DELETE FROM {0}..AccInformation WHERE lower([cSysID]) = 'fa';
-      INSERT INTO {0}..AccInformation (cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable) select cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable from {1}..AccInformation WHERE lower([cSysID]) = 'fa';
+      if(select count(*) from {oldYearDB}..AccInformation)>0 DELETE FROM {newYearDB}..AccInformation WHERE lower([cSysID]) = 'fa';
+      INSERT INTO {newYearDB}..AccInformation (cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable) select cSysID,cID,cName,cCaption,cType,cValue,cDefault,bVisible,bEnable from {oldYearDB}..AccInformation WHERE lower([cSysID]) = 'fa';
       end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_AssetAttached">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_AssetAttached">
     <Name>DeleteInsertfa_AssetAttached</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_AssetAttached')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_AssetAttached')>0
       begin
-      	if(select count(*) from {1}..fa_AssetAttached)>0 DELETE FROM {0}..fa_AssetAttached;
-INSERT INTO {0}..fa_AssetAttached (lID,sCardNum,sNum,sName,sStyle,sUnit,lQuantity,dblValue,dDate,memRemark,sMark,sLockedBy) select lID,sCardNum,sNum,sName,sStyle,sUnit,lQuantity,dblValue,dDate,memRemark,sMark,sLockedBy from {1}..fa_AssetAttached;
+      	if(select count(*) from {oldYearDB}..fa_AssetAttached)>0 DELETE FROM {newYearDB}..fa_AssetAttached;
+INSERT INTO {newYearDB}..fa_AssetAttached (lID,sCardNum,sNum,sName,sStyle,sUnit,lQuantity,dblValue,dDate,memRemark,sMark,sLockedBy) select lID,sCardNum,sNum,sName,sStyle,sUnit,lQuantity,dblValue,dDate,memRemark,sMark,sLockedBy from {oldYearDB}..fa_AssetAttached;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_AssetTypes">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_AssetTypes">
     <Name>DeleteInsertfa_AssetTypes</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_AssetTypes')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_AssetTypes')>0
       begin
-      	if(select count(*) from {1}..fa_AssetTypes)>0 DELETE FROM {0}..fa_AssetTypes;
-INSERT INTO {0}..fa_AssetTypes (sID,sNum,sName,sEngName,sParentID,sParentNum,sNum1,sNum2,sNum3,sNum4,sDeprMethodNum,iDeprType,dblBVRate,sUnit,iLife,sModelID,iLevel,lByUsed,iDefineType,lChilds,bVisible,sLockedBy) select sID,sNum,sName,sEngName,sParentID,sParentNum,sNum1,sNum2,sNum3,sNum4,sDeprMethodNum,iDeprType,dblBVRate,sUnit,iLife,sModelID,iLevel,lByUsed,iDefineType,lChilds,bVisible,sLockedBy from {1}..fa_AssetTypes;
+      	if(select count(*) from {oldYearDB}..fa_AssetTypes)>0 DELETE FROM {newYearDB}..fa_AssetTypes;
+INSERT INTO {newYearDB}..fa_AssetTypes (sID,sNum,sName,sEngName,sParentID,sParentNum,sNum1,sNum2,sNum3,sNum4,sDeprMethodNum,iDeprType,dblBVRate,sUnit,iLife,sModelID,iLevel,lByUsed,iDefineType,lChilds,bVisible,sLockedBy) select sID,sNum,sName,sEngName,sParentID,sParentNum,sNum1,sNum2,sNum3,sNum4,sDeprMethodNum,iDeprType,dblBVRate,sUnit,iLife,sModelID,iLevel,lByUsed,iDefineType,lChilds,bVisible,sLockedBy from {oldYearDB}..fa_AssetTypes;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Depreciations">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Depreciations">
     <Name>DeleteInsertfa_Depreciations</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Depreciations')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Depreciations')>0
       begin
-      	if(select count(*) from {1}..fa_Depreciations)>0 DELETE FROM {0}..fa_Depreciations;
-INSERT INTO {0}..fa_Depreciations (sID,sName,sEngName,sDeprFormula,sDeprRateFormula,bChanged,bNeedDepr,lByUsed,bNeedWorkInfo,iDefineType,sLockedBy) select sID,sName,sEngName,sDeprFormula,sDeprRateFormula,bChanged,bNeedDepr,lByUsed,bNeedWorkInfo,iDefineType,sLockedBy from {1}..fa_Depreciations;
+      	if(select count(*) from {oldYearDB}..fa_Depreciations)>0 DELETE FROM {newYearDB}..fa_Depreciations;
+INSERT INTO {newYearDB}..fa_Depreciations (sID,sName,sEngName,sDeprFormula,sDeprRateFormula,bChanged,bNeedDepr,lByUsed,bNeedWorkInfo,iDefineType,sLockedBy) select sID,sName,sEngName,sDeprFormula,sDeprRateFormula,bChanged,bNeedDepr,lByUsed,bNeedWorkInfo,iDefineType,sLockedBy from {oldYearDB}..fa_Depreciations;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Origins">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Origins">
     <Name>DeleteInsertfa_Origins</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Origins')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Origins')>0
       begin
-      	if(select count(*) from {1}..fa_Origins)>0 DELETE FROM {0}..fa_Origins;
-INSERT INTO {0}..fa_Origins (sID,sAddID,sDecID,sName,sEngName,iType,sParentID,lChilds,lByUsed,sNum1,sNum2,sNum3,iLevel,iDefineType,sLockedBy,sSubjectNum,bVisible) select sID,sAddID,sDecID,sName,sEngName,iType,sParentID,lChilds,lByUsed,sNum1,sNum2,sNum3,iLevel,iDefineType,sLockedBy,sSubjectNum,bVisible from {1}..fa_Origins;
+      	if(select count(*) from {oldYearDB}..fa_Origins)>0 DELETE FROM {newYearDB}..fa_Origins;
+INSERT INTO {newYearDB}..fa_Origins (sID,sAddID,sDecID,sName,sEngName,iType,sParentID,lChilds,lByUsed,sNum1,sNum2,sNum3,iLevel,iDefineType,sLockedBy,sSubjectNum,bVisible) select sID,sAddID,sDecID,sName,sEngName,iType,sParentID,lChilds,lByUsed,sNum1,sNum2,sNum3,iLevel,iDefineType,sLockedBy,sSubjectNum,bVisible from {oldYearDB}..fa_Origins;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Status">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Status">
     <Name>DeleteInsertfa_Status</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Status')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Status')>0
       begin
-      	if(select count(*) from {1}..fa_Status)>0 DELETE FROM {0}..fa_Status;
-INSERT INTO {0}..fa_Status (sID,sName,sEngName,sParentID,lChilds,lByUsed,bNeedDepr,Num1,Num2,iLevel,iDefineType,sLockedBy) select sID,sName,sEngName,sParentID,lChilds,lByUsed,bNeedDepr,Num1,Num2,iLevel,iDefineType,sLockedBy from {1}..fa_Status;
+      	if(select count(*) from {oldYearDB}..fa_Status)>0 DELETE FROM {newYearDB}..fa_Status;
+INSERT INTO {newYearDB}..fa_Status (sID,sName,sEngName,sParentID,lChilds,lByUsed,bNeedDepr,Num1,Num2,iLevel,iDefineType,sLockedBy) select sID,sName,sEngName,sParentID,lChilds,lByUsed,bNeedDepr,Num1,Num2,iLevel,iDefineType,sLockedBy from {oldYearDB}..fa_Status;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Items">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Items">
     <Name>DeleteInsertfa_Items</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Items')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Items')>0
       begin
-      	if(select count(*) from {1}..fa_Items)>0 DELETE FROM {0}..fa_Items;
-INSERT INTO {0}..fa_Items (sID,sName,sCaption,sEngCaption,sSysCaption,sEngSysCaption,bVisible,bDel,bMove,bIsValue,bAutoPop,bQuery,lQueryOrder,sType,bDepr,bEvn,sSourceTable,bEdit,bAllowNull,iIntLength,iPointLength,memFormula,memUsedItems,memItemsUseMe,iDictType,iDefineType,lByUsed,sHelpID,sRemark,sLockedBy) select sID,sName,sCaption,sEngCaption,sSysCaption,sEngSysCaption,bVisible,bDel,bMove,bIsValue,bAutoPop,bQuery,lQueryOrder,sType,bDepr,bEvn,sSourceTable,bEdit,bAllowNull,iIntLength,iPointLength,memFormula,memUsedItems,memItemsUseMe,iDictType,iDefineType,lByUsed,sHelpID,sRemark,sLockedBy from {1}..fa_Items;
+      	if(select count(*) from {oldYearDB}..fa_Items)>0 DELETE FROM {newYearDB}..fa_Items;
+INSERT INTO {newYearDB}..fa_Items (sID,sName,sCaption,sEngCaption,sSysCaption,sEngSysCaption,bVisible,bDel,bMove,bIsValue,bAutoPop,bQuery,lQueryOrder,sType,bDepr,bEvn,sSourceTable,bEdit,bAllowNull,iIntLength,iPointLength,memFormula,memUsedItems,memItemsUseMe,iDictType,iDefineType,lByUsed,sHelpID,sRemark,sLockedBy) select sID,sName,sCaption,sEngCaption,sSysCaption,sEngSysCaption,bVisible,bDel,bMove,bIsValue,bAutoPop,bQuery,lQueryOrder,sType,bDepr,bEvn,sSourceTable,bEdit,bAllowNull,iIntLength,iPointLength,memFormula,memUsedItems,memItemsUseMe,iDictType,iDefineType,lByUsed,sHelpID,sRemark,sLockedBy from {oldYearDB}..fa_Items;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_ItemsOfModel">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_ItemsOfModel">
     <Name>DeleteInsertfa_ItemsOfModel</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_ItemsOfModel')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_ItemsOfModel')>0
       begin
-      	if(select count(*) from {1}..fa_ItemsOfModel)>0 DELETE FROM {0}..fa_ItemsOfModel;
-INSERT INTO {0}..fa_ItemsOfModel (sModelID,iSheetID,sItemID,lItemRow,lItemStartCol,lItemEndCol,lInputCol,bSameCaption,sLockedBy) select sModelID,iSheetID,sItemID,lItemRow,lItemStartCol,lItemEndCol,lInputCol,bSameCaption,sLockedBy from {1}..fa_ItemsOfModel;
+      	if(select count(*) from {oldYearDB}..fa_ItemsOfModel)>0 DELETE FROM {newYearDB}..fa_ItemsOfModel;
+INSERT INTO {newYearDB}..fa_ItemsOfModel (sModelID,iSheetID,sItemID,lItemRow,lItemStartCol,lItemEndCol,lInputCol,bSameCaption,sLockedBy) select sModelID,iSheetID,sItemID,lItemRow,lItemStartCol,lItemEndCol,lInputCol,bSameCaption,sLockedBy from {oldYearDB}..fa_ItemsOfModel;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_ItemsOfQuery">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_ItemsOfQuery">
     <Name>DeleteInsertfa_ItemsOfQuery</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_ItemsOfQuery')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_ItemsOfQuery')>0
       begin
-      	if(select count(*) from {1}..fa_ItemsOfQuery)>0 DELETE FROM {0}..fa_ItemsOfQuery;
-INSERT INTO {0}..fa_ItemsOfQuery (iQuerysType,sName) select iQuerysType,sName from {1}..fa_ItemsOfQuery;
+      	if(select count(*) from {oldYearDB}..fa_ItemsOfQuery)>0 DELETE FROM {newYearDB}..fa_ItemsOfQuery;
+INSERT INTO {newYearDB}..fa_ItemsOfQuery (iQuerysType,sName) select iQuerysType,sName from {oldYearDB}..fa_ItemsOfQuery;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Models">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Models">
     <Name>DeleteInsertfa_Models</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Models')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Models')>0
       begin
-      	if(select count(*) from {1}..fa_Models)>0 DELETE FROM {0}..fa_Models;
-INSERT INTO {0}..fa_Models (sID,sName,sF1FileName,lByUsed,sSheetsVisible,lModelRows,lModelCols,iDefineType,sLockedBy) select sID,sName,sF1FileName,lByUsed,sSheetsVisible,lModelRows,lModelCols,iDefineType,sLockedBy from {1}..fa_Models;
+      	if(select count(*) from {oldYearDB}..fa_Models)>0 DELETE FROM {newYearDB}..fa_Models;
+INSERT INTO {newYearDB}..fa_Models (sID,sName,sF1FileName,lByUsed,sSheetsVisible,lModelRows,lModelCols,iDefineType,sLockedBy) select sID,sName,sF1FileName,lByUsed,sSheetsVisible,lModelRows,lModelCols,iDefineType,sLockedBy from {oldYearDB}..fa_Models;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Cards">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Cards">
     <Name>DeleteInsertfa_Cards</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Cards')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Cards')>0
       begin
-      	if(select count(*) from {1}..fa_Cards)>0 DELETE FROM {0}..fa_Cards;
-INSERT INTO {0}..fa_Cards (sCardID,sCardNum,sAssetNum,sAssetName,lOptID,iOptType,iNewType,sZWVoucherType,sZWVoucherNum,sDeptNum,sTypeNum,sOrgID,sOrgAddID,sOrgDisposeID,sDisposeReason,sStatusID,sDeprMethodID,sCurrency,sDeprSubjectNum,sDeprSubjectName,sProjectNum,sProjectName,sStyle,dblBuildArea,lBuildNum,lMachinNum,dblMachinW,sSite,lLife,dStartdate,dInputDate,dTransDate,dDisposeDate,iInputPeriod,iTransPeriod,iDisposePeriod,dblFCValue,dblExchangeRate,sOperator,sDisposer,dblNetValueAct,lDeprMonthsAct,dblCanWorkAct,dblLegacy,sVoucherNum,sEvaluateNum,dblValue,dblDecDeprT,dblDecDepr,dblDecDeprRate,lDecDeprMonths,dblDecWorkT,dblDecPerDepr,dblBV,dblBVRate,dblCanWork,dblPerDepr,lUsedMonths,sWorkUnit,dblTransInDeprTCard,dblTransOutDeprTCard,iVouchsNextMonthAct,sTransTypeNum,sTransDepteNum,sLockedBy,dblDecPreValueT,dblRetDecPreValueT,dblOffsetTax,dblTransDeprT) select sCardID,sCardNum,sAssetNum,sAssetName,lOptID,iOptType,iNewType,sZWVoucherType,sZWVoucherNum,sDeptNum,sTypeNum,sOrgID,sOrgAddID,sOrgDisposeID,sDisposeReason,sStatusID,sDeprMethodID,sCurrency,sDeprSubjectNum,sDeprSubjectName,sProjectNum,sProjectName,sStyle,dblBuildArea,lBuildNum,lMachinNum,dblMachinW,sSite,lLife,dStartdate,dInputDate,dTransDate,dDisposeDate,iInputPeriod,iTransPeriod,iDisposePeriod,dblFCValue,dblExchangeRate,sOperator,sDisposer,dblNetValueAct,lDeprMonthsAct,dblCanWorkAct,dblLegacy,sVoucherNum,sEvaluateNum,dblValue,dblDecDeprT,dblDecDepr,dblDecDeprRate,lDecDeprMonths,dblDecWorkT,dblDecPerDepr,dblBV,dblBVRate,dblCanWork,dblPerDepr,lUsedMonths,sWorkUnit,dblTransInDeprTCard,dblTransOutDeprTCard,iVouchsNextMonthAct,sTransTypeNum,sTransDepteNum,sLockedBy,dblDecPreValueT,dblRetDecPreValueT,dblOffsetTax,dblTransDeprT from {1}..fa_Cards;
+      	if(select count(*) from {oldYearDB}..fa_Cards)>0 DELETE FROM {newYearDB}..fa_Cards;
+INSERT INTO {newYearDB}..fa_Cards (sCardID,sCardNum,sAssetNum,sAssetName,lOptID,iOptType,iNewType,sZWVoucherType,sZWVoucherNum,sDeptNum,sTypeNum,sOrgID,sOrgAddID,sOrgDisposeID,sDisposeReason,sStatusID,sDeprMethodID,sCurrency,sDeprSubjectNum,sDeprSubjectName,sProjectNum,sProjectName,sStyle,dblBuildArea,lBuildNum,lMachinNum,dblMachinW,sSite,lLife,dStartdate,dInputDate,dTransDate,dDisposeDate,iInputPeriod,iTransPeriod,iDisposePeriod,dblFCValue,dblExchangeRate,sOperator,sDisposer,dblNetValueAct,lDeprMonthsAct,dblCanWorkAct,dblLegacy,sVoucherNum,sEvaluateNum,dblValue,dblDecDeprT,dblDecDepr,dblDecDeprRate,lDecDeprMonths,dblDecWorkT,dblDecPerDepr,dblBV,dblBVRate,dblCanWork,dblPerDepr,lUsedMonths,sWorkUnit,dblTransInDeprTCard,dblTransOutDeprTCard,iVouchsNextMonthAct,sTransTypeNum,sTransDepteNum,sLockedBy,dblDecPreValueT,dblRetDecPreValueT,dblOffsetTax,dblTransDeprT) select sCardID,sCardNum,sAssetNum,sAssetName,lOptID,iOptType,iNewType,sZWVoucherType,sZWVoucherNum,sDeptNum,sTypeNum,sOrgID,sOrgAddID,sOrgDisposeID,sDisposeReason,sStatusID,sDeprMethodID,sCurrency,sDeprSubjectNum,sDeprSubjectName,sProjectNum,sProjectName,sStyle,dblBuildArea,lBuildNum,lMachinNum,dblMachinW,sSite,lLife,dStartdate,dInputDate,dTransDate,dDisposeDate,iInputPeriod,iTransPeriod,iDisposePeriod,dblFCValue,dblExchangeRate,sOperator,sDisposer,dblNetValueAct,lDeprMonthsAct,dblCanWorkAct,dblLegacy,sVoucherNum,sEvaluateNum,dblValue,dblDecDeprT,dblDecDepr,dblDecDeprRate,lDecDeprMonths,dblDecWorkT,dblDecPerDepr,dblBV,dblBVRate,dblCanWork,dblPerDepr,lUsedMonths,sWorkUnit,dblTransInDeprTCard,dblTransOutDeprTCard,iVouchsNextMonthAct,sTransTypeNum,sTransDepteNum,sLockedBy,dblDecPreValueT,dblRetDecPreValueT,dblOffsetTax,dblTransDeprT from {oldYearDB}..fa_Cards;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_CardsSheets">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_CardsSheets">
     <Name>DeleteInsertfa_CardsSheets</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_CardsSheets')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_CardsSheets')>0
       begin
-      	if(select count(*) from {1}..fa_CardsSheets)>0 DELETE FROM {0}..fa_CardsSheets;
-INSERT INTO {0}..fa_CardsSheets (sID,sCardNum,lSheetNum,sNum,sVoucherNum,sEvaNum,dStartDate,dEndDate,memReason,memRemark,dTransDate,sDeptName,lDays,dblAfterValue,dblTransValue,sMark,sLockedBy) select sID,sCardNum,lSheetNum,sNum,sVoucherNum,sEvaNum,dStartDate,dEndDate,memReason,memRemark,dTransDate,sDeptName,lDays,dblAfterValue,dblTransValue,sMark,sLockedBy from {1}..fa_CardsSheets;
+      	if(select count(*) from {oldYearDB}..fa_CardsSheets)>0 DELETE FROM {newYearDB}..fa_CardsSheets;
+INSERT INTO {newYearDB}..fa_CardsSheets (sID,sCardNum,lSheetNum,sNum,sVoucherNum,sEvaNum,dStartDate,dEndDate,memReason,memRemark,dTransDate,sDeptName,lDays,dblAfterValue,dblTransValue,sMark,sLockedBy) select sID,sCardNum,lSheetNum,sNum,sVoucherNum,sEvaNum,dStartDate,dEndDate,memReason,memRemark,dTransDate,sDeptName,lDays,dblAfterValue,dblTransValue,sMark,sLockedBy from {oldYearDB}..fa_CardsSheets;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Control">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Control">
     <Name>DeleteInsertfa_Control</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Control')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Control')>0
       begin
-      	if(select count(*) from {1}..fa_Control)>0 DELETE FROM {0}..fa_Control;
-INSERT INTO {0}..fa_Control (iType,sID,iStatus,sLockedBy) select iType,sID,iStatus,sLockedBy from {1}..fa_Control;
+      	if(select count(*) from {oldYearDB}..fa_Control)>0 DELETE FROM {newYearDB}..fa_Control;
+INSERT INTO {newYearDB}..fa_Control (iType,sID,iStatus,sLockedBy) select iType,sID,iStatus,sLockedBy from {oldYearDB}..fa_Control;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_DeprTransactions">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprTransactions">
     <Name>DeleteInsertfa_DeprTransactions</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprTransactions')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_DeprTransactions')>0
       begin
-      	if(select count(*) from {1}..fa_DeprTransactions)>0 DELETE FROM {0}..fa_DeprTransactions;
-INSERT INTO {0}..fa_DeprTransactions (sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT) select sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT from {1}..fa_DeprTransactions;
+      	if(select count(*) from {oldYearDB}..fa_DeprTransactions)>0 DELETE FROM {newYearDB}..fa_DeprTransactions;
+INSERT INTO {newYearDB}..fa_DeprTransactions (sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT) select sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT from {oldYearDB}..fa_DeprTransactions;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_DeprVoucherMain">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVoucherMain">
     <Name>DeleteInsertfa_DeprVoucherMain</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprVoucherMain')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_DeprVoucherMain')>0
       begin
-      	if(select count(*) from {1}..fa_DeprVoucherMain)>0 DELETE FROM {0}..fa_DeprVoucherMain;
-INSERT INTO {0}..fa_DeprVoucherMain (lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy) select lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy from {1}..fa_DeprVoucherMain;
+      	if(select count(*) from {oldYearDB}..fa_DeprVoucherMain)>0 DELETE FROM {newYearDB}..fa_DeprVoucherMain;
+INSERT INTO {newYearDB}..fa_DeprVoucherMain (lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy) select lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy from {oldYearDB}..fa_DeprVoucherMain;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_DeprVouchers">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVouchers">
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Name>DeleteInsertfa_DeprVouchers</Name>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprVouchers')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_DeprVouchers')>0
       begin
-      	if(select count(*) from {1}..fa_DeprVouchers)>0 DELETE FROM {0}..fa_DeprVouchers;
-INSERT INTO {0}..fa_DeprVouchers (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {1}..fa_DeprVouchers;
+      	if(select count(*) from {oldYearDB}..fa_DeprVouchers)>0 DELETE FROM {newYearDB}..fa_DeprVouchers;
+INSERT INTO {newYearDB}..fa_DeprVouchers (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {oldYearDB}..fa_DeprVouchers;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_DeprVouchers_pre">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVouchers_pre">
     <Name>DeleteInsertfa_DeprVouchers_pre</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprVouchers_pre')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_DeprVouchers_pre')>0
       begin
-      	if(select count(*) from {1}..fa_DeprVouchers_pre)>0 DELETE FROM {0}..fa_DeprVouchers_pre;
-INSERT INTO {0}..fa_DeprVouchers_pre (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {1}..fa_DeprVouchers_pre;
+      	if(select count(*) from {oldYearDB}..fa_DeprVouchers_pre)>0 DELETE FROM {newYearDB}..fa_DeprVouchers_pre;
+INSERT INTO {newYearDB}..fa_DeprVouchers_pre (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {oldYearDB}..fa_DeprVouchers_pre;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Dictionary">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Dictionary">
     <Name>DeleteInsertfa_Dictionary</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Dictionary')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Dictionary')>0
       begin
-      	if(select count(*) from {1}..fa_Dictionary)>0 DELETE FROM {0}..fa_Dictionary;
-INSERT INTO {0}..fa_Dictionary (sID,sItemID,sString,bBoolean,iInteger,lLong,dblDouble,dDate,sMemo,sLockedBy) select sID,sItemID,sString,bBoolean,iInteger,lLong,dblDouble,dDate,sMemo,sLockedBy from {1}..fa_Dictionary;
+      	if(select count(*) from {oldYearDB}..fa_Dictionary)>0 DELETE FROM {newYearDB}..fa_Dictionary;
+INSERT INTO {newYearDB}..fa_Dictionary (sID,sItemID,sString,bBoolean,iInteger,lLong,dblDouble,dDate,sMemo,sLockedBy) select sID,sItemID,sString,bBoolean,iInteger,lLong,dblDouble,dDate,sMemo,sLockedBy from {oldYearDB}..fa_Dictionary;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_EvaluateMain">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_EvaluateMain">
     <Name>DeleteInsertfa_EvaluateMain</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_EvaluateMain')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_EvaluateMain')>0
       begin
-      	if(select count(*) from {1}..fa_EvaluateMain)>0 DELETE FROM {0}..fa_EvaluateMain;
-INSERT INTO {0}..fa_EvaluateMain (sNum,lOptID,sZWVoucherType,sZWVoucherNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblBVBefore,dblBV,dblCanWorkBefore,dblCanWork,sLockedBy) select sNum,lOptID,sZWVoucherType,sZWVoucherNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblBVBefore,dblBV,dblCanWorkBefore,dblCanWork,sLockedBy from {1}..fa_EvaluateMain;
+      	if(select count(*) from {oldYearDB}..fa_EvaluateMain)>0 DELETE FROM {newYearDB}..fa_EvaluateMain;
+INSERT INTO {newYearDB}..fa_EvaluateMain (sNum,lOptID,sZWVoucherType,sZWVoucherNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblBVBefore,dblBV,dblCanWorkBefore,dblCanWork,sLockedBy) select sNum,lOptID,sZWVoucherType,sZWVoucherNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblBVBefore,dblBV,dblCanWorkBefore,dblCanWork,sLockedBy from {oldYearDB}..fa_EvaluateMain;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_EvaluateVouchers">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_EvaluateVouchers">
     <Name>DeleteInsertfa_EvaluateVouchers</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_EvaluateVouchers')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_EvaluateVouchers')>0
       begin
-      	if(select count(*) from {1}..fa_EvaluateVouchers)>0 DELETE FROM {0}..fa_EvaluateVouchers;
-INSERT INTO {0}..fa_EvaluateVouchers (sNum,sCardNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblNetValueBefore,dblNetValue,sDeprIDBefore,sDeprID,lLifeBefore,lLife,dblBVBefore,dblBV,dblBVRateBefore,dblBVRate,dblCanWorkBefore,dblCanWork,sLockedBy) select sNum,sCardNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblNetValueBefore,dblNetValue,sDeprIDBefore,sDeprID,lLifeBefore,lLife,dblBVBefore,dblBV,dblBVRateBefore,dblBVRate,dblCanWorkBefore,dblCanWork,sLockedBy from {1}..fa_EvaluateVouchers;
+      	if(select count(*) from {oldYearDB}..fa_EvaluateVouchers)>0 DELETE FROM {newYearDB}..fa_EvaluateVouchers;
+INSERT INTO {newYearDB}..fa_EvaluateVouchers (sNum,sCardNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblNetValueBefore,dblNetValue,sDeprIDBefore,sDeprID,lLifeBefore,lLife,dblBVBefore,dblBV,dblBVRateBefore,dblBVRate,dblCanWorkBefore,dblCanWork,sLockedBy) select sNum,sCardNum,dDate,iPeriod,dblValueBefore,dblValue,dblDeprTotalBefore,dblDeprTotal,dblNetValueBefore,dblNetValue,sDeprIDBefore,sDeprID,lLifeBefore,lLife,dblBVBefore,dblBV,dblBVRateBefore,dblBVRate,dblCanWorkBefore,dblCanWork,sLockedBy from {oldYearDB}..fa_EvaluateVouchers;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Objects">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Objects">
     <Name>DeleteInsertfa_Objects</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Objects')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Objects')>0
       begin
-      	if(select count(*) from {1}..fa_Objects)>0 DELETE FROM {0}..fa_Objects;
-INSERT INTO {0}..fa_Objects (iObjectNum,lMaxID,sLockedBy) select iObjectNum,lMaxID,sLockedBy from {1}..fa_Objects;
+      	if(select count(*) from {oldYearDB}..fa_Objects)>0 DELETE FROM {newYearDB}..fa_Objects;
+INSERT INTO {newYearDB}..fa_Objects (iObjectNum,lMaxID,sLockedBy) select iObjectNum,lMaxID,sLockedBy from {oldYearDB}..fa_Objects;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_QueryFilters">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_QueryFilters">
     <Name>DeleteInsertfa_QueryFilters</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_QueryFilters')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_QueryFilters')>0
       begin
-      	if(select count(*) from {1}..fa_QueryFilters)>0 DELETE FROM {0}..fa_QueryFilters;
-INSERT INTO {0}..fa_QueryFilters (sQueryID,sItemID,sItemType,sAndOr,sLeftBracket,sComparison,sWordValue,sRightBracket,sLockedBy) select sQueryID,sItemID,sItemType,sAndOr,sLeftBracket,sComparison,sWordValue,sRightBracket,sLockedBy from {1}..fa_QueryFilters;
+      	if(select count(*) from {oldYearDB}..fa_QueryFilters)>0 DELETE FROM {newYearDB}..fa_QueryFilters;
+INSERT INTO {newYearDB}..fa_QueryFilters (sQueryID,sItemID,sItemType,sAndOr,sLeftBracket,sComparison,sWordValue,sRightBracket,sLockedBy) select sQueryID,sItemID,sItemType,sAndOr,sLeftBracket,sComparison,sWordValue,sRightBracket,sLockedBy from {oldYearDB}..fa_QueryFilters;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Querys">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Querys">
     <Name>DeleteInsertfa_Querys</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Querys')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Querys')>0
       begin
-      	if(select count(*) from {1}..fa_Querys)>0 DELETE FROM {0}..fa_Querys;
-INSERT INTO {0}..fa_Querys (sID,sName,iType,sDatasourceName,memSQL,sLockedBy) select sID,sName,iType,sDatasourceName,memSQL,sLockedBy from {1}..fa_Querys;
+      	if(select count(*) from {oldYearDB}..fa_Querys)>0 DELETE FROM {newYearDB}..fa_Querys;
+INSERT INTO {newYearDB}..fa_Querys (sID,sName,iType,sDatasourceName,memSQL,sLockedBy) select sID,sName,iType,sDatasourceName,memSQL,sLockedBy from {oldYearDB}..fa_Querys;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Total">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Total">
     <Name>DeleteInsertfa_Total</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Total')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Total')>0
       begin
-      	if(select count(*) from {1}..fa_Total)>0 DELETE FROM {0}..fa_Total;
-INSERT INTO {0}..fa_Total (sDeptNum,sTypeNum,iPeriod,lMonthCount,lCount,dblYearValue,dblYearDeprTotal,dblLastAccrualValue,dblLastDepr,dblLastAddValue,dblLastDecValue,dblLastWork,dblLastWorkTotal,dblWork,dblWorkT,dblMonthValue,dblValue,dblMonthDeprTotal,dblDeprTotal,dblAddValue,dblDecValue,dblTransInDeprTotal,dblTransOutDeprTotal,dblAccrualValue,dblDepr) select sDeptNum,sTypeNum,iPeriod,lMonthCount,lCount,dblYearValue,dblYearDeprTotal,dblLastAccrualValue,dblLastDepr,dblLastAddValue,dblLastDecValue,dblLastWork,dblLastWorkTotal,dblWork,dblWorkT,dblMonthValue,dblValue,dblMonthDeprTotal,dblDeprTotal,dblAddValue,dblDecValue,dblTransInDeprTotal,dblTransOutDeprTotal,dblAccrualValue,dblDepr from {1}..fa_Total;
+      	if(select count(*) from {oldYearDB}..fa_Total)>0 DELETE FROM {newYearDB}..fa_Total;
+INSERT INTO {newYearDB}..fa_Total (sDeptNum,sTypeNum,iPeriod,lMonthCount,lCount,dblYearValue,dblYearDeprTotal,dblLastAccrualValue,dblLastDepr,dblLastAddValue,dblLastDecValue,dblLastWork,dblLastWorkTotal,dblWork,dblWorkT,dblMonthValue,dblValue,dblMonthDeprTotal,dblDeprTotal,dblAddValue,dblDecValue,dblTransInDeprTotal,dblTransOutDeprTotal,dblAccrualValue,dblDepr) select sDeptNum,sTypeNum,iPeriod,lMonthCount,lCount,dblYearValue,dblYearDeprTotal,dblLastAccrualValue,dblLastDepr,dblLastAddValue,dblLastDecValue,dblLastWork,dblLastWorkTotal,dblWork,dblWorkT,dblMonthValue,dblValue,dblMonthDeprTotal,dblDeprTotal,dblAddValue,dblDecValue,dblTransInDeprTotal,dblTransOutDeprTotal,dblAccrualValue,dblDepr from {oldYearDB}..fa_Total;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_Vouchers">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_Vouchers">
     <Name>DeleteInsertfa_Vouchers</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Vouchers')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Vouchers')>0
       begin
-      	if(select count(*) from {1}..fa_Vouchers)>0 DELETE FROM {0}..fa_Vouchers;
-INSERT INTO {0}..fa_Vouchers (sNum,sCardNum,lOptID,sZWVoucherType,sZWVoucherNum,lPreOptID,iVoucherType,sItemID,sVoucherName,sVoucherEngName,sBeforeVoucher,sAfterVoucher,memReason,dTransdate,iTransPeriod,sOperatorVou,sCurrencyVou,dblExchangeRateVou,sSiteAfter,sLockedBy) select sNum,sCardNum,lOptID,sZWVoucherType,sZWVoucherNum,lPreOptID,iVoucherType,sItemID,sVoucherName,sVoucherEngName,sBeforeVoucher,sAfterVoucher,memReason,dTransdate,iTransPeriod,sOperatorVou,sCurrencyVou,dblExchangeRateVou,sSiteAfter,sLockedBy from {1}..fa_Vouchers;
+      	if(select count(*) from {oldYearDB}..fa_Vouchers)>0 DELETE FROM {newYearDB}..fa_Vouchers;
+INSERT INTO {newYearDB}..fa_Vouchers (sNum,sCardNum,lOptID,sZWVoucherType,sZWVoucherNum,lPreOptID,iVoucherType,sItemID,sVoucherName,sVoucherEngName,sBeforeVoucher,sAfterVoucher,memReason,dTransdate,iTransPeriod,sOperatorVou,sCurrencyVou,dblExchangeRateVou,sSiteAfter,sLockedBy) select sNum,sCardNum,lOptID,sZWVoucherType,sZWVoucherNum,lPreOptID,iVoucherType,sItemID,sVoucherName,sVoucherEngName,sBeforeVoucher,sAfterVoucher,memReason,dTransdate,iTransPeriod,sOperatorVou,sCurrencyVou,dblExchangeRateVou,sSiteAfter,sLockedBy from {oldYearDB}..fa_Vouchers;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_WorkLoad">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_WorkLoad">
     <Name>DeleteInsertfa_WorkLoad</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_WorkLoad')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_WorkLoad')>0
       begin
-      	if(select count(*) from {1}..fa_WorkLoad)>0 DELETE FROM {0}..fa_WorkLoad;
-INSERT INTO {0}..fa_WorkLoad (sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear) select sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear from {1}..fa_WorkLoad;
+      	if(select count(*) from {oldYearDB}..fa_WorkLoad)>0 DELETE FROM {newYearDB}..fa_WorkLoad;
+INSERT INTO {newYearDB}..fa_WorkLoad (sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear) select sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear from {oldYearDB}..fa_WorkLoad;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_ZWVouchers">
+  </SQLSentence> <SQLSentence id="DeleteInsertfa_ZWVouchers">
     <Name>DeleteInsertfa_ZWVouchers</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_ZWVouchers')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_ZWVouchers')>0
       begin
-      	if(select count(*) from {1}..fa_ZWVouchers)>0 DELETE FROM {0}..fa_ZWVouchers;
-                                SET IDENTITY_INSERT {0}..fa_ZWVouchers ON ;
-                                INSERT INTO {0}..fa_ZWVouchers (i_id,coutaccset,ioutyear,coutsysname,coutsysver,doutbilldate,ioutperiod,coutsign,coutno_id,inid,doutdate,coutbillsign,coutid,csign,idoc,cbill,ccashier,iflag,ctext1,ctext2,cdigest,ccode,md,mc,md_f,mc_f,nfrat,nd_s,nc_s,csettle,cn_id,dt_date,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,cname,ccode_equal,bvouchedit,bvouchAddordele,bvouchmoneyhold,bvalueedit,bcodeedit,ccodecontrol,bPCSedit,bDeptedit,bItemedit,bCusSupInput,cDefine1,cDefine2,cDefine3,cDefine4,cDefine5,cDefine6,cDefine7,cDefine8,cDefine9,cDefine10) select i_id,coutaccset,ioutyear,coutsysname,coutsysver,doutbilldate,ioutperiod,coutsign,coutno_id,inid,doutdate,coutbillsign,coutid,csign,idoc,cbill,ccashier,iflag,ctext1,ctext2,cdigest,ccode,md,mc,md_f,mc_f,nfrat,nd_s,nc_s,csettle,cn_id,dt_date,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,cname,ccode_equal,bvouchedit,bvouchAddordele,bvouchmoneyhold,bvalueedit,bcodeedit,ccodecontrol,bPCSedit,bDeptedit,bItemedit,bCusSupInput,cDefine1,cDefine2,cDefine3,cDefine4,cDefine5,cDefine6,cDefine7,cDefine8,cDefine9,cDefine10 from {1}..fa_ZWVouchers;
-                                SET IDENTITY_INSERT {0}..fa_ZWVouchers off; 
+      	if(select count(*) from {oldYearDB}..fa_ZWVouchers)>0 DELETE FROM {newYearDB}..fa_ZWVouchers;
+                                SET IDENTITY_INSERT {newYearDB}..fa_ZWVouchers ON ;
+                                INSERT INTO {newYearDB}..fa_ZWVouchers (i_id,coutaccset,ioutyear,coutsysname,coutsysver,doutbilldate,ioutperiod,coutsign,coutno_id,inid,doutdate,coutbillsign,coutid,csign,idoc,cbill,ccashier,iflag,ctext1,ctext2,cdigest,ccode,md,mc,md_f,mc_f,nfrat,nd_s,nc_s,csettle,cn_id,dt_date,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,cname,ccode_equal,bvouchedit,bvouchAddordele,bvouchmoneyhold,bvalueedit,bcodeedit,ccodecontrol,bPCSedit,bDeptedit,bItemedit,bCusSupInput,cDefine1,cDefine2,cDefine3,cDefine4,cDefine5,cDefine6,cDefine7,cDefine8,cDefine9,cDefine10) select i_id,coutaccset,ioutyear,coutsysname,coutsysver,doutbilldate,ioutperiod,coutsign,coutno_id,inid,doutdate,coutbillsign,coutid,csign,idoc,cbill,ccashier,iflag,ctext1,ctext2,cdigest,ccode,md,mc,md_f,mc_f,nfrat,nd_s,nc_s,csettle,cn_id,dt_date,cdept_id,cperson_id,ccus_id,csup_id,citem_id,citem_class,cname,ccode_equal,bvouchedit,bvouchAddordele,bvouchmoneyhold,bvalueedit,bcodeedit,ccodecontrol,bPCSedit,bDeptedit,bItemedit,bCusSupInput,cDefine1,cDefine2,cDefine3,cDefine4,cDefine5,cDefine6,cDefine7,cDefine8,cDefine9,cDefine10 from {oldYearDB}..fa_ZWVouchers;
+                                SET IDENTITY_INSERT {newYearDB}..fa_ZWVouchers off; 
                                 end
-                                </DrySQL>
-                                </SQLStatement><SQLStatement id="DeleteInsertfa_JKItemSet">
-    <Name>DeleteInsertfa_JKItemSet</Name>
-    <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+</DrySQL>
+</SQLSentence><SQLSentence id="DeleteInsertfa_JKItemSet">
+<Name>DeleteInsertfa_JKItemSet</Name>
+  <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
+  <Introduction>
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_JKItemSet')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_JKItemSet')>0
       begin
-      	if(select count(*) from {1}..fa_JKItemSet)>0 DELETE FROM {0}..fa_JKItemSet;
-INSERT INTO {0}..fa_JKItemSet (cJK_id,iNumber,iStart,iLength,iStrNum,cFieldName,cItemName,iFAItem_id) select cJK_id,iNumber,iStart,iLength,iStrNum,cFieldName,cItemName,iFAItem_id from {1}..fa_JKItemSet;
+      	if(select count(*) from {oldYearDB}..fa_JKItemSet)>0 DELETE FROM {newYearDB}..fa_JKItemSet;
+INSERT INTO {newYearDB}..fa_JKItemSet (cJK_id,iNumber,iStart,iLength,iStrNum,cFieldName,cItemName,iFAItem_id) select cJK_id,iNumber,iStart,iLength,iStrNum,cFieldName,cItemName,iFAItem_id from {oldYearDB}..fa_JKItemSet;
 end
     </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_JKSet">
+  </SQLSentence>
+  <SQLSentence id="DeleteInsertfa_JKSet">
     <Name>DeleteInsertfa_JKSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_JKSet')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_JKSet')>0
       begin
-      	if(select count(*) from {1}..fa_JKSet)>0 DELETE FROM {0}..fa_JKSet;
-INSERT INTO {0}..fa_JKSet (cJK_id,cJKName,cJKFileName,bUfsoftDB,cTableName,iFileType,sCurrency,bseparator,bFGQW,icBWF,iFGF,bKF,iKF,dDataIn,dDataWriteIn,cOperator) select cJK_id,cJKName,cJKFileName,bUfsoftDB,cTableName,iFileType,sCurrency,bseparator,bFGQW,icBWF,iFGF,bKF,iKF,dDataIn,dDataWriteIn,cOperator from {1}..fa_JKSet;
+      	if(select count(*) from {oldYearDB}..fa_JKSet)>0 DELETE FROM {newYearDB}..fa_JKSet;
+INSERT INTO {newYearDB}..fa_JKSet (cJK_id,cJKName,cJKFileName,bUfsoftDB,cTableName,iFileType,sCurrency,bseparator,bFGQW,icBWF,iFGF,bKF,iKF,dDataIn,dDataWriteIn,cOperator) select cJK_id,cJKName,cJKFileName,bUfsoftDB,cTableName,iFileType,sCurrency,bseparator,bFGQW,icBWF,iFGF,bKF,iKF,dDataIn,dDataWriteIn,cOperator from {oldYearDB}..fa_JKSet;
 end
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="DeleteInsertfa_VtsObject">
+  </SQLSentence>
+  <SQLSentence id="DeleteInsertfa_VtsObject">
     <Name>DeleteInsertfa_VtsObject</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_VtsObject')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_VtsObject')>0
       begin
-      if(select count(*) from {1}..fa_VtsObject)>0 DELETE FROM {0}..fa_VtsObject;
-      SET IDENTITY_INSERT {0}..fa_VtsObject ON ;
-      INSERT INTO {0}..fa_VtsObject (Id,iMonth,sModelId,objVtsfile) select Id,iMonth,sModelId,objVtsfile from {1}..fa_VtsObject;
-      SET IDENTITY_INSERT {0}..fa_VtsObject off;
+      if(select count(*) from {oldYearDB}..fa_VtsObject)>0 DELETE FROM {newYearDB}..fa_VtsObject;
+      SET IDENTITY_INSERT {newYearDB}..fa_VtsObject ON ;
+      INSERT INTO {newYearDB}..fa_VtsObject (Id,iMonth,sModelId,objVtsfile) select Id,iMonth,sModelId,objVtsfile from {oldYearDB}..fa_VtsObject;
+      SET IDENTITY_INSERT {newYearDB}..fa_VtsObject off;
       end
     </DrySQL>
-  </SQLStatement>
-  
-    
-    
-  <SQLStatement id="UPDATEAccInformation"> 
+  </SQLSentence>
+  <SQLSentence id="UPDATEAccInformation"> 
     <Name>UPDATEAccInformation</Name>
+    <ParamNames>{newYearDB},{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year dB
-      {1}..: new year
+      {newYearDB}..: new year dB
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {0}..AccInformation SET cValue = '0' WHERE cSysID = 'FA' AND cName = 'iLastSendDeprPeriod'
-      UPDATE {0}..AccInformation SET cValue = '{1}-01-01' WHERE cSysID = 'FA' AND cName = 'dWritableDate'
-      UPDATE {0}..AccInformation SET cValue = '{1}-01-01' WHERE cSysID = 'FA' AND cName = 'dStartDate'
+      UPDATE {newYearDB}..AccInformation SET cValue = '0' WHERE cSysID = 'FA' AND cName = 'iLastSendDeprPeriod'
+      UPDATE {newYearDB}..AccInformation SET cValue = '{newYear}-01-01' WHERE cSysID = 'FA' AND cName = 'dWritableDate'
+      UPDATE {newYearDB}..AccInformation SET cValue = '{newYear}-01-01' WHERE cSysID = 'FA' AND cName = 'dStartDate'
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="UPDATEfa_DeprTransactions1">
+  </SQLSentence>
+  <SQLSentence id="UPDATEfa_DeprTransactions1">
     <Name>UPDATEfa_DeprTransactions1</Name>
+    <ParamNames>{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {0}..fa_DeprTransactions SET dblMonthDecPreValue0 = dblThisMonthDecPreValueT - dblThisMonthRetDecPreValueT, dblDeprT0 = dblDeprT12,dblDepr0=dblDepr12,lDeprMonths0 = lDeprMonths12,lUsedMonths0 = lUsedMonths12
+      UPDATE {newYear}..fa_DeprTransactions SET dblMonthDecPreValue0 = dblThisMonthDecPreValueT - dblThisMonthRetDecPreValueT, dblDeprT0 = dblDeprT12,dblDepr0=dblDepr12,lDeprMonths0 = lDeprMonths12,lUsedMonths0 = lUsedMonths12
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="UPDATEfa_DeprTransactions2">
+  </SQLSentence>
+  <SQLSentence id="UPDATEfa_DeprTransactions2">
     <Name>UPDATEfa_DeprTransactions2</Name>
+    <ParamNames>{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE  {0}.dbo.fa_DeprTransactions
-      SET         dblThisMonthDecPreValueT = {0}.dbo.fa_Cards.dblDecPreValueT,
-      dblThisMonthRetDecPreValueT = {0}.dbo.fa_Cards.dblRetDecPreValueT
-      FROM      {0}.dbo.fa_Cards INNER JOIN
-      {0}.dbo.fa_Q_YXKP_NEW ON
-      {0}.dbo.fa_Cards.sCardID = {0}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
-      {0}.dbo.fa_DeprTransactions ON
-      {0}.dbo.fa_Cards.sCardNum = {0}.dbo.fa_DeprTransactions.sCardNum
-      WHERE   ({0}.dbo.fa_Cards.dDisposeDate IS NULL)
+      UPDATE  {newYear}.dbo.fa_DeprTransactions
+      SET         dblThisMonthDecPreValueT = {newYear}.dbo.fa_Cards.dblDecPreValueT,
+      dblThisMonthRetDecPreValueT = {newYear}.dbo.fa_Cards.dblRetDecPreValueT
+      FROM      {newYear}.dbo.fa_Cards INNER JOIN
+      {newYear}.dbo.fa_Q_YXKP_NEW ON
+      {newYear}.dbo.fa_Cards.sCardID = {newYear}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
+      {newYear}.dbo.fa_DeprTransactions ON
+      {newYear}.dbo.fa_Cards.sCardNum = {newYear}.dbo.fa_DeprTransactions.sCardNum
+      WHERE   ({newYear}.dbo.fa_Cards.dDisposeDate IS NULL)
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="UPDATEfa_DeprTransactions3">
+  </SQLSentence>
+  <SQLSentence id="UPDATEfa_DeprTransactions3">
     <Name>UPDATEfa_DeprTransactions3</Name>
+    <ParamNames>{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE  {0}.dbo.fa_DeprTransactions
-      SET         dblPeriodValue = {0}.dbo.fa_DeprTransactions.dblMonthValue0,
-      dblPeriodDeprTotal = {0}.dbo.fa_DeprTransactions.dblDeprT0, iInputPeriod = 0, dblDepr1 = 0,
-      dblDeprRate1 = 0, dblDeprT1 = {0}.dbo.fa_DeprTransactions.dblDeprT0,
-      lDeprMonths1 = {0}.dbo.fa_DeprTransactions.lDeprMonths0,
-      lUsedMonths1 = {0}.dbo.fa_DeprTransactions.lUsedMonths0,
-      dblMonthValue1 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr2 = 0, dblDeprRate2 = 0,
+      UPDATE  {newYear}.dbo.fa_DeprTransactions
+      SET         dblPeriodValue = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0,
+      dblPeriodDeprTotal = {newYear}.dbo.fa_DeprTransactions.dblDeprT0, iInputPeriod = 0, dblDepr1 = 0,
+      dblDeprRate1 = 0, dblDeprT1 = {newYear}.dbo.fa_DeprTransactions.dblDeprT0,
+      lDeprMonths1 = {newYear}.dbo.fa_DeprTransactions.lDeprMonths0,
+      lUsedMonths1 = {newYear}.dbo.fa_DeprTransactions.lUsedMonths0,
+      dblMonthValue1 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr2 = 0, dblDeprRate2 = 0,
       dblDeprT2 = 0, lDeprMonths2 = 0, lUsedMonths2 = 0,
-      dblMonthValue2 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr3 = 0, dblDeprRate3 = 0,
+      dblMonthValue2 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr3 = 0, dblDeprRate3 = 0,
       dblDeprT3 = 0, lDeprMonths3 = 0, lUsedMonths3 = 0,
-      dblMonthValue3 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr4 = 0, dblDeprRate4 = 0,
+      dblMonthValue3 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr4 = 0, dblDeprRate4 = 0,
       dblDeprT4 = 0, lDeprMonths4 = 0, lUsedMonths4 = 0,
-      dblMonthValue4 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr5 = 0, dblDeprRate5 = 0,
+      dblMonthValue4 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr5 = 0, dblDeprRate5 = 0,
       dblDeprT5 = 0, lDeprMonths5 = 0, lUsedMonths5 = 0,
-      dblMonthValue5 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr6 = 0, dblDeprRate6 = 0,
+      dblMonthValue5 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr6 = 0, dblDeprRate6 = 0,
       dblDeprT6 = 0, lDeprMonths6 = 0, lUsedMonths6 = 0,
-      dblMonthValue6 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr7 = 0, dblDeprRate7 = 0,
+      dblMonthValue6 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr7 = 0, dblDeprRate7 = 0,
       dblDeprT7 = 0, lDeprMonths7 = 0, lUsedMonths7 = 0,
-      dblMonthValue7 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr8 = 0, dblDeprRate8 = 0,
+      dblMonthValue7 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr8 = 0, dblDeprRate8 = 0,
       dblDeprT8 = 0, lDeprMonths8 = 0, lUsedMonths8 = 0,
-      dblMonthValue8 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr9 = 0, dblDeprRate9 = 0,
+      dblMonthValue8 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr9 = 0, dblDeprRate9 = 0,
       dblDeprT9 = 0, lDeprMonths9 = 0, lUsedMonths9 = 0,
-      dblMonthValue9 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr10 = 0, dblDeprRate10 = 0,
+      dblMonthValue9 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr10 = 0, dblDeprRate10 = 0,
       dblDeprT10 = 0, lDeprMonths10 = 0, lUsedMonths10 = 0,
-      dblMonthValue10 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr11 = 0, dblDeprRate11 = 0,
+      dblMonthValue10 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr11 = 0, dblDeprRate11 = 0,
       dblDeprT11 = 0, lDeprMonths11 = 0, lUsedMonths11 = 0,
-      dblMonthValue11 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr12 = 0, dblDeprRate12 = 0,
+      dblMonthValue11 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr12 = 0, dblDeprRate12 = 0,
       dblDeprT12 = 0, lDeprMonths12 = 0, lUsedMonths12 = 0,
-      dblMonthValue12 = {0}.dbo.fa_DeprTransactions.dblMonthValue0, dblDeprThisYear = 0
-      FROM      {0}.dbo.fa_Cards INNER JOIN
-      {0}.dbo.fa_Q_YXKP_NEW ON
-      {0}.dbo.fa_Cards.sCardID = {0}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
-      {0}.dbo.fa_DeprTransactions ON
-      {0}.dbo.fa_Cards.sCardNum = {0}.dbo.fa_DeprTransactions.sCardNum
-      WHERE   ({0}.dbo.fa_Cards.iDisposePeriod = 0)
+      dblMonthValue12 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDeprThisYear = 0
+      FROM      {newYear}.dbo.fa_Cards INNER JOIN
+      {newYear}.dbo.fa_Q_YXKP_NEW ON
+      {newYear}.dbo.fa_Cards.sCardID = {newYear}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
+      {newYear}.dbo.fa_DeprTransactions ON
+      {newYear}.dbo.fa_Cards.sCardNum = {newYear}.dbo.fa_DeprTransactions.sCardNum
+      WHERE   ({newYear}.dbo.fa_Cards.iDisposePeriod = 0)
     </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="UPDATEfa_DeprTransactions4">
+  </SQLSentence>
+  <SQLSentence id="UPDATEfa_DeprTransactions4">
     <Name>UPDATEfa_DeprTransactions4</Name>
+    <ParamNames>{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {0}..fa_DeprTransactions SET dblPeriodValue = 0,dblPeriodDeprTotal= 0, iInputPeriod=0,dblDepr1 = 0,dblDeprRate1 = 0,dblDeprT1 = dblDeprT0,lDeprMonths1 = lDeprMonths0,lUsedMonths1 = lUsedMonths0,dblMonthValue1 = dblMonthValue0,dblDepr2 = 0,dblDeprRate2 = 0,dblDeprT2 = 0,lDeprMonths2 = 0,lUsedMonths2 = 0,dblMonthValue2 = 0,dblDepr3 = 0,dblDeprRate3 = 0,dblDeprT3 = 0,lDeprMonths3 = 0,lUsedMonths3 = 0,dblMonthValue3 = 0,dblDepr4 = 0,dblDeprRate4 = 0,dblDeprT4 = 0,lDeprMonths4 = 0,lUsedMonths4 = 0,dblMonthValue4 = 0,dblDepr5 = 0,dblDeprRate5 = 0,dblDeprT5 = 0,lDeprMonths5 = 0,lUsedMonths5 = 0,dblMonthValue5 = 0,dblDepr6 = 0,dblDeprRate6 = 0,dblDeprT6 = 0,lDeprMonths6 = 0,lUsedMonths6 = 0,dblMonthValue6 = 0,dblDepr7 = 0,dblDeprRate7 = 0,dblDeprT7 = 0,lDeprMonths7 = 0,lUsedMonths7 = 0,dblMonthValue7 = 0,dblDepr8 = 0,dblDeprRate8 = 0,dblDeprT8 = 0,lDeprMonths8 = 0,lUsedMonths8 = 0,dblMonthValue8 = 0,dblDepr9 = 0,dblDeprRate9 = 0,dblDeprT9 = 0,lDeprMonths9 = 0,lUsedMonths9 = 0,dblMonthValue9 = 0,dblDepr10 = 0,dblDeprRate10 = 0,dblDeprT10 = 0,lDeprMonths10 = 0,lUsedMonths10 = 0,dblMonthValue10 = 0,dblDepr11 = 0,dblDeprRate11 = 0,dblDeprT11 = 0,lDeprMonths11 = 0,lUsedMonths11 = 0,dblMonthValue11 = 0,dblDepr12 = 0,dblDeprRate12 = 0,dblDeprT12 = 0,lDeprMonths12 = 0,lUsedMonths12 = 0,dblMonthValue12 = 0,dblDeprThisYear = 0
-      from ({0}..fa_Cards INNER JOIN {0}..fa_Q_YXKP_NEW ON {0}..fa_Cards.scardid = {0}..fa_Q_YXKP_NEW.scardid)
-      inner join {0}..fa_DeprTransactions on {0}..fa_Cards.sCardNum = {0}..fa_DeprTransactions.sCardNum
-      where {0}..fa_Cards.iDisposePeriod &lt;> 0
+      UPDATE {newYear}..fa_DeprTransactions SET dblPeriodValue = 0,dblPeriodDeprTotal= 0, iInputPeriod=0,dblDepr1 = 0,dblDeprRate1 = 0,dblDeprT1 = dblDeprT0,lDeprMonths1 = lDeprMonths0,lUsedMonths1 = lUsedMonths0,dblMonthValue1 = dblMonthValue0,dblDepr2 = 0,dblDeprRate2 = 0,dblDeprT2 = 0,lDeprMonths2 = 0,lUsedMonths2 = 0,dblMonthValue2 = 0,dblDepr3 = 0,dblDeprRate3 = 0,dblDeprT3 = 0,lDeprMonths3 = 0,lUsedMonths3 = 0,dblMonthValue3 = 0,dblDepr4 = 0,dblDeprRate4 = 0,dblDeprT4 = 0,lDeprMonths4 = 0,lUsedMonths4 = 0,dblMonthValue4 = 0,dblDepr5 = 0,dblDeprRate5 = 0,dblDeprT5 = 0,lDeprMonths5 = 0,lUsedMonths5 = 0,dblMonthValue5 = 0,dblDepr6 = 0,dblDeprRate6 = 0,dblDeprT6 = 0,lDeprMonths6 = 0,lUsedMonths6 = 0,dblMonthValue6 = 0,dblDepr7 = 0,dblDeprRate7 = 0,dblDeprT7 = 0,lDeprMonths7 = 0,lUsedMonths7 = 0,dblMonthValue7 = 0,dblDepr8 = 0,dblDeprRate8 = 0,dblDeprT8 = 0,lDeprMonths8 = 0,lUsedMonths8 = 0,dblMonthValue8 = 0,dblDepr9 = 0,dblDeprRate9 = 0,dblDeprT9 = 0,lDeprMonths9 = 0,lUsedMonths9 = 0,dblMonthValue9 = 0,dblDepr10 = 0,dblDeprRate10 = 0,dblDeprT10 = 0,lDeprMonths10 = 0,lUsedMonths10 = 0,dblMonthValue10 = 0,dblDepr11 = 0,dblDeprRate11 = 0,dblDeprT11 = 0,lDeprMonths11 = 0,lUsedMonths11 = 0,dblMonthValue11 = 0,dblDepr12 = 0,dblDeprRate12 = 0,dblDeprT12 = 0,lDeprMonths12 = 0,lUsedMonths12 = 0,dblMonthValue12 = 0,dblDeprThisYear = 0
+      from ({newYear}..fa_Cards INNER JOIN {newYear}..fa_Q_YXKP_NEW ON {newYear}..fa_Cards.scardid = {newYear}..fa_Q_YXKP_NEW.scardid)
+      inner join {newYear}..fa_DeprTransactions on {newYear}..fa_Cards.sCardNum = {newYear}..fa_DeprTransactions.sCardNum
+      where {newYear}..fa_Cards.iDisposePeriod &lt;> 0
     </DrySQL>
-  </SQLStatement>
+  </SQLSentence>
 
-  <SQLStatement id="UPDATEfa_WorkLoad">
+  <SQLSentence id="UPDATEfa_WorkLoad">
     <Name>UPDATEfa_WorkLoad</Name>
+    <ParamNames>{newYear}</ParamNames>
     <Introduction>
-      {0}..: new year
+      {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {0}..fa_WorkLoad SET dblWork0 = dblWork12,dblWorkT0 =dblWorkT12
-      UPDATE {0}..fa_WorkLoad SET dblWork1 = 0,dblWorkT1 =dblWorkT0 ,dblPerDepr1 = 0,dblWork2 = 0,dblWorkT2 = dblWorkT0,dblPerDepr2 = 0,dblWork3 = 0,dblWorkT3 = dblWorkT0,dblPerDepr3 = 0,dblWork4 = 0,dblWorkT4 = dblWorkT0,dblPerDepr4 = 0,dblWork5 = 0,dblWorkT5 = dblWorkT0,dblPerDepr5 = 0,dblWork6 = 0,dblWorkT6 = dblWorkT0,dblPerDepr6 = 0,dblWork7 = 0,dblWorkT7 = dblWorkT0,dblPerDepr7 = 0,dblWork8 = 0,dblWorkT8 = dblWorkT0,dblPerDepr8 = 0,dblWork9 = 0,dblWorkT9 = dblWorkT0,dblPerDepr9 = 0,dblWork10 = 0,dblWorkT10 = dblWorkT0,dblPerDepr10 = 0,dblWork11 = 0,dblWorkT11 = dblWorkT0,dblPerDepr11 = 0,dblWork12 = 0,dblWorkT12 = dblWorkT0,dblPerDepr12 = 0,dblDeprWorkThisYear = 0
+      UPDATE {newYear}..fa_WorkLoad SET dblWork0 = dblWork12,dblWorkT0 =dblWorkT12
+      UPDATE {newYear}..fa_WorkLoad SET dblWork1 = 0,dblWorkT1 =dblWorkT0 ,dblPerDepr1 = 0,dblWork2 = 0,dblWorkT2 = dblWorkT0,dblPerDepr2 = 0,dblWork3 = 0,dblWorkT3 = dblWorkT0,dblPerDepr3 = 0,dblWork4 = 0,dblWorkT4 = dblWorkT0,dblPerDepr4 = 0,dblWork5 = 0,dblWorkT5 = dblWorkT0,dblPerDepr5 = 0,dblWork6 = 0,dblWorkT6 = dblWorkT0,dblPerDepr6 = 0,dblWork7 = 0,dblWorkT7 = dblWorkT0,dblPerDepr7 = 0,dblWork8 = 0,dblWorkT8 = dblWorkT0,dblPerDepr8 = 0,dblWork9 = 0,dblWorkT9 = dblWorkT0,dblPerDepr9 = 0,dblWork10 = 0,dblWorkT10 = dblWorkT0,dblPerDepr10 = 0,dblWork11 = 0,dblWorkT11 = dblWorkT0,dblPerDepr11 = 0,dblWork12 = 0,dblWorkT12 = dblWorkT0,dblPerDepr12 = 0,dblDeprWorkThisYear = 0
     </DrySQL>
-  </SQLStatement>
-  
-    
-<SQLStatement id="DeleteInsertfa_DeprVoucherMain">
-    <Name>DeleteInsertfa_DeprVoucherMain</Name>
-    <Introduction>
-      {0}..: new database name
-      {1}..: old database name
-    </Introduction>
-    <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprVoucherMain')>0
-      begin
-      	if(select count(*) from {1}..fa_DeprVoucherMain)>0 DELETE FROM {0}..fa_DeprVoucherMain;
-INSERT INTO {0}..fa_DeprVoucherMain (lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy) select lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy from {1}..fa_DeprVoucherMain;
-end
-    </DrySQL>
-  </SQLStatement> <SQLStatement id="DeleteInsertfa_DeprVouchers">
-    <Name>DeleteInsertfa_DeprVouchers</Name>
-    <Introduction>
-      {0}..: new database name
-      {1}..: old database name
-    </Introduction>
-    <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_DeprVouchers')>0
-      begin
-      	if(select count(*) from {1}..fa_DeprVouchers)>0 DELETE FROM {0}..fa_DeprVouchers;
-INSERT INTO {0}..fa_DeprVouchers (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {1}..fa_DeprVouchers;
-end
-    </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="DeleteInsertfa_Control">
-    <Name>DeleteInsertfa_Control</Name>
-    <Introduction>
-      {0}..: new database name
-      {1}..: old database name
-    </Introduction>
-    <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Control')>0
-      begin
-      if(select count(*) from {1}..fa_Control)>0 DELETE FROM {0}..fa_Control;
-      INSERT INTO {0}..fa_Control (iType,sID,iStatus,sLockedBy) select iType,sID,iStatus,sLockedBy from {1}..fa_Control;
-      end
-    </DrySQL>
-  </SQLStatement>
-  
-  <SQLStatement id="DeleteUPDATEfa_Total">
+  </SQLSentence>
+  <SQLSentence id="DeleteUPDATEfa_Total">
     <Name>DeleteUPDATEfa_Total</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Total')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Total')>0
       begin
-      DELETE FROM {0}..fa_Total WHERE iPeriod=0;
-      UPDATE {0}..fa_Total SET iPeriod = 0,lMonthCount = lCount,dblLastAccrualValue = dblAccrualValue,dblLastDepr = dblDepr,dblLastAddValue=dblAddValue,dblLastDecValue=dblDecValue,dblLastWork=dblWork,dblLastWorkTotal=dblWorkT,dblMonthValue=dblValue,dblMonthDeprTotal=dblDeprTotal  WHERE (lCount > 0 OR dblDepr>0) AND iPeriod = 12
-      UPDATE {0}..fa_Total SET dblAccrualValue = 0,dblDepr = 0,dblTransInDeprTotal = 0,dblTransOutDeprTotal = 0,dblAddValue = 0,dblDecValue = 0
-      DELETE  FROM {0}..fa_Total WHERE iPeriod &lt;> 0
-       UPDATE {0}..fa_Total SET iPeriod = 1,dblYearValue = dblMonthValue,dblYearDeprTotal = dblMonthDeprTotal
+      DELETE FROM {newYearDB}..fa_Total WHERE iPeriod=0;
+      UPDATE {newYearDB}..fa_Total SET iPeriod = 0,lMonthCount = lCount,dblLastAccrualValue = dblAccrualValue,dblLastDepr = dblDepr,dblLastAddValue=dblAddValue,dblLastDecValue=dblDecValue,dblLastWork=dblWork,dblLastWorkTotal=dblWorkT,dblMonthValue=dblValue,dblMonthDeprTotal=dblDeprTotal  WHERE (lCount > 0 OR dblDepr>0) AND iPeriod = 12
+      UPDATE {newYearDB}..fa_Total SET dblAccrualValue = 0,dblDepr = 0,dblTransInDeprTotal = 0,dblTransOutDeprTotal = 0,dblAddValue = 0,dblDecValue = 0
+      DELETE  FROM {newYearDB}..fa_Total WHERE iPeriod &lt;> 0
+       UPDATE {newYearDB}..fa_Total SET iPeriod = 1,dblYearValue = dblMonthValue,dblYearDeprTotal = dblMonthDeprTotal
       end
       </DrySQL>
-  </SQLStatement>
-  <SQLStatement id="UPDATEfa_EvaluateMainfa_EvaluateVouchersfa_Cardsfa_JKSet">
+  </SQLSentence>
+  <SQLSentence id="UPDATEfa_EvaluateMainfa_EvaluateVouchersfa_Cardsfa_JKSet">
     <Name>UPDATEfa_EvaluateMainfa_EvaluateVouchersfa_Cardsfa_JKSet</Name>
+    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
-      {0}..: new database name
-      {1}..: old database name
+      {newYearDB}..: new database name
+      {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_EvaluateMain')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_EvaluateMain')>0
       begin
-      UPDATE {0}..fa_EvaluateMain SET iPeriod = 0
+      UPDATE {newYearDB}..fa_EvaluateMain SET iPeriod = 0
       end
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_EvaluateVouchers')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_EvaluateVouchers')>0
       begin
-      UPDATE {0}..fa_EvaluateVouchers SET iPeriod = 0
+      UPDATE {newYearDB}..fa_EvaluateVouchers SET iPeriod = 0
       end
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_Cards')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_Cards')>0
       begin
-      UPDATE {0}..fa_Cards SET sVoucherNum='',sEvaluateNum='',iInputPeriod = 0,iTransPeriod = 0,iDisposePeriod = 0,iOptType = 0
+      UPDATE {newYearDB}..fa_Cards SET sVoucherNum='',sEvaluateNum='',iInputPeriod = 0,iTransPeriod = 0,iDisposePeriod = 0,iOptType = 0
       end
-      if (select count(*) from {0}..sysobjects where xtype='U' and name='fa_JKSet')>0
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='fa_JKSet')>0
       begin
-      UPDATE {0}..fa_JKSet SET dDataIn = NULL,dDataWriteIn = NULL
+      UPDATE {newYearDB}..fa_JKSet SET dDataIn = NULL,dDataWriteIn = NULL
       end
     </DrySQL>
-  </SQLStatement>
-</SQLTemplate>
+  </SQLSentence>
+</SQLRepository>
