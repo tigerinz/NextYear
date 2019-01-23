@@ -84,7 +84,7 @@ namespace NewYearTests
             Assert.AreEqual(true, different["sentenceDistinct"].Count() == 0);
 
         }
-
+  
         private SqlSentenceManagerParam GetSqlSentenceManageParam(Setting setting)
         {
             SqlSentenceManagerParam param = new SqlSentenceManagerParam();
@@ -101,6 +101,17 @@ namespace NewYearTests
 
             
             return param;
+        }
+
+        [TestMethod()]
+        public void GetManyAccountHasModulesTest()
+        {
+            Setting setting = GetSetting();
+            T31082 t31082 = new T31082(setting);
+            Dictionary<string,string[]> modules= t31082.GetManyAccountHasUseModules(new List<string> { "096" }, setting.allowModules);
+            Assert.AreEqual(modules[modules.Keys.First()].Count(), 3);
+            Assert.AreEqual(modules.Keys.First(), "096");
+
         }
 
         private  Setting GetSetting()

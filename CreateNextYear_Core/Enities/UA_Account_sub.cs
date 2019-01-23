@@ -7,5 +7,6 @@
         public short iYear { get; set; }
         public string cSub_Id { get ; set; }
         public bool bIsDelete { get; set; }
+        public byte iModiPeri { get; set; }
     }                                          
 }

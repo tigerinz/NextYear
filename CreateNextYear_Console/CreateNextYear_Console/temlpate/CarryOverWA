@@ -140,7 +140,7 @@
       INSERT INTO {newYearDB}..WA_Psn SELECT * FROM {oldYearDB}..WA_Psn
     </DrySQL>
   </SQLSentence>
-  <SQLSentence name="Alter_WA_Bank">
+  <!--<SQLSentence name="Alter_WA_Bank">
     <Name>Alter_WA_Bank</Name>
     <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
@@ -148,12 +148,9 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      if (select count(name) from {newYearDB}..syscolumns where name like 'iBW' and id = object_id('WA_Bank')) = 0
-      Begin
-      ALTER TABLE {newYearDB}..WA_Bank ADD [iBW] [smallint] NULL DEFAULT 0 WITH VALUES ;
-      End
+      if (select count(name) from {newYearDB}..syscolumns where name like 'iBW' and id = object_id('WA_Bank')) = 0 ALTER TABLE {newYearDB}..WA_Bank ADD [iBW] [smallint] NULL DEFAULT 0 WITH VALUES ;
     </DrySQL>
-  </SQLSentence>
+  </SQLSentence>-->
   <SQLSentence name="Insert_WA_Bank">
     <Name>Insert_WA_Bank</Name>
     <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
@@ -215,7 +212,7 @@
     <DrySQL>
       DELETE  FROM {newYearDB}..WA_FilterName;
       SET IDENTITY_INSERT {newYearDB}..WA_FilterName ON;
-      Insert into {newYearDB}..WA_FilterName select * from {oldYearDB}..WA_FilterName;
+      Insert into {newYearDB}..WA_FilterName ([cGZGradeNum],[iUsualName_id],[cUsualName]) select [cGZGradeNum],[iUsualName_id],[cUsualName] from {oldYearDB}..WA_FilterName;
       SET IDENTITY_INSERT {newYearDB}..WA_FilterName OFF
     </DrySQL>
   </SQLSentence>
@@ -227,7 +224,7 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_Formula SELECT * FROM {oldYearDB}....WA_Formula
+    INSERT INTO {newYearDB}..WA_Formula SELECT * FROM {oldYearDB}..WA_Formula
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_FT_Sum">
@@ -337,7 +334,7 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight  {oldYearDB}..WA_tblRCsetP
+    INSERT INTO {newYearDB}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight from {oldYearDB}..WA_tblRCsetP
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_tblRCsetM ">
@@ -351,6 +348,16 @@
     INSERT INTO {newYearDB}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {oldYearDB}..WA_tblRCsetM
     </DrySQL>
   </SQLSentence>
+  <SQLSentence name="Drop_WA_GZData">
+    <Name>Drop_WA_GZData</Name>
+    <ParamNames>{newYearDB}</ParamNames>
+    <Introduction>
+      {newYearDB}..: new database name
+    </Introduction>
+    <DrySQL>
+      drop table {newYearDB}..WA_GZData;
+    </DrySQL>
+  </SQLSentence>
   <SQLSentence name="ALTER,Insert,Update WA_GZData">
     <Name>ALTER,Insert,Update WA_GZData</Name>
     <ParamNames>{newYearDB},{oldYearDB},{newYear}</ParamNames>
@@ -360,12 +367,11 @@
       {newYear}..: new year
     </Introduction>
     <DrySQL>
-    ALTER TABLE {newYearDB}..WA_GZData ADD F_7 numeric(18,2);
-    ALTER TABLE {newYearDB}..WA_GZData ADD F_8 numeric(18,2);
-    INSERT INTO {newYearDB}..WA_GZData SELECT * FROM {oldYearDB}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
-    Update {newYearDB}..WA_GZData SET iMonth=1,iYear={newYear},iAccMonth=1;
-    Update {newYearDB}..WA_GZData SET F_5=F_4;
-    Update {newYearDB}..WA_GZData SET F_4=0,F_6 = 0;
+      select * into {newYearDB}..WA_GZData from {oldYearDB}..WA_GZData where 1=0;
+      INSERT INTO {newYearDB}..WA_GZData SELECT * FROM {oldYearDB}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
+      Update {newYearDB}..WA_GZData SET iMonth=1,iYear={newYear},iAccMonth=1;
+      Update {newYearDB}..WA_GZData SET F_5=F_4;
+      Update {newYearDB}..WA_GZData SET F_4=0,F_6 = 0;
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="ALTER WA_GZHZB">
@@ -421,11 +427,11 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    DELETE  FROM {newYearDB}..WA_JKSet;
-    SET IDENTITY_INSERT {newYearDB}..WA_JKSet ON;
-    insert into {newYearDB}..WA_JKSet select * from  {oldYearDB}..WA_JKSet;
-    SET IDENTITY_INSERT {newYearDB}..WA_JKSet OFF;
-      
+      DELETE  FROM {newYearDB}..WA_JKSet;
+      SET IDENTITY_INSERT {newYearDB}..WA_JKSet ON;
+      insert into {newYearDB}..WA_JKSet ([cGZGradeNum],[iSort],[cJK_id],[cJKName],[cKeyName],[iKeyNum],[cJKFileName],[iFileType],[bDot],[bFGQW],[bcBWF],[icBWF],[biBWF],[iiBWF],[bFGF],[iFGF],[bKF],[iKF],[dDataIn],[dDataOut],[cOperator]) select  [cGZGradeNum],[iSort],[cJK_id],[cJKName],[cKeyName],[iKeyNum],[cJKFileName],[iFileType],[bDot],[bFGQW],[bcBWF],[icBWF],[biBWF],[iiBWF],[bFGF],[iFGF],[bKF],[iKF],[dDataIn],[dDataOut],[cOperator] from  {oldYearDB}..WA_JKSet;
+      SET IDENTITY_INSERT {newYearDB}..WA_JKSet OFF;
+
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="INSERT WA_JKItemSet">

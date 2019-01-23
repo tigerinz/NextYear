@@ -15,8 +15,7 @@ namespace CreateNextYear_Core_Console
         static void Main(string[] args)
         {
           Setting setting=  GetSetting();
-            T31082 t31082 = new T31082(setting);
-            
+            T31082 t31082 = new T31082(setting);;
             do
             {
                 string cmd = Console.ReadLine();
@@ -26,9 +25,8 @@ namespace CreateNextYear_Core_Console
                     {
                         case "checkAll":
                             Console.WriteLine(string.Format("--CheckAll {0} is begin", setting.oldYear));
-                            Console.WriteLine("账套号 总账 固定资产 工资");
                             // List<string> result= 
-                            t31082.CheckLastFlagManyAccountsManyModules(setting.account, setting.oldYear,new string[]{"GL","FA","WA" });
+                            t31082.CheckLastFlagManyAccountsManyModules(setting.accounts, setting.oldYear,setting.allowModules);
                             Console.WriteLine("checkAll over");
                             break;
                         case "createSingleNewYear":
@@ -41,7 +39,7 @@ namespace CreateNextYear_Core_Console
                             break;
                         case "createNewYear":
                             Console.WriteLine("--CreateNewYear is begin");
-                            List<UA_Account> accounts = t31082.GetAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
+                            List<UA_Account> accounts = t31082.GetAccounts().Where(a => setting.accounts.Contains(a.cAcc_Id)).ToList();
                             t31082.CreateManyAccountsNewYear(accounts);
                             Console.WriteLine("createNewYear over");
                             break;
@@ -51,13 +49,13 @@ namespace CreateNextYear_Core_Console
                             Console.WriteLine("input module GL,FA,WA");
                             string[] modules = Console.ReadLine().Split(',');
                             Console.WriteLine("--carryYear is begin");
-                            UA_Account carryForwardAccount = t31082.GetAccounts().FirstOrDefault(a => a.cAcc_Id == carryForwardAccountInfo);
-                            t31082.CarryForwardSingleAccountManyModules(carryForwardAccount, modules);
+                            UA_Account account = t31082.GetAccounts().FirstOrDefault(a => a.cAcc_Id == carryForwardAccountInfo);
+                            t31082.CarryForwardSingleAccountManyModules(account, modules);
                             Console.WriteLine("carryYear over");
                             break;
                         case "carryForwardAll":
                             Console.WriteLine("this is carryYear");
-                            accounts = t31082.GetAccounts().Where(a => setting.account.Contains(a.cAcc_Id)).ToList();
+                            accounts = t31082.GetAccounts().Where(a => setting.accounts.Contains(a.cAcc_Id)).ToList();
                             t31082.CarryForwardManyAccountsManyModules(accounts,new string[] { "GL", "FA", "WA" });
                             Console.WriteLine("carryYear over");
                             break;

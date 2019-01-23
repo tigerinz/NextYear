@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using CreateNextYear_Core.Enities;
 using CreateNextYear_Core.Infrastructure;
@@ -96,6 +97,8 @@ namespace CreateNextYear_Core.Manager
         public void CarryForwardManyAccountsManyModules(List<UA_Account>list, string[] modules)
         {
             log.Info("Carry Forward Many Account Many Module begin");
+
+    
             foreach (UA_Account acc in list)
             {
                 CarryForwardSingleAccountManyModules(acc, modules);
@@ -422,48 +425,134 @@ namespace CreateNextYear_Core.Manager
         /// <param name="checkYear"></param>
         /// <param name="modules"></param>
         /// <returns></returns>
-        public List<string> CheckLastFlagManyAccountsManyModules(List<string> accountCodes, string checkYear, string[] modules)
+        public void CheckLastFlagManyAccountsManyModules(List<string> accountCodes, string checkYear, List<string> allowModules)
         {
-
             List<string> list = new List<string>();
-            foreach (string accountCode in accountCodes)
+            Dictionary<string, List<UA_Account_sub>> accountSubs = new Dictionary<string, List<UA_Account_sub>>();
+            using (CreateNextYearDbContext context = new CreateNextYearDbContext())
             {
-                Dictionary<string, int> flag = this.GetSingleAccountManyModuleLastFlag(accountCode, checkYear, modules);
-                String message = accountCode;
-                foreach (var module in flag.Keys)
-                {
-                    int lastflag = flag[module];
-                    //if ((module == "WA" && lastflag > 0 && lastflag < 11)||
-                    //    (module == "FA" && lastflag > 0 && lastflag < 12)||
-                    //    (module == "GL" && lastflag > 0 && lastflag < 11)
-                    //    )
-                    //{
+                accountSubs = context.UA_Account_sub
+                     .Where(e => accountCodes.Contains(e.cAcc_Id) && e.iYear.ToString() == checkYear && allowModules.Contains(e.cSub_Id))
+                     .GroupBy(x => x.cAcc_Id)
+                     .ToDictionary(x => x.First().cAcc_Id, y => new List<UA_Account_sub>(y));
+            }
 
-                    //}
-                    if (module=="WA" && lastflag > 0 && lastflag < 11 )
+            foreach (var accCode in accountSubs.Keys)
+            {
+                String message ="";
+                List<UA_Account_sub> accsubs = accountSubs[accCode];
+                //set  modules name and period
+                string gl = "", fa = "", wa = "";
+                int glPeriod = 0, faPeriod = 0, waPeriod = 0;
+                foreach (UA_Account_sub accSub in accountSubs[accCode])
+                {
+                    switch (accSub.cSub_Id)
                     {
-                        message += string.Format(" 工资   {0}[未完成] ", lastflag);
-                    }
-                    else if (module == "FA" && lastflag > 0 && lastflag < 12)
-                    {
-                        message += string.Format(" 固定资产   {0}[未完成] ", lastflag);
-                    }
-                    else if (module == "GL" && lastflag > 0 && lastflag < 11)
-                    {
-                        message += string.Format(" 总账   {0}[未完成] ", lastflag);
-                    }
-                    else
-                    {
-                        message += string.Format("{0}   {1}",module, lastflag);
+                        case "GL":
+                            gl = "GL"; glPeriod = accSub.iModiPeri;
+                            break;
+                        case "FA":
+                            fa = "FA"; faPeriod = accSub.iModiPeri;
+                            break;
+                        case "WA":
+                            wa= "WA"; waPeriod = accSub.iModiPeri;
+                            break;
+                        default:
+                            break;
                     }
                 }
-                // set dictonary key and value (Flag and month) to a string 
-               // string flagText = string.Join("  ", flag.Select(kvp => string.Join(":", kvp.Key, kvp.Value)));
-                //string message = string.Format("{0}    {1}", accountCode, flagText);
-                list.Add(message);
-                log.Debug(message);
+               
+                //module only one gl
+                log.Debug(string.Format("{0},{1},{2}", accCode, accsubs.Count(),gl+glPeriod+fa+faPeriod+wa+waPeriod));
+                if (accsubs.Count() == 1)
+                {
+                    //int iModiPeri = accountSubs[accCode].First().iModiPeri;
+                    if (glPeriod < 12)
+                        message += string.Format("GL,{0},[未完成],", glPeriod);
+                       // log.Debug( string.Format("{0},GL,{1},[未完成],",accCode, iModiPeri));
+                   // else
+                       // message += string.Format("GL,{0},,", glPeriod);
+                        //log.Debug(string.Format("{0},GL,{1},,", accCode, iModiPeri));
+
+                }
+                //modules ==2 gl+fa/wa 
+                else if (accsubs.Count() > 1)
+                {
+ 
+                    if (wa=="WA"&& waPeriod<11&& glPeriod<=waPeriod)
+                        message += string.Format("WA,{0},[未完成],", waPeriod);
+                       // log.Debug(string.Format("{0},WA,{1},[未完成],", accCode, waPeriod));
+                   // else if (wa == "WA" && waPeriod == 11)
+                     //   message += string.Format("WA,{0},,", waPeriod);
+                      //  log.Debug(string.Format("{0},WA,{1},,", accCode, waPeriod));
+                     if (fa == "FA" && faPeriod < 12)
+                        message += string.Format("FA,{0},[未完成],", faPeriod);
+                      //  log.Debug(string.Format("{0},FA,{1},[未完成],", accCode, faPeriod));
+                   // else if (fa == "FA" && faPeriod == 12)
+                   //     message += string.Format("FA,{0},,", faPeriod);
+                       // log.Debug(string.Format("{0},FA,{1},,", accCode, faPeriod));
+                     if ((wa==""&&gl=="GL"&& glPeriod<12) ||(wa=="wa"&& gl == "GL" && glPeriod < 11) )
+                        message += string.Format("GL,{0},[未完成],", glPeriod);
+                       // log.Debug(string.Format("{0},GL,{1},[未完成],", accCode, glPeriod));
+                  //  else
+                   //     message += string.Format("GL,{0},,", glPeriod);
+                       // log.Debug(string.Format("{0},GL,{1},,", accCode, glPeriod));
+
+                }
+
+                //else if (accsubs.Count() == 3)
+                //{
+                //    if (wa == "WA" && waPeriod < 11)
+                //        message += string.Format("WA,{0},[未完成],", waPeriod);
+                //    if (fa == "FA" && faPeriod < 12)
+                //        message += string.Format("FA,{0},[未完成],", faPeriod);
+                //    if (gl == "GL" && glPeriod < 11)
+                //        message += string.Format("GL,{0},[未完成],", glPeriod);
+                //}
+                if (message != "")
+                {
+                    message = accCode + ","+message;
+                  log.Debug(message);
+                }
             }
-            return list;
+            //foreach (string accountCode in accountCodes)
+            //{
+            //    Dictionary<string, int> flag = this.GetSingleAccountManyModuleLastFlag(accountCode, checkYear, modules);
+            //    String message = accountCode+",";
+            //    foreach (var module in flag.Keys)
+            //    {
+            //        int lastflag = flag[module];
+            //        //if ((module == "WA" && lastflag > 0 && lastflag < 11)||
+            //        //    (module == "FA" && lastflag > 0 && lastflag < 12)||
+            //        //    (module == "GL" && lastflag > 0 && lastflag < 11)
+            //        //    )
+            //        //{
+
+            //        //}
+            //        if (module=="WA" && lastflag > 0 && lastflag < 11 )
+            //        {
+            //            message += string.Format("WA,{0},[未完成],", lastflag);
+            //        }
+            //        else if (module == "FA" && lastflag > 0 && lastflag < 12)
+            //        {
+            //            message += string.Format("FA,{0},[未完成],", lastflag);
+            //        }
+            //        else if (module == "GL" && lastflag > 0 && lastflag < 11)
+            //        {
+            //            message += string.Format("GL,{0},[未完成],", lastflag);
+            //        }
+            //        else
+            //        {
+            //            message += string.Format("{0},{1},,",module, lastflag);
+            //        }
+            //    }
+            //    // set dictonary key and value (Flag and month) to a string 
+            //   // string flagText = string.Join("  ", flag.Select(kvp => string.Join(":", kvp.Key, kvp.Value)));
+            //    //string message = string.Format("{0}    {1}", accountCode, flagText);
+            //    list.Add(message);
+            //    log.Debug(message);
+            //}
+
         }
         //public List<string> CarryForwardAll(List<string> accountCodes)
         //{
@@ -552,6 +641,107 @@ namespace CreateNextYear_Core.Manager
             ParamNameValues.Add("{oldYearDB}", UFDBName(acc.cAcc_Id, setting.oldYear));
             return ParamNameValues;
         }
+        /// <summary>
+        /// get account on old year turn on modules
+        /// </summary>
+        /// <param name="account">ua_account</param>
+        /// <returns></returns>
+        public Dictionary<string,int> GetSingleAccountHasModules(string accountCode,string[] voidCarryFowradModules)
+        {
+           // Dictionary<string,int> result = new Dictionary<string, int>();
+            Dictionary<string,int> accountSub =new Dictionary<string, int>();
+
+            using (CreateNextYearDbContext context = new CreateNextYearDbContext())
+            {
+                accountSub = context.UA_Account_sub
+                    .Where(e => e.cAcc_Id == accountCode && e.iYear == Convert.ToInt32(setting.oldYear) && voidCarryFowradModules.Contains(e.cSub_Id))
+                    .ToDictionary(e =>e.cSub_Id,e=>Convert.ToInt32(e.iModiPeri));
+            }
+            //Dictionary<string, string[]> able = new Dictionary<string, string[]>();
+            //List<string> unable = new List<string>();
+
+            ////module=1 GL,
+            //if (accountSub.Count == 1)
+            //{
+            //    if (accountSub.ContainsKey("GL") && accountSub["GL"] == 12)
+            //        able.Add(accountCode, new string[] { "GL" });
+            //    else
+            //        unable.Add(string.Format("{0},GL,{1},,", accountCode, accountSub["GL"]));
+            //}
+            ////module>2
+            //else
+            //{
+
+            //    foreach (var module in accountSub.Keys)
+            //   {
+            //        int iModiPeri = accountSub[module];
+            //        switch (module)
+            //        {
+            //            case "GL":
+            //                if (iModiPeri==12)
+            //                    able.Add(accountCode, new string[] { module });
+            //                break;
+            //            case "FA":
+            //                if(iModiPeri==12)
+            //                    able.Add(accountCode, new string[] { module });
+            //                break;
+            //            case "WA":
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //        if (module=="GL"&& iModiPeri==12)
+            //        {
+            //            able.Add(accountCode, new string[] { module });
+            //        }
+            //        else (module == "GL" && iModiPeri == 12)
+            //        {
+
+            //        }
+            //    }
+            //}
+            return accountSub;
+        }
+
+        /// <summary>
+        /// get array accounts  on old year turn on modules which is allow in setting
+        /// </summary>
+        /// <param name="accountCodes"></param>
+        /// <param name="allowModules"></param>
+        /// <returns></returns>
+        public Dictionary<string,string[]> GetManyAccountHasUseModules(List<string> accountCodes,List<string> allowModules)
+        {
+            Dictionary<string, string[]> result = new Dictionary<string, string[]>();
+            using (CreateNextYearDbContext context = new CreateNextYearDbContext())
+            {
+                result = context.UA_Account_sub
+                    .Where(e =>accountCodes.Contains(e.cAcc_Id)&& e.iYear.ToString() == setting.oldYear && allowModules.Contains(e.cSub_Id))
+                    .GroupBy(e=>e.cAcc_Id)
+                    .ToDictionary(x=>x.First().cAcc_Id,y=>y.Select(e=>e.cSub_Id).ToArray());
+            }
+            return result;
+        }
+        /// <summary>
+        /// get account on old year trun on module which can able carryfowrad new year
+        /// </summary>
+        /// <param name="moduleAndPeriod"></param>
+        /// <returns></returns>
+        //public List<string> GetAccountCarryFowradAbleModule(Dictionary<string, int> moduleAndPeriod)
+        //{
+        //    List<string> able = new List<string>();
+        //    List<string> unable = new List<string>();
+        //    if (moduleAndPeriod.Count() == 1)
+        //    {
+        //        if (moduleAndPeriod["GL"] == 12)
+        //            able.Add()
+        //    }
+        //    foreach (var item in moduleAndPeriod)
+        //    {
+        //        i
+        //    }
+
+
+        //}
 
         public bool IsSubSysUsed(string accountCode,string subSysName)
         {
