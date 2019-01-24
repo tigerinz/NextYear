@@ -7,15 +7,14 @@ using CreateNextYear_Core.Infrastructure;
 using SQLDryAlive.Core;
 
 
-
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 namespace CreateNextYear_Core.Manager
 {
-
+    public delegate void LogDelegate(string message);
     public class T31082 : ICreateNextYear
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        public LogDelegate logDelegate;
         //private string oldYear {get;set;}
 
         //private string newYear { get; set; }
@@ -66,44 +65,54 @@ namespace CreateNextYear_Core.Manager
                     break;
 
                 default:
-                    log.Info(" error carry forward module is not define");
+                    Talk(string.Format("{0},{1} error carry forward module is not define",acc.cAcc_Id,module));
                     break;
             }
 
             SQLRepositoryManage sqlRepositoryManage = new SQLRepositoryManage();
-            List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"temlpate\CarryOver"+module, param);
+            List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"template\CarryOver"+module, param);
             foreach (var sentence in sqlSentences)
             {
-                
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
-             
             }
 
-            log.Info(string.Format("carry {0}.{1} is over", acc.cAcc_Id, module));
+            Talk(string.Format("carry {0}.{1} is over", acc.cAcc_Id, module));
 
         }
 
         public void CarryForwardSingleAccountManyModules(UA_Account acc, string[] modules)
         {
-            log.Info("Carry Forward Single Account Many Module begin");
+            Talk("Carry Forward Single Account Many Module begin");
             foreach (string module in modules)
             {
                 CarryForwardSingleAccountSingleModule(acc, module);
             }
-            log.Info("Carry Forward Single Account Many Module over");
+            Talk("Carry Forward Single Account Many Module over");
 
         }
-
+        [Obsolete("use CarryForwardManyAccountsManyModules")]
         public void CarryForwardManyAccountsManyModules(List<UA_Account>list, string[] modules)
         {
-            log.Info("Carry Forward Many Account Many Module begin");
-
-    
+            Talk("Carry Forward Many Account Many Module begin");
             foreach (UA_Account acc in list)
             {
                 CarryForwardSingleAccountManyModules(acc, modules);
             }
-            log.Info("Carry Forward Many Account Many Module over");
+            Talk("Carry Forward Many Account Many Module over");
+
+        }
+
+        public void CarryForwardManyAccountsManyModules(List<UA_Account> list)
+        {
+            Talk("Carry Forward Many Account Many Module begin");
+            Dictionary<string,string[]> accountmodules= GetManyAccountHasUseModules(list.Select(e => e.cAcc_Id).ToList(), setting.allowModules);
+
+            foreach (UA_Account acc in list)
+            {
+                string[] modules = accountmodules[acc.cAcc_Id];
+                CarryForwardSingleAccountManyModules(acc, modules);
+            }
+            Talk("Carry Forward Many Account Many Module over");
 
         }
         // public bool CarryForwardFA(Account acc, string oldYear, string newYear)
@@ -155,21 +164,21 @@ namespace CreateNextYear_Core.Manager
         //    CarryForWardFATask["UPDATEfa_DeprTransactions3"] = new string[] { newYearDB };
         //    CarryForWardFATask["UPDATEfa_DeprTransactions4"] = new string[] { newYearDB };
         //    CarryForWardFATask["UPDATEfa_WorkLoad"] = new string[] { newYearDB };
-            
+
         //    CarryForWardFATask["DeleteInsertfa_DeprVoucherMain"] = newOldyearDB;
         //    CarryForWardFATask["DeleteInsertfa_DeprVouchers"] = newOldyearDB;
         //    CarryForWardFATask["DeleteInsertfa_Control"] = newOldyearDB;
         //    CarryForWardFATask["DeleteUPDATEfa_Total"] = new string[] { newYearDB };
         //    CarryForWardFATask["UPDATEfa_EvaluateMainfa_EvaluateVouchersfa_Cardsfa_JKSet"] = new string[] { newYearDB } ;
-            
+
 
         //    MSSQLHelper.MSSQLTools msTools = new MSSQLTools();
-        //    msTools.ExcuteSQLTemlpateTask(@"temlpate\CarryOverFA", CarryForWardFATask);
+        //    msTools.ExcuteSQLtemplateTask(@"template\CarryOverFA", CarryForWardFATask);
         //    result = true;
         //    return result;
         //}
 
-       // public bool CarryForwardGL(Account acc, string oldYear, string newYear)
+        // public bool CarryForwardGL(Account acc, string oldYear, string newYear)
         //public bool CarryForwardGL(string accountCode)
         //{
         //    bool result = false;
@@ -245,7 +254,7 @@ namespace CreateNextYear_Core.Manager
         //    CarryForWardGLTask["DeleteInsertTAX_YJSZ"] = newOldyearDB;
 
         //    MSSQLHelper.MSSQLTools msTools = new MSSQLTools();
-        //    msTools.ExcuteSQLTemlpateTask(@"temlpate\CarryOverGL", CarryForWardGLTask);
+        //    msTools.ExcuteSQLtemplateTask(@"template\CarryOverGL", CarryForWardGLTask);
         //    result = true;
         //    return result;
         //}
@@ -312,7 +321,7 @@ namespace CreateNextYear_Core.Manager
         //    CarryForWardWATask["UPDATE OldYear WA_account"] = new string[] { oldYearDB };
 
         //    MSSQLHelper.MSSQLTools msTools = new MSSQLTools();
-        //    msTools.ExcuteSQLTemlpateTask(@"temlpate\CarryOverWA", CarryForWardWATask);
+        //    msTools.ExcuteSQLtemplateTask(@"template\CarryOverWA", CarryForWardWATask);
         //    result = true;
         //    return result;
         //}
@@ -603,7 +612,7 @@ namespace CreateNextYear_Core.Manager
             bool isFlodExist = ioTools.CreateFold(floderPath);
             if (!isFlodExist)
             {
-                log.Info("create floder failed:" + floderPath);
+                Talk("create floder failed:" + floderPath);
                 return false;
             }
 
@@ -615,15 +624,15 @@ namespace CreateNextYear_Core.Manager
             param.SqlSentenceQueue =setting.createNewYearDbSentencesQueue;
             
             SQLRepositoryManage sqlRepositoryManage = new SQLRepositoryManage();
-            List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"temlpate\RDB", param);
+            List<SqlSentence> sqlSentences = sqlRepositoryManage.GetAliveSqlSentences(@"template\RDB", param);
             foreach (var sentence in sqlSentences)
             {
-                log.Info("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
+              //  Talk("AdoNetHelper executeCommand:" + sentence.Name + ",aliveSql:" + sentence.ALiveSQL);
                 ADONetHelper.ExecuteCommand(sentence.ALiveSQL);
-                log.Info("AdoNetHelper executeCommand:" + sentence.Name + "  over");
+              //  Talk("AdoNetHelper executeCommand:" + sentence.Name + "  over");
             }
             bool isDBExist = ADONetHelper.isDBisExist(param.ParamNameValues["{newYearDB}"]) == 1;
-            log.Info(string.Format("create {0} database {1}", acc.cAcc_Id, isDBExist));
+            Talk(string.Format("create {0} database {1}", acc.cAcc_Id, isDBExist));
             return isDBExist;
         }
         /// <summary>
@@ -822,6 +831,9 @@ namespace CreateNextYear_Core.Manager
             //return acc_subs;
         }
 
-
+        public void Talk(string message)
+        {
+            logDelegate(message);
+        }
     }
 }

@@ -443,99 +443,99 @@ end
   </SQLSentence>
   <SQLSentence id="UPDATEfa_DeprTransactions1">
     <Name>UPDATEfa_DeprTransactions1</Name>
-    <ParamNames>{newYear}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {newYear}..: new year
+      {newYear}..: new year databse name
     </Introduction>
     <DrySQL>
-      UPDATE {newYear}..fa_DeprTransactions SET dblMonthDecPreValue0 = dblThisMonthDecPreValueT - dblThisMonthRetDecPreValueT, dblDeprT0 = dblDeprT12,dblDepr0=dblDepr12,lDeprMonths0 = lDeprMonths12,lUsedMonths0 = lUsedMonths12
+      UPDATE {newYearDB}..fa_DeprTransactions SET dblMonthDecPreValue0 = dblThisMonthDecPreValueT - dblThisMonthRetDecPreValueT, dblDeprT0 = dblDeprT12,dblDepr0=dblDepr12,lDeprMonths0 = lDeprMonths12,lUsedMonths0 = lUsedMonths12
     </DrySQL>
   </SQLSentence>
   <SQLSentence id="UPDATEfa_DeprTransactions2">
     <Name>UPDATEfa_DeprTransactions2</Name>
-    <ParamNames>{newYear}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {newYear}..: new year
+      {newYearDB}..: new year databse name
     </Introduction>
     <DrySQL>
-      UPDATE  {newYear}.dbo.fa_DeprTransactions
-      SET         dblThisMonthDecPreValueT = {newYear}.dbo.fa_Cards.dblDecPreValueT,
-      dblThisMonthRetDecPreValueT = {newYear}.dbo.fa_Cards.dblRetDecPreValueT
-      FROM      {newYear}.dbo.fa_Cards INNER JOIN
-      {newYear}.dbo.fa_Q_YXKP_NEW ON
-      {newYear}.dbo.fa_Cards.sCardID = {newYear}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
-      {newYear}.dbo.fa_DeprTransactions ON
-      {newYear}.dbo.fa_Cards.sCardNum = {newYear}.dbo.fa_DeprTransactions.sCardNum
-      WHERE   ({newYear}.dbo.fa_Cards.dDisposeDate IS NULL)
+      UPDATE  {newYearDB}.dbo.fa_DeprTransactions
+      SET         dblThisMonthDecPreValueT = {newYearDB}.dbo.fa_Cards.dblDecPreValueT,
+      dblThisMonthRetDecPreValueT = {newYearDB}.dbo.fa_Cards.dblRetDecPreValueT
+      FROM      {newYearDB}.dbo.fa_Cards INNER JOIN
+      {newYearDB}.dbo.fa_Q_YXKP_NEW ON
+      {newYearDB}.dbo.fa_Cards.sCardID = {newYearDB}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
+      {newYearDB}.dbo.fa_DeprTransactions ON
+      {newYearDB}.dbo.fa_Cards.sCardNum = {newYearDB}.dbo.fa_DeprTransactions.sCardNum
+      WHERE   ({newYearDB}.dbo.fa_Cards.dDisposeDate IS NULL)
     </DrySQL>
   </SQLSentence>
   <SQLSentence id="UPDATEfa_DeprTransactions3">
     <Name>UPDATEfa_DeprTransactions3</Name>
-    <ParamNames>{newYear}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {newYear}..: new year
+      {newYearDB}..: new year database name
     </Introduction>
     <DrySQL>
-      UPDATE  {newYear}.dbo.fa_DeprTransactions
-      SET         dblPeriodValue = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0,
-      dblPeriodDeprTotal = {newYear}.dbo.fa_DeprTransactions.dblDeprT0, iInputPeriod = 0, dblDepr1 = 0,
-      dblDeprRate1 = 0, dblDeprT1 = {newYear}.dbo.fa_DeprTransactions.dblDeprT0,
-      lDeprMonths1 = {newYear}.dbo.fa_DeprTransactions.lDeprMonths0,
-      lUsedMonths1 = {newYear}.dbo.fa_DeprTransactions.lUsedMonths0,
-      dblMonthValue1 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr2 = 0, dblDeprRate2 = 0,
+      UPDATE  {newYearDB}.dbo.fa_DeprTransactions
+      SET         dblPeriodValue = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0,
+      dblPeriodDeprTotal = {newYearDB}.dbo.fa_DeprTransactions.dblDeprT0, iInputPeriod = 0, dblDepr1 = 0,
+      dblDeprRate1 = 0, dblDeprT1 = {newYearDB}.dbo.fa_DeprTransactions.dblDeprT0,
+      lDeprMonths1 = {newYearDB}.dbo.fa_DeprTransactions.lDeprMonths0,
+      lUsedMonths1 = {newYearDB}.dbo.fa_DeprTransactions.lUsedMonths0,
+      dblMonthValue1 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr2 = 0, dblDeprRate2 = 0,
       dblDeprT2 = 0, lDeprMonths2 = 0, lUsedMonths2 = 0,
-      dblMonthValue2 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr3 = 0, dblDeprRate3 = 0,
+      dblMonthValue2 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr3 = 0, dblDeprRate3 = 0,
       dblDeprT3 = 0, lDeprMonths3 = 0, lUsedMonths3 = 0,
-      dblMonthValue3 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr4 = 0, dblDeprRate4 = 0,
+      dblMonthValue3 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr4 = 0, dblDeprRate4 = 0,
       dblDeprT4 = 0, lDeprMonths4 = 0, lUsedMonths4 = 0,
-      dblMonthValue4 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr5 = 0, dblDeprRate5 = 0,
+      dblMonthValue4 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr5 = 0, dblDeprRate5 = 0,
       dblDeprT5 = 0, lDeprMonths5 = 0, lUsedMonths5 = 0,
-      dblMonthValue5 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr6 = 0, dblDeprRate6 = 0,
+      dblMonthValue5 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr6 = 0, dblDeprRate6 = 0,
       dblDeprT6 = 0, lDeprMonths6 = 0, lUsedMonths6 = 0,
-      dblMonthValue6 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr7 = 0, dblDeprRate7 = 0,
+      dblMonthValue6 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr7 = 0, dblDeprRate7 = 0,
       dblDeprT7 = 0, lDeprMonths7 = 0, lUsedMonths7 = 0,
-      dblMonthValue7 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr8 = 0, dblDeprRate8 = 0,
+      dblMonthValue7 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr8 = 0, dblDeprRate8 = 0,
       dblDeprT8 = 0, lDeprMonths8 = 0, lUsedMonths8 = 0,
-      dblMonthValue8 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr9 = 0, dblDeprRate9 = 0,
+      dblMonthValue8 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr9 = 0, dblDeprRate9 = 0,
       dblDeprT9 = 0, lDeprMonths9 = 0, lUsedMonths9 = 0,
-      dblMonthValue9 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr10 = 0, dblDeprRate10 = 0,
+      dblMonthValue9 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr10 = 0, dblDeprRate10 = 0,
       dblDeprT10 = 0, lDeprMonths10 = 0, lUsedMonths10 = 0,
-      dblMonthValue10 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr11 = 0, dblDeprRate11 = 0,
+      dblMonthValue10 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr11 = 0, dblDeprRate11 = 0,
       dblDeprT11 = 0, lDeprMonths11 = 0, lUsedMonths11 = 0,
-      dblMonthValue11 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr12 = 0, dblDeprRate12 = 0,
+      dblMonthValue11 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDepr12 = 0, dblDeprRate12 = 0,
       dblDeprT12 = 0, lDeprMonths12 = 0, lUsedMonths12 = 0,
-      dblMonthValue12 = {newYear}.dbo.fa_DeprTransactions.dblMonthValue0, dblDeprThisYear = 0
-      FROM      {newYear}.dbo.fa_Cards INNER JOIN
-      {newYear}.dbo.fa_Q_YXKP_NEW ON
-      {newYear}.dbo.fa_Cards.sCardID = {newYear}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
-      {newYear}.dbo.fa_DeprTransactions ON
-      {newYear}.dbo.fa_Cards.sCardNum = {newYear}.dbo.fa_DeprTransactions.sCardNum
-      WHERE   ({newYear}.dbo.fa_Cards.iDisposePeriod = 0)
+      dblMonthValue12 = {newYearDB}.dbo.fa_DeprTransactions.dblMonthValue0, dblDeprThisYear = 0
+      FROM      {newYearDB}.dbo.fa_Cards INNER JOIN
+      {newYearDB}.dbo.fa_Q_YXKP_NEW ON
+      {newYearDB}.dbo.fa_Cards.sCardID = {newYearDB}.dbo.fa_Q_YXKP_NEW.sCardID INNER JOIN
+      {newYearDB}.dbo.fa_DeprTransactions ON
+      {newYearDB}.dbo.fa_Cards.sCardNum = {newYearDB}.dbo.fa_DeprTransactions.sCardNum
+      WHERE   ({newYearDB}.dbo.fa_Cards.iDisposePeriod = 0)
     </DrySQL>
   </SQLSentence>
   <SQLSentence id="UPDATEfa_DeprTransactions4">
     <Name>UPDATEfa_DeprTransactions4</Name>
-    <ParamNames>{newYear}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
-      {newYear}..: new year
+      {newYearDB}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {newYear}..fa_DeprTransactions SET dblPeriodValue = 0,dblPeriodDeprTotal= 0, iInputPeriod=0,dblDepr1 = 0,dblDeprRate1 = 0,dblDeprT1 = dblDeprT0,lDeprMonths1 = lDeprMonths0,lUsedMonths1 = lUsedMonths0,dblMonthValue1 = dblMonthValue0,dblDepr2 = 0,dblDeprRate2 = 0,dblDeprT2 = 0,lDeprMonths2 = 0,lUsedMonths2 = 0,dblMonthValue2 = 0,dblDepr3 = 0,dblDeprRate3 = 0,dblDeprT3 = 0,lDeprMonths3 = 0,lUsedMonths3 = 0,dblMonthValue3 = 0,dblDepr4 = 0,dblDeprRate4 = 0,dblDeprT4 = 0,lDeprMonths4 = 0,lUsedMonths4 = 0,dblMonthValue4 = 0,dblDepr5 = 0,dblDeprRate5 = 0,dblDeprT5 = 0,lDeprMonths5 = 0,lUsedMonths5 = 0,dblMonthValue5 = 0,dblDepr6 = 0,dblDeprRate6 = 0,dblDeprT6 = 0,lDeprMonths6 = 0,lUsedMonths6 = 0,dblMonthValue6 = 0,dblDepr7 = 0,dblDeprRate7 = 0,dblDeprT7 = 0,lDeprMonths7 = 0,lUsedMonths7 = 0,dblMonthValue7 = 0,dblDepr8 = 0,dblDeprRate8 = 0,dblDeprT8 = 0,lDeprMonths8 = 0,lUsedMonths8 = 0,dblMonthValue8 = 0,dblDepr9 = 0,dblDeprRate9 = 0,dblDeprT9 = 0,lDeprMonths9 = 0,lUsedMonths9 = 0,dblMonthValue9 = 0,dblDepr10 = 0,dblDeprRate10 = 0,dblDeprT10 = 0,lDeprMonths10 = 0,lUsedMonths10 = 0,dblMonthValue10 = 0,dblDepr11 = 0,dblDeprRate11 = 0,dblDeprT11 = 0,lDeprMonths11 = 0,lUsedMonths11 = 0,dblMonthValue11 = 0,dblDepr12 = 0,dblDeprRate12 = 0,dblDeprT12 = 0,lDeprMonths12 = 0,lUsedMonths12 = 0,dblMonthValue12 = 0,dblDeprThisYear = 0
-      from ({newYear}..fa_Cards INNER JOIN {newYear}..fa_Q_YXKP_NEW ON {newYear}..fa_Cards.scardid = {newYear}..fa_Q_YXKP_NEW.scardid)
-      inner join {newYear}..fa_DeprTransactions on {newYear}..fa_Cards.sCardNum = {newYear}..fa_DeprTransactions.sCardNum
-      where {newYear}..fa_Cards.iDisposePeriod &lt;> 0
+      UPDATE {newYearDB}..fa_DeprTransactions SET dblPeriodValue = 0,dblPeriodDeprTotal= 0, iInputPeriod=0,dblDepr1 = 0,dblDeprRate1 = 0,dblDeprT1 = dblDeprT0,lDeprMonths1 = lDeprMonths0,lUsedMonths1 = lUsedMonths0,dblMonthValue1 = dblMonthValue0,dblDepr2 = 0,dblDeprRate2 = 0,dblDeprT2 = 0,lDeprMonths2 = 0,lUsedMonths2 = 0,dblMonthValue2 = 0,dblDepr3 = 0,dblDeprRate3 = 0,dblDeprT3 = 0,lDeprMonths3 = 0,lUsedMonths3 = 0,dblMonthValue3 = 0,dblDepr4 = 0,dblDeprRate4 = 0,dblDeprT4 = 0,lDeprMonths4 = 0,lUsedMonths4 = 0,dblMonthValue4 = 0,dblDepr5 = 0,dblDeprRate5 = 0,dblDeprT5 = 0,lDeprMonths5 = 0,lUsedMonths5 = 0,dblMonthValue5 = 0,dblDepr6 = 0,dblDeprRate6 = 0,dblDeprT6 = 0,lDeprMonths6 = 0,lUsedMonths6 = 0,dblMonthValue6 = 0,dblDepr7 = 0,dblDeprRate7 = 0,dblDeprT7 = 0,lDeprMonths7 = 0,lUsedMonths7 = 0,dblMonthValue7 = 0,dblDepr8 = 0,dblDeprRate8 = 0,dblDeprT8 = 0,lDeprMonths8 = 0,lUsedMonths8 = 0,dblMonthValue8 = 0,dblDepr9 = 0,dblDeprRate9 = 0,dblDeprT9 = 0,lDeprMonths9 = 0,lUsedMonths9 = 0,dblMonthValue9 = 0,dblDepr10 = 0,dblDeprRate10 = 0,dblDeprT10 = 0,lDeprMonths10 = 0,lUsedMonths10 = 0,dblMonthValue10 = 0,dblDepr11 = 0,dblDeprRate11 = 0,dblDeprT11 = 0,lDeprMonths11 = 0,lUsedMonths11 = 0,dblMonthValue11 = 0,dblDepr12 = 0,dblDeprRate12 = 0,dblDeprT12 = 0,lDeprMonths12 = 0,lUsedMonths12 = 0,dblMonthValue12 = 0,dblDeprThisYear = 0
+      from ({newYearDB}..fa_Cards INNER JOIN {newYearDB}..fa_Q_YXKP_NEW ON {newYearDB}..fa_Cards.scardid = {newYearDB}..fa_Q_YXKP_NEW.scardid)
+      inner join {newYearDB}..fa_DeprTransactions on {newYearDB}..fa_Cards.sCardNum = {newYearDB}..fa_DeprTransactions.sCardNum
+      where {newYearDB}..fa_Cards.iDisposePeriod &lt;> 0
     </DrySQL>
   </SQLSentence>
 
   <SQLSentence id="UPDATEfa_WorkLoad">
     <Name>UPDATEfa_WorkLoad</Name>
-    <ParamNames>{newYear}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
       {newYear}..: new year
     </Introduction>
     <DrySQL>
-      UPDATE {newYear}..fa_WorkLoad SET dblWork0 = dblWork12,dblWorkT0 =dblWorkT12
-      UPDATE {newYear}..fa_WorkLoad SET dblWork1 = 0,dblWorkT1 =dblWorkT0 ,dblPerDepr1 = 0,dblWork2 = 0,dblWorkT2 = dblWorkT0,dblPerDepr2 = 0,dblWork3 = 0,dblWorkT3 = dblWorkT0,dblPerDepr3 = 0,dblWork4 = 0,dblWorkT4 = dblWorkT0,dblPerDepr4 = 0,dblWork5 = 0,dblWorkT5 = dblWorkT0,dblPerDepr5 = 0,dblWork6 = 0,dblWorkT6 = dblWorkT0,dblPerDepr6 = 0,dblWork7 = 0,dblWorkT7 = dblWorkT0,dblPerDepr7 = 0,dblWork8 = 0,dblWorkT8 = dblWorkT0,dblPerDepr8 = 0,dblWork9 = 0,dblWorkT9 = dblWorkT0,dblPerDepr9 = 0,dblWork10 = 0,dblWorkT10 = dblWorkT0,dblPerDepr10 = 0,dblWork11 = 0,dblWorkT11 = dblWorkT0,dblPerDepr11 = 0,dblWork12 = 0,dblWorkT12 = dblWorkT0,dblPerDepr12 = 0,dblDeprWorkThisYear = 0
+      UPDATE {newYearDB}..fa_WorkLoad SET dblWork0 = dblWork12,dblWorkT0 =dblWorkT12
+      UPDATE {newYearDB}..fa_WorkLoad SET dblWork1 = 0,dblWorkT1 =dblWorkT0 ,dblPerDepr1 = 0,dblWork2 = 0,dblWorkT2 = dblWorkT0,dblPerDepr2 = 0,dblWork3 = 0,dblWorkT3 = dblWorkT0,dblPerDepr3 = 0,dblWork4 = 0,dblWorkT4 = dblWorkT0,dblPerDepr4 = 0,dblWork5 = 0,dblWorkT5 = dblWorkT0,dblPerDepr5 = 0,dblWork6 = 0,dblWorkT6 = dblWorkT0,dblPerDepr6 = 0,dblWork7 = 0,dblWorkT7 = dblWorkT0,dblPerDepr7 = 0,dblWork8 = 0,dblWorkT8 = dblWorkT0,dblPerDepr8 = 0,dblWork9 = 0,dblWorkT9 = dblWorkT0,dblPerDepr9 = 0,dblWork10 = 0,dblWorkT10 = dblWorkT0,dblPerDepr10 = 0,dblWork11 = 0,dblWorkT11 = dblWorkT0,dblPerDepr11 = 0,dblWork12 = 0,dblWorkT12 = dblWorkT0,dblPerDepr12 = 0,dblDeprWorkThisYear = 0
     </DrySQL>
   </SQLSentence>
   <SQLSentence id="DeleteUPDATEfa_Total">

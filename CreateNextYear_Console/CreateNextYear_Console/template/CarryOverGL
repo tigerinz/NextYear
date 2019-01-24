@@ -888,4 +888,15 @@
       end
     </DrySQL>
   </SQLSentence>
+  <SQLSentence name="UPDATEOldYearGL_mend">
+    <Name>UPDATEOldYearGL_mend</Name>
+    <ParamNames>{oldYearDB},{oldYear},{cAcc_Id}</ParamNames>
+    <Introduction>
+      {oldYearDB}..: old database name
+    </Introduction>
+    <DrySQL>
+      UPDATE {oldYearDB}..GL_mend SET bflag=1 WHERE iperiod &lt;= 12
+      update ufsystem..ua_account_sub set imodiperi=12 where iyear={oldYear} and cacc_id={cAcc_Id} and csub_id='GL'
+    </DrySQL>
+  </SQLSentence>
 </SQLRepository>

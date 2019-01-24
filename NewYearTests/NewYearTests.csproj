@@ -43,7 +43,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="SQLDryAlive">
-      <HintPath>..\..\MyHelper\SQLDryAlive\bin\Debug\SQLDryAlive.dll</HintPath>
+      <HintPath>..\..\..\useful\MyHelper\SQLDryAlive\bin\Debug\SQLDryAlive.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

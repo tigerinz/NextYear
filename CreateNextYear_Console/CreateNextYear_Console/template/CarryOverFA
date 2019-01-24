@@ -197,7 +197,8 @@ end
 INSERT INTO {newYearDB}..fa_DeprTransactions (sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT) select sCardNum,sDeprAssetNum,iInputPeriod,dblInputValue,dblMonthValue,dblPeriodValue,dblInputDeprTotal,dblMonthDeprTotal,dblPeriodDeprTotal,dblInputBV,dblMonthBV,dblInputBVRate,dblMonthBVRate,dblInputCanWork,dblInputWorkTotal,lInputLife,lInputDeprMonths,sMonthStatusID,dblDepr0,dblDeprRate0,dblDeprT0,lDeprMonths0,lUsedMonths0,dblDepr1,dblDeprRate1,dblDeprT1,lDeprMonths1,lUsedMonths1,dblDepr2,dblDeprRate2,dblDeprT2,lDeprMonths2,lUsedMonths2,dblDepr3,dblDeprRate3,dblDeprT3,lDeprMonths3,lUsedMonths3,dblDepr4,dblDeprRate4,dblDeprT4,lDeprMonths4,lUsedMonths4,dblDepr5,dblDeprRate5,dblDeprT5,lDeprMonths5,lUsedMonths5,dblDepr6,dblDeprRate6,dblDeprT6,lDeprMonths6,lUsedMonths6,dblDepr7,dblDeprRate7,dblDeprT7,lDeprMonths7,lUsedMonths7,dblDepr8,dblDeprRate8,dblDeprT8,lDeprMonths8,lUsedMonths8,dblDepr9,dblDeprRate9,dblDeprT9,lDeprMonths9,lUsedMonths9,dblDepr10,dblDeprRate10,dblDeprT10,lDeprMonths10,lUsedMonths10,dblDepr11,dblDeprRate11,dblDeprT11,lDeprMonths11,lUsedMonths11,dblDepr12,dblDeprRate12,dblDeprT12,lDeprMonths12,lUsedMonths12,dblMonthValue0,dblMonthValue1,dblMonthValue2,dblMonthValue3,dblMonthValue4,dblMonthValue5,dblMonthValue6,dblMonthValue7,dblMonthValue8,dblMonthValue9,dblMonthValue10,dblMonthValue11,dblMonthValue12,dblThisMonthValue,dblThisMonthDepr,dblThisMonthDeprT,dblDeprThisYear,sLockedBy,dblMonthDecPreValue0,dblThisMonthDecPreValueT,dblThisMonthRetDecPreValueT from {oldYearDB}..fa_DeprTransactions;
 end
     </DrySQL>
-  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVoucherMain">
+  </SQLSentence> 
+  <!--<SQLSentence id="DeleteInsertfa_DeprVoucherMain">
     <Name>DeleteInsertfa_DeprVoucherMain</Name>
     <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
@@ -211,7 +212,8 @@ end
 INSERT INTO {newYearDB}..fa_DeprVoucherMain (lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy) select lOptID,sNum,iMaxPeriod,iMinPeriod,iStyle,sZWVoucherType,sZWVoucherNum,sLockedBy from {oldYearDB}..fa_DeprVoucherMain;
 end
     </DrySQL>
-  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVouchers">
+  </SQLSentence>--> 
+  <!--<SQLSentence id="DeleteInsertfa_DeprVouchers">
     <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Name>DeleteInsertfa_DeprVouchers</Name>
     <Introduction>
@@ -225,7 +227,8 @@ end
 INSERT INTO {newYearDB}..fa_DeprVouchers (lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy) select lOptID,iPeriod,sDeptNum,sDeptName,sTypeNum,sTypeName,sProjectNum,sProjectName,sSubjectNum,sSubjectName,dblDebit,dblCredit,sLockedBy from {oldYearDB}..fa_DeprVouchers;
 end
     </DrySQL>
-  </SQLSentence> <SQLSentence id="DeleteInsertfa_DeprVouchers_pre">
+  </SQLSentence>--> 
+  <SQLSentence id="DeleteInsertfa_DeprVouchers_pre">
     <Name>DeleteInsertfa_DeprVouchers_pre</Name>
     <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
@@ -365,7 +368,8 @@ end
 INSERT INTO {newYearDB}..fa_WorkLoad (sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear) select sCardNum,dblWork0,dblWorkT0,dblWork1,dblWorkT1,dblWork2,dblWorkT2,dblWork3,dblWorkT3,dblWork4,dblWorkT4,dblWork5,dblWorkT5,dblWork6,dblWorkT6,dblWork7,dblWorkT7,dblWork8,dblWorkT8,dblWork9,dblWorkT9,dblWork10,dblWorkT10,dblWork11,dblWorkT11,dblWork12,dblWorkT12,dblPerDepr0,dblPerDepr1,dblPerDepr2,dblPerDepr3,dblPerDepr4,dblPerDepr5,dblPerDepr6,dblPerDepr7,dblPerDepr8,dblPerDepr9,dblPerDepr10,dblPerDepr11,dblPerDepr12,dblThisMonthWork,dblThisMonthWorkT,dblDeprWorkThisYear from {oldYearDB}..fa_WorkLoad;
 end
     </DrySQL>
-  </SQLSentence> <SQLSentence id="DeleteInsertfa_ZWVouchers">
+  </SQLSentence> 
+  <!--<SQLSentence id="DeleteInsertfa_ZWVouchers">
     <Name>DeleteInsertfa_ZWVouchers</Name>
     <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
     <Introduction>
@@ -381,7 +385,8 @@ end
                                 SET IDENTITY_INSERT {newYearDB}..fa_ZWVouchers off; 
                                 end
 </DrySQL>
-</SQLSentence><SQLSentence id="DeleteInsertfa_JKItemSet">
+</SQLSentence>-->
+  <SQLSentence id="DeleteInsertfa_JKItemSet">
 <Name>DeleteInsertfa_JKItemSet</Name>
   <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
   <Introduction>

@@ -3036,4 +3036,18 @@
   UPDATE ufsystem..UA_Account_Sub SET bClosing=0 WHERE cAcc_Id='{cAcc_Id}' AND iYear= {oldYear} AND (bIsDelete=0 OR bIsDelete IS NULL) AND cSub_Id not like 'WA'
 </DrySQL>
 </SQLSentence>
+  <!--<SQLSentence>
+    <Name>CreateMc_MyMsgView</Name>
+    <ParamNames></ParamNames>
+    <Introduction></Introduction>
+    <DrySQL>
+      CREATE VIEW {newYearDB}..[MC_MYMsgView]
+      AS
+      Select CONVERT(varchar(50),id) AS id,cFromName,cSubject,cBody,cBusStatus,cMsgType,SendDate,cReID
+      from MC_MYMESSAGE
+      union
+      select cmsgid,'系统',cmsgtitle,cmsgcontent,'推送消息','文本',dsend,cReceiver
+      from UFSystem..UA_Message where bHasRead='0'
+    </DrySQL>
+  </SQLSentence>-->
 </SQLRepository>

@@ -97,16 +97,13 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="temlpate\CarryOver">
+    <None Include="template\CarryOverFA">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="temlpate\CarryOverFA">
+    <None Include="template\CarryOverGL">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="temlpate\CarryOverGL">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="temlpate\RDB">
+    <None Include="template\RDB">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -129,12 +126,11 @@
     <Content Include="setting.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="temlpate\CarryOverWA">
+    <Content Include="ReadMe.txt" />
+    <None Include="template\CarryOverWA">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
-    <Content Include="temlpate\需要对导的表.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CreateNextYear_Core\CreateNextYear_Core.csproj">

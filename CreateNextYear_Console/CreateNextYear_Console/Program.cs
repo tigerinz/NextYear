@@ -15,7 +15,11 @@ namespace CreateNextYear_Core_Console
         static void Main(string[] args)
         {
           Setting setting=  GetSetting();
-            T31082 t31082 = new T31082(setting);;
+            T31082 t31082 = new T31082(setting);
+            t31082.logDelegate =(message)=> {
+                Console.WriteLine(message);
+                log.Debug(message);
+            };
             do
             {
                 string cmd = Console.ReadLine();
@@ -56,7 +60,8 @@ namespace CreateNextYear_Core_Console
                         case "carryForwardAll":
                             Console.WriteLine("this is carryYear");
                             accounts = t31082.GetAccounts().Where(a => setting.accounts.Contains(a.cAcc_Id)).ToList();
-                            t31082.CarryForwardManyAccountsManyModules(accounts,new string[] { "GL", "FA", "WA" });
+                            t31082.CarryForwardManyAccountsManyModules(accounts);
+                           // t31082.CarryForwardManyAccountsManyModules(accounts,new string[] { "GL", "FA", "WA" });
                             Console.WriteLine("carryYear over");
                             break;
                         case "help":
@@ -76,6 +81,10 @@ namespace CreateNextYear_Core_Console
             
             
         }
+        /// <summary>
+        /// read config file type of js 
+        /// </summary>
+        /// <returns></returns>
         private static Setting GetSetting()
         {
             string file = File.ReadAllText("setting.js");

@@ -7,18 +7,28 @@
       {newYearDB}: new database name
       {oldYearDB}: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {newYearDB}..WA_account SELECT * FROM {oldYearDB}..WA_account</DrySQL>
+    <DrySQL>
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='WA_account')>0
+      begin
+      if(select count(*) from {oldYearDB}..WA_account)>0
+      begin
+      drop table {newYearDB}..WA_account;
+      select * into {newYearDB}..WA_account  from  {oldYearDB}..WA_account;
+      end
+      end;
+    </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_Authority">
     <Name>Insert WA_Authority</Name>
-    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
+    <ParamNames>{newYearDB},{oldYearDB},{newYear}</ParamNames>
     <Introduction>
       {newYearDB}: new database name
       {oldYearDB}: old database name
+      {newYear}: new year name
     </Introduction>
     <DrySQL>
       INSERT INTO {newYearDB}..WA_Authority SELECT * FROM {oldYearDB}..WA_Authority;
-      update {newYearDB}..WA_account set iLastMonth=1 where cGZGradeNum='001';
+      update {newYearDB}..WA_account set iLastMonth=0,iLastYear={newYear} where cGZGradeNum='001';
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Alter WA_BankName">
@@ -27,7 +37,9 @@
     <Introduction>
       {newYearDB}: new database name
     </Introduction>
-    <DrySQL>ALTER TABLE {newYearDB}..WA_BankName ADD cCompanyCode VARCHAR(50),cSavingName VARCHAR(50)</DrySQL>
+    <DrySQL>
+      if(select count(*) from {newYearDB}..syscolumns cols join {newYearDB}..sysobjects objs on cols.id=objs.id where objs.name='WA_BankName' and cols.name='cCompanyCode')!=1
+      ALTER TABLE {newYearDB}..WA_BankName ADD cCompanyCode VARCHAR(50),cSavingName VARCHAR(50)</DrySQL>
   </SQLSentence>
   <SQLSentence name="Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName">
     <Name>Delete WA_Bank,WA_Bank_set,WA_BankPar,WA_BankTop,WA_BankName</Name>
@@ -61,7 +73,7 @@
     <DrySQL>
       DELETE  FROM {newYearDB}..wa_psn;
       DELETE  FROM {newYearDB}..WA_Grade;
-  </DrySQL>
+    </DrySQL>
   </SQLSentence>
   <SQLSentence name="INSERT WA_Grade">
     <Name>INSERT WA_Grade</Name>
@@ -81,6 +93,10 @@
     </Introduction>
     <DrySQL>
       DELETE  FROM {newYearDB}..WA_GZItem;
+      DELETE  FROM {newYearDB}..WA_formula;
+      DELETE  FROM {newYearDB}..WA_FT_Sum;
+      DELETE  FROM {newYearDB}..WA_JKItemSet;
+      DELETE  FROM {newYearDB}..WA_SDS_p;
       DELETE  FROM {newYearDB}..WA_GZtblSet;
     </DrySQL>
   </SQLSentence>
@@ -114,7 +130,9 @@
       {newYearDB}..: new database name
       {oldYearDB}..: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {newYearDB}..WA_Dept SELECT * FROM {oldYearDB}..WA_Dept</DrySQL>
+    <DrySQL>
+      delete  from {newYearDB}..WA_Dept;
+      INSERT INTO {newYearDB}..WA_Dept(cGZGradeNum,cDept_Num) SELECT cGZGradeNum,cDept_Num FROM {oldYearDB}..WA_Dept</DrySQL>
   </SQLSentence>
   <SQLSentence name="Delete,Insert WA_PsnMsg">
     <Name>Delete,Insert WA_PsnMsg</Name>
@@ -246,7 +264,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_FTName SELECT * FROM {oldYearDB}..WA_FTName
+      delete from {newYearDB}..WA_FTName;
+      INSERT INTO {newYearDB}..WA_FTName SELECT * FROM {oldYearDB}..WA_FTName
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_GZsumComCfg">
@@ -268,7 +287,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_FTInfo SELECT cGZGradeNum, cFTInfo FROM {oldYearDB}..WA_FTInfo
+      delete from {newYearDB}..WA_FTInfo;
+      INSERT INTO {newYearDB}..WA_FTInfo SELECT cGZGradeNum, cFTInfo FROM {oldYearDB}..WA_FTInfo
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_FTDept">
@@ -279,7 +299,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_FTDept SELECT * FROM {oldYearDB}..WA_FTDept
+      delete from {newYearDB}..WA_FTDept;
+      INSERT INTO {newYearDB}..WA_FTDept SELECT * FROM {oldYearDB}..WA_FTDept
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_GZBName">
@@ -290,7 +311,11 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_GZBName SELECT * FROM {oldYearDB}..WA_GZBName
+      delete from {newYearDB}..WA_GZBItemDept;
+      delete from {newYearDB}..WA_GZBItemGrd;
+      delete from {newYearDB}..WA_GZBItemTitle;
+      delete from {newYearDB}..WA_GZBName;
+      INSERT INTO {newYearDB}..WA_GZBName SELECT * FROM {oldYearDB}..WA_GZBName
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_GZBItemDept">
@@ -312,7 +337,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_GZBItemGrd SELECT cGZGradeNum, iGZBName_id, iPsnGrd_id, cMachine FROM {oldYearDB}..WA_GZBItemGrd
+      delete from {newYearDB}..WA_GZBItemGrd;
+      INSERT INTO {newYearDB}..WA_GZBItemGrd SELECT cGZGradeNum, iGZBName_id, iPsnGrd_id, cMachine FROM {oldYearDB}..WA_GZBItemGrd
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_GZBItemTitle">
@@ -323,7 +349,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_GZBItemTitle SELECT cGZGradeNum, iGZBName_id, cGZItemTitle, cExpression, iGZItemWidth, iColWidth FROM {oldYearDB}..WA_GZBItemTitle
+      delete from {newYearDB}..WA_GZBItemTitle;
+      INSERT INTO {newYearDB}..WA_GZBItemTitle SELECT cGZGradeNum, iGZBName_id, cGZItemTitle, cExpression, iGZItemWidth, iColWidth FROM {oldYearDB}..WA_GZBItemTitle
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_tblRCsetP">
@@ -334,7 +361,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight from {oldYearDB}..WA_tblRCsetP
+      delete from {newYearDB}..WA_tblRCsetP;
+      INSERT INTO {newYearDB}..WA_tblRCsetP SELECT cGZGradeNum, cUserid, ctblNum, ctblName, cRHeight, cTitleRHeight from {oldYearDB}..WA_tblRCsetP
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Insert WA_tblRCsetM ">
@@ -345,7 +373,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    INSERT INTO {newYearDB}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {oldYearDB}..WA_tblRCsetM
+      delete from {newYearDB}..WA_tblRCsetM;
+      INSERT INTO {newYearDB}..WA_tblRCsetM SELECT cGZGradeNum, cUserid, ctblNum, cCNum, cCWidth FROM {oldYearDB}..WA_tblRCsetM
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="Drop_WA_GZData">
@@ -355,7 +384,7 @@
       {newYearDB}..: new database name
     </Introduction>
     <DrySQL>
-      drop table {newYearDB}..WA_GZData;
+      if (select count(*) from {newYearDB}..sysobjects where xtype='U' and name='WA_GZData')>0  drop table {newYearDB}..WA_GZData;
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="ALTER,Insert,Update WA_GZData">
@@ -367,8 +396,7 @@
       {newYear}..: new year
     </Introduction>
     <DrySQL>
-      select * into {newYearDB}..WA_GZData from {oldYearDB}..WA_GZData where 1=0;
-      INSERT INTO {newYearDB}..WA_GZData SELECT * FROM {oldYearDB}..WA_GZData WHERE cGZGradeNum!='000' AND iMonth=12;
+      select * into {newYearDB}..WA_GZData from {oldYearDB}..WA_GZData WHERE cGZGradeNum != '000' AND iMonth = 12;
       Update {newYearDB}..WA_GZData SET iMonth=1,iYear={newYear},iAccMonth=1;
       Update {newYearDB}..WA_GZData SET F_5=F_4;
       Update {newYearDB}..WA_GZData SET F_4=0,F_6 = 0;
@@ -382,8 +410,10 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_7 numeric(18,2);
-    ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_8 numeric(18,2)
+      if(select count(*) from {newYearDB}..syscolumns cols join {newYearDB}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZHZB' and cols.name='FG_7')!=1
+      ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_7 numeric(18,2);
+      if(select count(*) from {newYearDB}..syscolumns cols join {newYearDB}..sysobjects objs on cols.id=objs.id where objs.name='WA_GZHZB' and cols.name='FG_8')!=1
+      ALTER TABLE {newYearDB}..WA_GZHZB ADD FG_8 numeric(18,2)
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="ALTER WA_SDS_p">
@@ -394,6 +424,7 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
+      delete from {newYearDB}..WA_SDS_p;
       INSERT INTO {newYearDB}..WA_SDS_p SELECT * FROM {oldYearDB}..WA_SDS_p
     </DrySQL>
   </SQLSentence>
@@ -405,6 +436,7 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
+      delete from {newYearDB}..WA_SDS_SL;
       INSERT INTO {newYearDB}..WA_SDS_SL SELECT * FROM {oldYearDB}..WA_SDS_SL
     </DrySQL>
   </SQLSentence>
@@ -416,7 +448,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-     INSERT INTO {newYearDB}..WA_SelectMoney SELECT cGZGradeNum, iMoney, bSave FROM {oldYearDB}..WA_SelectMoney
+      delete from {newYearDB}..WA_SelectMoney;
+      INSERT INTO {newYearDB}..WA_SelectMoney SELECT cGZGradeNum, iMoney, bSave FROM {oldYearDB}..WA_SelectMoney
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="INSERT WA_JKSet">
@@ -442,7 +475,8 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      INSERT INTO {newYearDB}..WA_JKItemSet SELECT cGZGradeNum, cJK_id, iFileType, iNumber, iStart, iLength, iDecimal, iStrNum, cTableName, cFieldName, cItemName, iGZItem_id FROM {oldYearDB}..WA_JKItemSet     
+      delete from {newYearDB}..WA_JKItemSet;
+      INSERT INTO {newYearDB}..WA_JKItemSet SELECT cGZGradeNum, cJK_id, iFileType, iNumber, iStart, iLength, iDecimal, iStrNum, cTableName, cFieldName, cItemName, iGZItem_id FROM {oldYearDB}..WA_JKItemSet
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="INSERT WA_RatePayItems">
@@ -465,13 +499,14 @@
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-    UPDATE {newYearDB}..WA_State SET bCalBZ=1,bSumBZ=1;
-    INSERT INTO {newYearDB}..WA_State SELECT * FROM {oldYearDB}..WA_State
+      delete from {newYearDB}..WA_State;
+      INSERT INTO {newYearDB}..WA_State SELECT * FROM {oldYearDB}..WA_State
+      UPDATE {newYearDB}..WA_State SET bCalBZ=1,bSumBZ=1;
     </DrySQL>
   </SQLSentence>
   <SQLSentence name="DELETE WA_GZData">
     <Name>DELETE WA_GZData</Name>
-    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
       {newYearDB}..: new database name
       {oldYearDB}..: old database name
@@ -482,13 +517,25 @@
   </SQLSentence>
   <SQLSentence name="UPDATE GL_mend">
     <Name>UPDATE GL_mend</Name>
-    <ParamNames>{newYearDB},{oldYearDB}</ParamNames>
+    <ParamNames>{newYearDB}</ParamNames>
     <Introduction>
       {newYearDB}..: new database name
       {oldYearDB}..: old database name
     </Introduction>
     <DrySQL>
-      UPDATE {newYearDB}..GL_mend SET bflag_WA=1 WHERE iperiod &lt;= 12
+      UPDATE {newYearDB}..GL_mend SET bflag_WA=0
+    </DrySQL>
+  </SQLSentence>
+  <SQLSentence name="UPDATEOldYearWA_account">
+    <Name>UPDATEOldYearWA_account</Name>
+    <ParamNames>{oldYearDB},{oldYear},{cAcc_Id}</ParamNames>
+    <Introduction>
+      {oldYearDB}..: old database name
+    </Introduction>
+    <DrySQL>
+      UPDATE {oldYearDB}..GL_mend SET bflag_WA=1 WHERE iperiod &lt;= 12
+      UPDATE {oldYearDB}..WA_account SET iLastMonth=12
+      update ufsystem..ua_account_sub set imodiperi=12 where iyear={oldYear} and cacc_id={cAcc_Id} and csub_id='WA'
     </DrySQL>
   </SQLSentence>
 
