@@ -62,7 +62,7 @@
       {newYearDB}: new database name
       {oldYearDB}: old database name
     </Introduction>
-    <DrySQL>INSERT INTO {newYearDB}..WA_BankName SELECT * FROM {oldYearDB}..WA_BankName</DrySQL>
+   <DrySQL>INSERT INTO {newYearDB}..WA_BankName (i_id,cBank_Name,iNum_len,bAcclen) SELECT i_id,cBank_Name,iNum_len,bAcclen FROM {oldYearDB}..WA_BankName</DrySQL>
   </SQLSentence>
   <SQLSentence name="Delete wa_psn,WA_Grade">
     <Name>Delete wa_psn,WA_Grade</Name>
